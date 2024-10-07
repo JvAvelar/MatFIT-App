@@ -32,6 +32,8 @@ Confirmação que deseja realmente remover o aluno do sistema.
 
 ![image](https://github.com/user-attachments/assets/4d1172e2-42e3-4c62-b4c1-4d40757728f7)
 
+Confirmação de pagamento do aluno.
+
 ![image](https://github.com/user-attachments/assets/8a83da9d-ca7d-4727-a63a-a515cf7bea28)
 
 ![image](https://github.com/user-attachments/assets/9b26586f-b06e-4528-b019-d20dc5e921fc)
