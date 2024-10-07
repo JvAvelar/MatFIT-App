@@ -36,6 +36,8 @@ Confirmação de pagamento do aluno.
 
 ![image](https://github.com/user-attachments/assets/8a83da9d-ca7d-4727-a63a-a515cf7bea28)
 
+Ao clicar na opção de Funcionários, para cadastrar um novo Funcionário no sistema clique no botão na parte inferior direita.
+
 ![image](https://github.com/user-attachments/assets/9b26586f-b06e-4528-b019-d20dc5e921fc)
 
 ![image](https://github.com/user-attachments/assets/5f5b797a-d304-4d70-9d85-b824ce2e845d)
