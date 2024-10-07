@@ -18,9 +18,9 @@ Ao clicar na opção de Alunos, para cadastrar um novo aluno no sistema clique n
 
 Para cadastrar um aluno digite um cpf válido, nome e esporte.
 
-![image](https://github.com/user-attachments/assets/647d0929-eebe-401a-88c0-7d608927d7eb)
-
 ![image](https://github.com/user-attachments/assets/e80089e4-f77a-415e-9a01-266489032c41)
+
+![image](https://github.com/user-attachments/assets/647d0929-eebe-401a-88c0-7d608927d7eb)
 
 ![image](https://github.com/user-attachments/assets/7888c86e-120b-4b0f-b1a3-2249588aa1ed)
 
