@@ -4,17 +4,19 @@
 
 #### **Esta aplicação consome uma API que foi desenvolvida com Java e Spring Boot.**
 
-Na tela de login, para entrar é necessário digitar seu nome
+Na tela de login, para entrar é necessário digitar seu nome.
 
 ![image](https://github.com/user-attachments/assets/5ca79296-f201-4c96-a226-994363adff76)
 
-Ao realizar o login, será redirecionado para a tela principal do app. Clicando no canto superior esquerdo aparece um menu com as seguintes opções: Alunos, Funcionários, Equipamentos e por último, a opção sair
+Ao realizar o login, será redirecionado para a tela principal do app. Clicando no canto superior esquerdo aparece um menu com as seguintes opções: Alunos, Funcionários, Equipamentos e por último, a opção sair.
 
 ![image](https://github.com/user-attachments/assets/2f24994d-c268-4693-af0b-958adf245745)
 
-Ao clicar na opção de Alunos, para cadastrar um novo aluno no sistema basta apenas clicar no botão na parte inferior direita.
+Ao clicar na opção de Alunos, para cadastrar um novo aluno no sistema clique no botão na parte inferior direita.
 
 ![image](https://github.com/user-attachments/assets/97c43c9e-d37a-43f3-a269-05460d9eb514)
+
+Para cadastrar um aluno digite um cpf válido, nome e esporte.
 
 ![image](https://github.com/user-attachments/assets/647d0929-eebe-401a-88c0-7d608927d7eb)
 
