@@ -28,6 +28,8 @@ E possível atualizar qualquer campo seja ele nome ou esporte.
 
 ![image](https://github.com/user-attachments/assets/7888c86e-120b-4b0f-b1a3-2249588aa1ed)
 
+Confirmação que deseja realmente remover o aluno do sistema.
+
 ![image](https://github.com/user-attachments/assets/4d1172e2-42e3-4c62-b4c1-4d40757728f7)
 
 ![image](https://github.com/user-attachments/assets/8a83da9d-ca7d-4727-a63a-a515cf7bea28)
