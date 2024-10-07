@@ -8,7 +8,7 @@ Na tela de login, para entrar é necessário digitar seu nome
 
 ![image](https://github.com/user-attachments/assets/5ca79296-f201-4c96-a226-994363adff76)
 
-Ao realizar o login, será redirecionado para a tela principal do app. Clicando no canto superior esquerdo aparece um menu com as seguintes opções: Alunos, Funcionários, Equipamentos e por último a opção sair.
+Ao realizar o login, será redirecionado para a tela principal do app. Clicando no canto superior esquerdo aparece um menu com as seguintes opções: Alunos, Funcionários, Equipamentos e por último, a opção sair.
 
 ![image](https://github.com/user-attachments/assets/2f24994d-c268-4693-af0b-958adf245745)
 
