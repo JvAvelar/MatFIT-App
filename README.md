@@ -4,6 +4,8 @@
 
 #### **Esta aplicação consome uma API que foi desenvolvida com Java e Spring Boot.**
 
+#
+
 Na tela de login, para entrar é necessário digitar seu nome.
 
 ![image](https://github.com/user-attachments/assets/5ca79296-f201-4c96-a226-994363adff76)
