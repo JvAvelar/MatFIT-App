@@ -36,7 +36,7 @@ Essa é a lista de alunos cadastrados. Pode - se atualizar clicando no ícone de
 
 #
 
-E possível atualizar qualquer campo seja ele nome ou esporte.
+É possível atualizar qualquer campo seja ele nome ou esporte.
 
 ![image](https://github.com/user-attachments/assets/7888c86e-120b-4b0f-b1a3-2249588aa1ed)
 
