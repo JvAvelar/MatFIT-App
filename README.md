@@ -1,6 +1,6 @@
 # MATFIT
 
-### **Este é um aplicativo pessoal, destinado aos proprietários de academias, para auxiliar na administração de clientes, funcionários e equipamentos.**
+### **Este é um aplicativo pessoal destinado aos proprietários de academias. O aplicativo tem como objetivo facilitar a administração de clientes, funcionários e equipamentos.**
 
 #### **Esta aplicação consome uma API que foi desenvolvida com Java e Spring Boot.**
 
