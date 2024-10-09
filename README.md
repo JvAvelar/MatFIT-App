@@ -60,9 +60,9 @@ Ao clicar na opção de Funcionários, para cadastrar um novo Funcionário no si
 
 #
 
-![image](https://github.com/user-attachments/assets/5f5b797a-d304-4d70-9d85-b824ce2e845d)
-
 Para cadastrar um funcionário digite um cpf válido, nome, função e carga horário.
+
+![image](https://github.com/user-attachments/assets/5f5b797a-d304-4d70-9d85-b824ce2e845d)
 
 ![image](https://github.com/user-attachments/assets/d564175c-f763-4e36-ac29-b6e9ef1d083b)
 
