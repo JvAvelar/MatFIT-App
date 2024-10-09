@@ -76,6 +76,10 @@ Essa é a lista de funcioncionários cadastrados no sistema. Pode - se atualizar
 
 ![image](https://github.com/user-attachments/assets/dba9701a-c2e4-4772-a8c7-1162be91088b)
 
+#
+
+Confirmação que deseja realmente remover o funcionário do sistema.
+
 ![image](https://github.com/user-attachments/assets/8b0643a8-b61c-4884-a76a-1a463da82262)
 
 ![image](https://github.com/user-attachments/assets/2b0693c5-d96c-4a24-ab54-8647a3008c17)
