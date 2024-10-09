@@ -66,7 +66,7 @@ Para cadastrar um funcionário digite um cpf válido, nome, função e carga hor
 
 #
 
-Essa é a lista de funcioncionários cadastrados no sistema.
+Essa é a lista de funcioncionários cadastrados no sistema. Pode - se atualizar clicando no ícone de lápis e remover clicando no ícone de lixeira
 
 ![image](https://github.com/user-attachments/assets/d564175c-f763-4e36-ac29-b6e9ef1d083b)
 
