@@ -96,11 +96,13 @@ Para cadastrar um equipamento digite um nome e quantidade.
 
 #
 
-Essa é a lista de equipamentos cadastrados. Pode - se atualizar clicando no ícone de lápis, remover clicando no ícone de lixeira.
+Essa é a lista de equipamentos cadastrados. Pode - se atualizar clicando no ícone de lápis e remover clicando no ícone de lixeira.
 
 ![image](https://github.com/user-attachments/assets/b8f2dcf4-44cc-4047-bdc8-a4d72d34409f)
 
 #
+
+Atualiza os campos nome e quantidade.
 
 ![image](https://github.com/user-attachments/assets/12859f61-3f48-4419-a9ad-8215d5d879b7)
 
