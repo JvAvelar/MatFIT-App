@@ -42,7 +42,7 @@ Essa é a lista de alunos cadastrados. Pode - se atualizar clicando no ícone de
 
 #
 
-Confirmação que deseja realmente remover o aluno do sistema.
+Confirmação de que deseja realmente remover o aluno do sistema.
 
 ![image](https://github.com/user-attachments/assets/4d1172e2-42e3-4c62-b4c1-4d40757728f7)
 
@@ -78,7 +78,7 @@ Essa é a lista de funcioncionários cadastrados no sistema. Pode - se atualizar
 
 #
 
-Confirmação que deseja realmente remover o funcionário do sistema.
+Confirmação de que deseja realmente remover o funcionário do sistema.
 
 ![image](https://github.com/user-attachments/assets/8b0643a8-b61c-4884-a76a-1a463da82262)
 
@@ -106,12 +106,8 @@ Atualiza os campos nome e quantidade.
 
 ![image](https://github.com/user-attachments/assets/12859f61-3f48-4419-a9ad-8215d5d879b7)
 
+#
+
+Confirmação de que deseja realmente remover o equipamento do sistema.
+
 ![image](https://github.com/user-attachments/assets/0cfed7de-d3ae-4b8b-bd5c-6d374c4c5efe)
-
-
-
-
-
-
-
-495.272.130-29
