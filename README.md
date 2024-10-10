@@ -66,7 +66,7 @@ Para cadastrar um funcionário digite um cpf válido, nome, função e carga hor
 
 #
 
-Essa é a lista de funcioncionários cadastrados no sistema. Pode - se atualizar clicando no ícone de lápis e remover clicando no ícone de lixeira
+Essa é a lista de funcioncionários cadastrados no sistema. Pode - se atualizar clicando no ícone de lápis e remover clicando no ícone de lixeira.
 
 ![image](https://github.com/user-attachments/assets/d564175c-f763-4e36-ac29-b6e9ef1d083b)
 
@@ -81,6 +81,10 @@ Essa é a lista de funcioncionários cadastrados no sistema. Pode - se atualizar
 Confirmação que deseja realmente remover o funcionário do sistema.
 
 ![image](https://github.com/user-attachments/assets/8b0643a8-b61c-4884-a76a-1a463da82262)
+
+#
+
+Ao clicar na opção de Equipamentos, para cadastrar um novo Equipamento no sistema clique no botão na parte inferior direita.
 
 ![image](https://github.com/user-attachments/assets/2b0693c5-d96c-4a24-ab54-8647a3008c17)
 
