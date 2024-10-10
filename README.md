@@ -88,6 +88,10 @@ Ao clicar na opção de Equipamentos, para cadastrar um novo Equipamento no sist
 
 ![image](https://github.com/user-attachments/assets/2b0693c5-d96c-4a24-ab54-8647a3008c17)
 
+#
+
+Para cadastrar um equipamento digite um nome, função e carga horária.
+
 ![image](https://github.com/user-attachments/assets/c16c4ee4-af3b-4857-ad09-c1d9fde227db)
 
 ![image](https://github.com/user-attachments/assets/b8f2dcf4-44cc-4047-bdc8-a4d72d34409f)
