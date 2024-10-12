@@ -7,7 +7,6 @@
 # 
 
 ## Funcionalidades:
-
 - Realizar login
 - Realizar logout
 - Cadastrar alunos
