@@ -6,26 +6,6 @@
 
 # 
 
-## Funcionalidades:
-
-- Realizar login
-- Realizar logout
-- Cadastrar alunos
-- Vizualizar alunos
-- Excluir alunos
-- Atualizar dados de alunos
-- Confirmar pagamento de alunos
-- Cadastrar funcionários
-- Vizualizar funcionários
-- Excluir funcionários
-- Atualizar dados de funcionários
-- Cadastrar equipamentos
-- Vizualizar equipamentos
-- Excluir equipamentos
-- Atualizar dados de equipamentos
-
-#
-
 Na tela de login, para entrar é necessário digitar seu nome.
 
 ![image](https://github.com/user-attachments/assets/5ca79296-f201-4c96-a226-994363adff76)
@@ -131,3 +111,25 @@ Atualiza os campos nome e quantidade.
 Confirmação de que deseja realmente remover o equipamento do sistema.
 
 ![image](https://github.com/user-attachments/assets/0cfed7de-d3ae-4b8b-bd5c-6d374c4c5efe)
+
+#
+
+## Funcionalidades:
+
+- Realizar login
+- Realizar logout
+- Cadastrar alunos
+- Vizualizar alunos
+- Excluir alunos
+- Atualizar dados de alunos
+- Confirmar pagamento de alunos
+- Cadastrar funcionários
+- Vizualizar funcionários
+- Excluir funcionários
+- Atualizar dados de funcionários
+- Cadastrar equipamentos
+- Vizualizar equipamentos
+- Excluir equipamentos
+- Atualizar dados de equipamentos
+
+#
