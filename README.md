@@ -271,15 +271,13 @@ Confirmação de que deseja realmente remover o equipamento do sistema.
 
 <hr>
 
-h2>Tecnologias:</h2>
+<h2>Tecnologias:</h2>
 <ul>
     <li>Android</li>
     <li>Kotlin</li>
     <li>Android Studio</li>
     <li>API</li>
 </ul>
-
-<hr>
 
 <h2>Autores:</h2>
 <ul>
