@@ -141,3 +141,10 @@ Confirmação de que deseja realmente remover o equipamento do sistema.
 - @RonyAbreu
 - @clebermarcolino
 - @YesusVaz
+- [@JvAvelar](https://github.com/JvAvelar)
+- [@thassokarly](https://github.com/thassokarly)
+- [@RonyAbreu](https://github.com/RonyAbreu)
+- [@clebermarcolino](https://github.com/clebermarcolino)
+- [@YesusVaz](https://github.com/YesusVaz)
+- [@amaroelias](https://github.com/amaroelias)
+
