@@ -133,3 +133,11 @@ Confirmação de que deseja realmente remover o equipamento do sistema.
 - Atualizar dados de equipamentos
 
 #
+
+## Autores:
+
+- @JvAvelar
+- @thassokarly
+- @RonyAbreu
+- @clebermarcolino
+- @YesusVaz
