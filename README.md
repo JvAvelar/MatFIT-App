@@ -4,6 +4,26 @@
 
 #### **Esta aplicação consome uma API que foi desenvolvida com Java e Spring Boot.**
 
+# 
+
+## Funcionalidades:
+
+- Realizar login
+- Realizar logout
+- Cadastrar alunos
+- Vizualizar alunos
+- Excluir alunos
+- Atualizar dados de alunos
+- Confirmar pagamento de alunos
+- Cadastrar funcionários
+- Vizualizar funcionários
+- Excluir funcionários
+- Atualizar dados de funcionários
+- Cadastrar equipamentos
+- Vizualizar equipamentos
+- Excluir equipamentos
+- Atualizar dados de equipamentos
+
 #
 
 Na tela de login, para entrar é necessário digitar seu nome.
