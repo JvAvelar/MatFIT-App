@@ -134,6 +134,15 @@ Confirmação de que deseja realmente remover o equipamento do sistema.
 
 #
 
+## Tecnologias:
+
+- Android
+- Kotlin
+- Android Studio
+- API
+
+#
+
 ## Autores:
 
 - [@JvAvelar](https://github.com/JvAvelar)
