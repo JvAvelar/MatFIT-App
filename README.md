@@ -161,7 +161,7 @@ Confirmação de que deseja realmente remover o equipamento do sistema.
 #
 
 <p>Na tela de login, para entrar é necessário digitar seu nome.</p>
-<img src="https://github.com/user-attachments/assets/5ca79296-f201-4c96-a226-994363adff76" alt="Tela de login" height="100" width="50">
+<img src="https://github.com/user-attachments/assets/5ca79296-f201-4c96-a226-994363adff76" alt="Tela de login" height="300" width="150">
 
 #
 
