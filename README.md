@@ -268,7 +268,6 @@ Confirmação de que deseja realmente remover o equipamento do sistema.
     <li>Excluir equipamentos</li>
     <li>Atualizar dados de equipamentos</li>
 </ul>
-
 #
 
 <h2>Tecnologias:</h2>
@@ -278,7 +277,6 @@ Confirmação de que deseja realmente remover o equipamento do sistema.
     <li>Android Studio</li>
     <li>API</li>
 </ul>
-
 #
 
 <h2>Autores:</h2>
@@ -290,5 +288,3 @@ Confirmação de que deseja realmente remover o equipamento do sistema.
    <li><a href="https://github.com/YesusVaz">@YesusVaz</a></li>
    <li><a href="https://github.com/amaroelias">@amaroelias</a></li>
 </ul>
-
-#
