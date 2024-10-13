@@ -248,7 +248,6 @@ Confirmação de que deseja realmente remover o equipamento do sistema.
 <p>Confirmação de que deseja realmente remover o equipamento do sistema.</p>
 <img src="https://github.com/user-attachments/assets/0cfed7de-d3ae-4b8b-bd5c-6d374c4c5efe" alt="Confirmação de remoção de equipamento">
 
-#
 
 <h2>Funcionalidades:</h2>
 <ul>
@@ -268,7 +267,6 @@ Confirmação de que deseja realmente remover o equipamento do sistema.
     <li>Excluir equipamentos</li>
     <li>Atualizar dados de equipamentos</li>
 </ul>
-#
 
 <h2>Tecnologias:</h2>
 <ul>
@@ -277,7 +275,6 @@ Confirmação de que deseja realmente remover o equipamento do sistema.
     <li>Android Studio</li>
     <li>API</li>
 </ul>
-#
 
 <h2>Autores:</h2>
 <ul>
