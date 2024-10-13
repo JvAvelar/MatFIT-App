@@ -152,7 +152,7 @@ Confirmação de que deseja realmente remover o equipamento do sistema.
 - [@YesusVaz](https://github.com/YesusVaz)
 - [@amaroelias](https://github.com/amaroelias)
 
-<h1 text-align: center >MATFIT</h1>
+<h1 align="center">MATFIT</h1>
 
 <h3><strong>Este é um aplicativo pessoal destinado aos proprietários de academias. O aplicativo tem como objetivo facilitar a administração de clientes, funcionários e equipamentos.</strong></h3>
 
@@ -161,7 +161,7 @@ Confirmação de que deseja realmente remover o equipamento do sistema.
 #
 
 <p>Na tela de login, para entrar é necessário digitar seu nome.</p>
-<img src="https://github.com/user-attachments/assets/5ca79296-f201-4c96-a226-994363adff76" alt="Tela de login">
+<img src="https://github.com/user-attachments/assets/5ca79296-f201-4c96-a226-994363adff76" alt="Tela de login" height="100" width="50">
 
 #
 
