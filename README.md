@@ -152,7 +152,7 @@ Confirmação de que deseja realmente remover o equipamento do sistema.
 - [@YesusVaz](https://github.com/YesusVaz)
 - [@amaroelias](https://github.com/amaroelias)
 
-<h1>MATFIT</h1>
+<h1 text-align: center >MATFIT</h1>
 
 <h3><strong>Este é um aplicativo pessoal destinado aos proprietários de academias. O aplicativo tem como objetivo facilitar a administração de clientes, funcionários e equipamentos.</strong></h3>
 
