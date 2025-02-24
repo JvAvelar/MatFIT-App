@@ -120,6 +120,8 @@
     <li>Kotlin</li>
     <li>Android Studio</li>
     <li>API</li>
+    <li>LiveData</li>
+    <li>Retrofit</li>
 </ul>
 
 <h2>Autores:</h2>
