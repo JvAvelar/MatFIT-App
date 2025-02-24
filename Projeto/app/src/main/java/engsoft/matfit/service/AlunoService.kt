@@ -46,7 +46,6 @@ interface AlunoService {
     ): Response<AlunoResponse>
 
 
-    // TODO -> DEU ERRO 404 na operação, verificar!
     @PATCH("/aluno/pagar/{cpf}")
     @Headers("Content-Type: application/json")
     suspend fun realizarPagamento(
