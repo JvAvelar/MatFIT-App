@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/grayLight"
+    android:background="@drawable/shape_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.alunos.PagamentoAlunoActivity">
@@ -46,9 +46,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintCard"
-        android:layout_width="400dp"
+        android:layout_width="370dp"
         android:layout_height="250dp"
         android:layout_marginTop="80dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/shape_model"
         android:backgroundTint="@color/blue"
         android:padding="16dp"
