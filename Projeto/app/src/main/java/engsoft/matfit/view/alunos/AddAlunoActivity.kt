@@ -20,7 +20,7 @@ class AddAlunoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         viewModel = ViewModelProvider(this)[AlunoViewModel::class.java]
-
+        supportActionBar?.hide()
         observadores()
 
         click()
