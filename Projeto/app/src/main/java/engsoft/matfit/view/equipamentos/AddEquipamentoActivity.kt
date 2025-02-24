@@ -23,7 +23,7 @@ class AddEquipamentoActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[EquipamentoViewModel::class.java]
-
+        supportActionBar?.hide()
         binding.editQuantidade.setText("1")
 
         observador()
