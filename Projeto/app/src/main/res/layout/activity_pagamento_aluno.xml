@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@drawable/shape_background"
+    android:background="@color/grayLight"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.alunos.PagamentoAlunoActivity">
@@ -12,7 +12,7 @@
         android:id="@+id/constraintTitle"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@drawable/shape_background"
+        android:background="@drawable/shape_screens"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
