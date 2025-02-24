@@ -22,7 +22,7 @@ class AddFuncionarioActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         viewModel = ViewModelProvider(this)[FuncionarioViewModel::class.java]
-
+        supportActionBar?.hide()
         binding.cargaHoraria.setText("1")
 
         observadores()
