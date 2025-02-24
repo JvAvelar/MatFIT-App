@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@drawable/shape_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/shape_background"
     android:padding="8dp"
     tools:context=".view.MainActivity">
 
@@ -22,8 +22,8 @@
         <TextView
             android:id="@+id/textQuantity"
             style="@style/CardTextNormal"
-            android:textColor="@color/blue"
             android:text="@string/textTotalAlunosRegisted"
+            android:textColor="@color/blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,8 +47,8 @@
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         android:visibility="visible">
 
         <TextView
@@ -56,15 +56,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/textListEmptyAluno"
-            android:textSize="18sp"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/empty_image"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:src="@drawable/img_not_found_png"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:src="@drawable/img_not_found_png" />
 
     </LinearLayout>
 
@@ -73,10 +73,11 @@
         style="@style/Buttons"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/blue"
         android:src="@drawable/ic_aluno"
-        app:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white"
         tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
