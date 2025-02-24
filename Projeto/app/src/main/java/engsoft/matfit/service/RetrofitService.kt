@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitService {
 
-    private const val URL = "https://matfit-api.up.railway.app/"
+    private const val URL = "https://matfit-api.onrender.com/"
 
     private fun getInstance(): Retrofit {
         return Retrofit.Builder()
