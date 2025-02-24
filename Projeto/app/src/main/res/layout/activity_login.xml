@@ -12,7 +12,7 @@
         android:id="@+id/textLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="50dp"
         android:text="@string/textMatFit"
         android:textColor="#E4FFFFFF"
         android:textSize="36sp"
@@ -25,57 +25,88 @@
         android:id="@+id/imagePeso"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="272dp"
+        android:layout_marginTop="110dp"
         android:src="@drawable/image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
+]
+    <!--    Edit Name -->
     <EditText
-        android:drawableStart="@drawable/ic_name"
-        android:drawablePadding="8dp"
         android:id="@+id/editName"
-        android:layout_width="200dp"
+        android:layout_width="300dp"
         android:layout_height="50dp"
         android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/ic_name"
+        android:drawablePadding="8dp"
+        android:layout_marginTop="100dp"
         android:ems="10"
-        android:textColor="@color/grey_200"
         android:gravity="center_vertical"
         android:hint="@string/textTypeName"
         android:inputType="textPersonName"
         android:paddingStart="12dp"
+        android:textColor="@color/grey_200"
         android:textColorHint="@color/grey_200"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagePeso"
-        app:layout_constraintVertical_bias="0.474" />
+        app:layout_constraintTop_toBottomOf="@+id/imagePeso" />
 
-    <TextView
-        android:id="@+id/textName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:text="@string/name"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/editName"
+<!--    Edit Email-->
+    <EditText
+        android:id="@+id/editEmail"
+        style="@style/EditText"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/ic_email"
+        android:drawablePadding="8dp"
+        android:ems="10"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:paddingStart="12dp"
+        android:textColor="@color/grey_200"
+        android:textColorHint="@color/grey_200"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.322"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editName" />
+
+    <!--    TODO -> ALTERAR O ICONE DO PASSWORD-->
+    <!--    Edit Password-->
+    <EditText
+        android:id="@+id/editPasswd"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/ic_email"
+        android:drawablePadding="8dp"
+        android:ems="10"
+        android:gravity="center_vertical"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:paddingStart="12dp"
+        android:textColor="@color/grey_200"
+        android:textColorHint="@color/grey_200"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editEmail" />
 
     <Button
         android:id="@+id/bntEnter"
-        android:layout_marginBottom="72dp"
-        android:text="@string/textEnter"
         style="@style/Buttons"
+        android:layout_marginTop="65dp"
+        android:layout_marginBottom="120dp"
         android:backgroundTint="@color/black"
+        android:text="@string/textEnter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.545"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editPasswd" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
