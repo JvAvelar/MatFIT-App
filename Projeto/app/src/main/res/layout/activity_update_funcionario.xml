@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
-    android:background="@drawable/shape_background"
+    android:background="@drawable/shape_screens"
     tools:context=".view.funcionarios.AddFuncionarioActivity">
 
 
@@ -69,7 +69,7 @@
     <Button
         android:id="@+id/btnRegister"
         style="@style/Buttons"
-        android:text="@string/register"
+        android:text="@string/update"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cargaHoraria" />
