@@ -20,13 +20,12 @@
 
         <ImageView
             android:id="@+id/imageBack"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:src="@drawable/ic_back"
-            app:layout_constraintEnd_toStartOf="@id/textTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
 
@@ -39,6 +38,7 @@
             android:layout_marginTop="32dp"
             android:text="@string/textConfirmPayment"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.283"
             app:layout_constraintStart_toEndOf="@id/imageBack"
             app:layout_constraintTop_toTopOf="parent" />
 
