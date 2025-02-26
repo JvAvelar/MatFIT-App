@@ -12,7 +12,7 @@
         android:id="@+id/constraintTitle"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@drawable/shape_screens"
+        android:background="@color/blueLight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
