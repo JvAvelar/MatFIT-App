@@ -23,8 +23,8 @@
             android:id="@+id/iconBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
             android:src="@drawable/ic_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
