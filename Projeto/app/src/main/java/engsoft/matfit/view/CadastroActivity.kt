@@ -20,7 +20,7 @@ class CadastroActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPreferences = SharedPreferences(this)
-        actionBar?.hide()
+        supportActionBar?.hide()
 
         binding.bntRegister.setOnClickListener {
             saveName()
