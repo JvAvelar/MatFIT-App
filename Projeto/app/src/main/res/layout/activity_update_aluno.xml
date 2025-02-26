@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/shape_screens"
-    android:orientation="vertical"
     tools:context=".view.alunos.UpdateAlunoActivity">
 
-
+    <!-- Header Layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_gravity="center">
+        android:background="@color/blueLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/iconBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
             android:src="@drawable/ic_back"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
-            app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,30 +31,53 @@
             android:id="@+id/textRegister"
             style="@style/TextTitles"
             android:text="@string/textUpdateAluno"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <View
+        style="@style/ViewSeparator"
+        android:id="@+id/viewSeparator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text"
+        app:layout_constraintBottom_toTopOf="@id/editName"
+        />
+
+    <!-- EditText for Name -->
     <EditText
         android:id="@+id/editName"
         style="@style/EditText"
         android:hint="@string/name"
         android:inputType="textPersonName"
-        android:maxLength="40" />
+        android:maxLength="40"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewSeparator" />
 
+    <!-- EditText for Sport -->
     <EditText
         android:id="@+id/editSport"
         style="@style/EditText"
         android:hint="@string/sport"
         android:inputType="textPersonName"
-        android:maxLength="40" />
+        android:maxLength="40"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editName" />
 
+    <!-- Update Button -->
     <Button
         android:id="@+id/buttonUpdate"
         style="@style/Buttons"
-        android:text="@string/update" />
+        android:text="@string/update"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editSport" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
