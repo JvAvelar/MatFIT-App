@@ -1,6 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+
+    // Firebase
+    id("com.google.gms.google-services")
+
+
+
 }
 
 android {
@@ -39,6 +45,13 @@ android {
 }
 
 dependencies {
+
+    //Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.9.0"))
+     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+
 
     // Retrofit
     implementation(libs.retrofit)
