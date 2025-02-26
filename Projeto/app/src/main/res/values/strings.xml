@@ -60,7 +60,9 @@
 
     <string name="textFieldEmptyLogin">O campo deve ser preenchido com seu nome.</string>
     <string name="textNameInvalid">Insira um nome válido!</string>
-    <string name="textTypeName">Digite seu nome</string>
+    <string name="textTypeName">Informe seu nome</string>
+    <string name="textTypeEmail">Informe seu e-mail</string>
+    <string name="textTypePassword">Informe sua senha</string>
     <string name="textEnter">Entrar</string>
     <string name="textExit">Sair</string>
     <string name="textRegisterFuncionario">Cadastrar Funcionário</string>
@@ -93,5 +95,7 @@
     <string name="textListEmptyFuncionario">Nenhum Funcionário Cadastrado</string>
     <string name="textListEmptyEquipamentos">Nenhum Equipamento Cadastrado</string>
     <string name="textListEmptyAluno">Nenhum Aluno Cadastrado</string>
+    <string name="textRegisterLogin">Cadastre-se</string>
+    <string name="textAccountLogin">Ainda não tem uma conta? </string>
 
 </resources>
