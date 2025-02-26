@@ -73,7 +73,6 @@
         android:layout_marginBottom="16dp"
         android:src="@drawable/ic_equipamento"
         app:tint="@color/white"
-        android:backgroundTint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="ContentDescription" />
