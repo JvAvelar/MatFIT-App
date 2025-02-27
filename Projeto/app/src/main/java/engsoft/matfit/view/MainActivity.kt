@@ -1,24 +1,21 @@
 package engsoft.matfit.view
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.widget.TextView
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.ui.NavigationUI
+import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityMainBinding
-import engsoft.matfit.view.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,8 +23,9 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
-
-    private lateinit var viewModel: MainViewModel
+    private val auth by lazy {
+        FirebaseAuth.getInstance()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,12 +34,8 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-
         setupNavigation()
 
-        viewModel.nomeUsuario()
-        observador()
     }
 
     // Responsável por gerenciar a navegação das fragments associadas à main
@@ -56,9 +50,13 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        // Altera a string da barra de navegação
+        val header = binding.navView.getHeaderView(0)
+        header.findViewById<TextView>(R.id.textName).text = getString(R.string.textSloganMatFit)
+
         navView.setNavigationItemSelectedListener {
             if (it.itemId == R.id.nav_sair)
-                sair()
+                singOut()
             else {
                 NavigationUI.onNavDestinationSelected(it, navController)
                 drawerLayout.closeDrawer(GravityCompat.START)
@@ -72,17 +70,9 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    private fun sair() {
-        viewModel.sair()
+    private fun singOut() {
+        auth.signOut()
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun observador() {
-        viewModel.nome.observe(this) {
-            val header = binding.navView.getHeaderView(0)
-            header.findViewById<TextView>(R.id.textName).text = "Olá, $it"
-        }
     }
 }
