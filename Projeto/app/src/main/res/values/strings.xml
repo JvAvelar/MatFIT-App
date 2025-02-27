@@ -97,5 +97,6 @@
     <string name="textListEmptyAluno">Nenhum Aluno Cadastrado</string>
     <string name="textRegisterLogin">Cadastre-se</string>
     <string name="textAccountLogin">Ainda não tem uma conta? </string>
+    <string name="textSloganMatFit">Mat-Fit - Você no controle!</string>
 
 </resources>
