@@ -46,12 +46,13 @@ android {
 
 dependencies {
 
+    // Apache POI -> arquivos excel
+    implementation ("org.apache.poi:poi-ooxml:5.2.3")
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.9.0"))
-     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-firestore")
-
+   // implementation("com.google.firebase:firebase-firestore")
 
     // Retrofit
     implementation(libs.retrofit)
@@ -68,6 +69,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.activity)
     testImplementation(libs.junit)
+    testImplementation(libs.junit.junit)
     testImplementation(libs.junit.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
