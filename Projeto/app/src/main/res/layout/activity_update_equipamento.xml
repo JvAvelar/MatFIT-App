@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
-    tools:context=".view.funcionarios.AddFuncionarioActivity">
+    tools:context=".view.equipamentos.UpdateEquipamentoActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textRegister"
+            android:id="@+id/textUpdate"
             style="@style/TextTitles"
             android:text="@string/textUpdateEquipamento"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,14 +42,14 @@
     <View
         style="@style/ViewSeparator"
         android:id="@+id/viewSeparator"
-        app:layout_constraintBottom_toTopOf="@id/name"
+        app:layout_constraintBottom_toTopOf="@id/editNome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text" />
 
 
     <EditText
-        android:id="@+id/name"
+        android:id="@+id/editNome"
         style="@style/EditText"
         android:hint="@string/name"
         android:inputType="textPersonName"
@@ -58,13 +58,13 @@
         app:layout_constraintTop_toBottomOf="@+id/viewSeparator" />
 
     <EditText
-        android:id="@+id/quantidade"
+        android:id="@+id/editQuantidade"
         style="@style/EditText"
         android:hint="@string/textQuantity"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintTop_toBottomOf="@+id/editNome" />
 
     <Button
         android:id="@+id/btnRegister"
@@ -72,6 +72,6 @@
         android:text="@string/update"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/quantidade" />
+        app:layout_constraintTop_toBottomOf="@+id/editQuantidade" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
