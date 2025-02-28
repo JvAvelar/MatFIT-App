@@ -2,10 +2,11 @@ package engsoft.matfit.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityLoginBinding
+import engsoft.matfit.model.BaseValidacao
 
 class LoginActivity : AppCompatActivity() {
     private val binding by lazy {
@@ -15,6 +16,8 @@ class LoginActivity : AppCompatActivity() {
     private val auth by lazy {
         FirebaseAuth.getInstance()
     }
+
+    private val baseValidacao = BaseValidacao(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,18 +47,18 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.editPasswd.text.toString()
 
         if (email.isEmpty() || password.isEmpty() || password.length < 6) {
-            toast("Email e/ou senha incorretos.")
+            baseValidacao.toast(getString(R.string.textEmailAndPasswordIncorrect))
             return
         }
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener { success ->
-                toast("Seja bem vindo(a) de volta!")
+                baseValidacao.toast(getString(R.string.textInformationWelcomeBack))
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
-            .addOnFailureListener { exception -> toast("${exception.message}")
-               // toast("Email e/ou senha incorretos.")
+            .addOnFailureListener { exception ->
+                baseValidacao.toast("${exception.message}")
             }
     }
 
@@ -66,10 +69,6 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         } else return
-    }
-
-    private fun toast(str: String) {
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
     }
 }
 
