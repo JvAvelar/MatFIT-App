@@ -2,6 +2,7 @@ package engsoft.matfit.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -51,12 +52,14 @@ class CadastroActivity : AppCompatActivity() {
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener { success ->
+                Log.i("info_CadastroActivity", "Sucesso! -> ${success.user}")
                 val emailSuccess = success.user?.email
                 baseValidacao.toast("$emailSuccess ${getString(R.string.textSuccessRegisterEmail)}")
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
             .addOnFailureListener { exception ->
+                Log.i("info_CadastroActivity", "Erro! -> ${exception.message}")
                 val msgErro = when (exception) {
                     is FirebaseAuthWeakPasswordException -> getString(R.string.textPasswordLessSixCharacter)
                     is FirebaseAuthInvalidCredentialsException,
