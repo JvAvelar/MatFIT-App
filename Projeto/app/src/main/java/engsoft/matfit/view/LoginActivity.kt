@@ -2,6 +2,7 @@ package engsoft.matfit.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -12,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityLoginBinding
 import engsoft.matfit.model.BaseValidacao
+import kotlin.math.log
 
 class LoginActivity : AppCompatActivity() {
     private val binding by lazy {
@@ -58,11 +60,13 @@ class LoginActivity : AppCompatActivity() {
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener { success ->
+                Log.i("info_LoginActivity", "sucesso! -> ${success.user}" )
                 baseValidacao.toast(getString(R.string.textInformationWelcomeBack))
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
             .addOnFailureListener { exception ->
+                Log.i("info_LoginActivity", "Erro! -> ${exception.message}" )
                 val msgErro = when (exception) {
                     is FirebaseAuthWeakPasswordException -> getString(R.string.textEmailAndPasswordIncorrect)
                     is FirebaseAuthInvalidCredentialsException,
@@ -79,9 +83,12 @@ class LoginActivity : AppCompatActivity() {
     private fun verificarUsuarioLogado() {
         val user = auth.currentUser
         if (user != null) {
+            Log.i("info_LoginActivity_verificarUsuarioLogado", "Sucesso! -> $user")
             startActivity(Intent(this, MainActivity::class.java))
             finish()
-        } else return
+        } else
+            Log.i("info_LoginActivity_verificarUsuarioLogado", "Erro! -> $user")
+            return
     }
 }
 
