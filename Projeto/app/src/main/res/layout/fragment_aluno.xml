@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/shape_background"
     android:padding="8dp"
-    tools:context=".view.MainActivity">
+    tools:context=".view.alunos.AlunoFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
