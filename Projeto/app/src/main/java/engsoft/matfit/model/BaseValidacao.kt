@@ -1,12 +1,21 @@
 package engsoft.matfit.model
 
 import android.content.Context
+import android.graphics.Color
+import android.view.View
 import android.widget.Toast
+import com.google.android.material.snackbar.Snackbar
 
 open class BaseValidacao(val context: Context) {
 
     fun toast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    fun snackForError(view: View, msg: String){
+        Snackbar.make(view, msg, Snackbar.LENGTH_LONG)
+            .setBackgroundTint(Color.RED)
+            .show()
     }
 
     fun validarCargaHoraria(carga: Int) = carga > 0
