@@ -4,10 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityCadastroBinding
+import engsoft.matfit.model.BaseValidacao
 
 class CadastroActivity : AppCompatActivity() {
     private val binding by lazy {
@@ -17,6 +17,8 @@ class CadastroActivity : AppCompatActivity() {
     private val auth by lazy {
         FirebaseAuth.getInstance()
     }
+
+    private val baseValidacao = BaseValidacao(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +37,13 @@ class CadastroActivity : AppCompatActivity() {
         val password = binding.editPasswd.text.toString()
 
         if (email.isEmpty() || password.isEmpty()) {
-            toast("Email e senha obrigatórios para realizar seu cadastro.")
+            baseValidacao.toast(getString(R.string.textInformationEmailAndPasswordMandatory))
             return
         } else if (password.length < 6) {
-            toast("Sua senha deve conter pelo menos 6 caracteres.")
+            baseValidacao.toast(getString(R.string.textPasswordLessSixCharacter))
             return
         } else if (!email.contains("@")) {
-            toast("Email inválido. Verifique!")
+            baseValidacao.toast(getString(R.string.textEmailInvalid))
             return
         }
 
@@ -49,18 +51,14 @@ class CadastroActivity : AppCompatActivity() {
             .addOnSuccessListener { success ->
                 val emailSuccess = success.user?.email
                 // TOAST COM LONGA DURAÇÂO
-                Toast.makeText(this, "$emailSuccess foi cadastrado com sucesso!", Toast.LENGTH_LONG)
+                Toast.makeText(this, "$emailSuccess ${getString(R.string.textSuccessRegisterEmail)}", Toast.LENGTH_LONG)
                     .show()
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
 
             }.addOnFailureListener { exception ->
-                toast("Erro: ${exception.message}")
+                baseValidacao.toast("Erro: ${exception.message}")
             }
 
-    }
-
-    private fun toast(str: String) {
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
     }
 }
