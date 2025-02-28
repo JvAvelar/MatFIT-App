@@ -60,7 +60,4 @@ open class BaseValidacao(val context: Context) {
         }
         return cpf[9].code - '0'.code == digito1 && cpf[10].code - '0'.code == digito2
     }
-
-    // Faz a validação do nome
-
 }
