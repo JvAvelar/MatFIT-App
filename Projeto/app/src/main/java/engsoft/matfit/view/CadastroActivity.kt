@@ -2,9 +2,14 @@ package engsoft.matfit.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthEmailException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityCadastroBinding
 import engsoft.matfit.model.BaseValidacao
@@ -26,39 +31,41 @@ class CadastroActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        binding.bntRegister.setOnClickListener {
-            registerUser()
+        binding.bntRegister.setOnClickListener { view ->
+            cadastrarUsuario(view)
         }
     }
 
     // Criação do usuário com Firebase
-    private fun registerUser() {
+    private fun cadastrarUsuario(view: View) {
         val email = binding.editEmail.text.toString()
         val password = binding.editPasswd.text.toString()
 
         if (email.isEmpty() || password.isEmpty()) {
-            baseValidacao.toast(getString(R.string.textInformationEmailAndPasswordMandatory))
-            return
-        } else if (password.length < 6) {
-            baseValidacao.toast(getString(R.string.textPasswordLessSixCharacter))
-            return
-        } else if (!email.contains("@")) {
-            baseValidacao.toast(getString(R.string.textEmailInvalid))
+            baseValidacao.snackForError(
+                view,
+                getString(R.string.textInformationEmailAndPasswordMandatory)
+            )
             return
         }
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener { success ->
                 val emailSuccess = success.user?.email
-                // TOAST COM LONGA DURAÇÂO
-                Toast.makeText(this, "$emailSuccess ${getString(R.string.textSuccessRegisterEmail)}", Toast.LENGTH_LONG)
-                    .show()
+                baseValidacao.toast("$emailSuccess ${getString(R.string.textSuccessRegisterEmail)}")
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
-
-            }.addOnFailureListener { exception ->
-                baseValidacao.toast("Erro: ${exception.message}")
             }
+            .addOnFailureListener { exception ->
+                val msgErro = when (exception) {
+                    is FirebaseAuthWeakPasswordException -> getString(R.string.textPasswordLessSixCharacter)
+                    is FirebaseAuthInvalidCredentialsException,
+                    is FirebaseAuthEmailException -> getString(R.string.textEmailInvalid)
 
+                    is FirebaseAuthUserCollisionException -> getString(R.string.textEmailUsed)
+                    else -> getString(R.string.textErroUserRegister)
+                }
+                baseValidacao.snackForError(view, msgErro)
+            }
     }
 }
