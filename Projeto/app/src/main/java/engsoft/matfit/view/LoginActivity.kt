@@ -2,8 +2,13 @@ package engsoft.matfit.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthEmailException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityLoginBinding
 import engsoft.matfit.model.BaseValidacao
@@ -23,8 +28,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.bntEnter.setOnClickListener {
-            doLogin()
+        binding.bntEnter.setOnClickListener { view ->
+            fazerLogin(view)
         }
 
         binding.textRegister.setOnClickListener {
@@ -38,16 +43,16 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        verifyUserLogged()
+        verificarUsuarioLogado()
     }
 
     // Fazer login com Firebase
-    private fun doLogin() {
+    private fun fazerLogin(view: View) {
         val email = binding.editEmail.text.toString()
         val password = binding.editPasswd.text.toString()
 
-        if (email.isEmpty() || password.isEmpty() || password.length < 6) {
-            baseValidacao.toast(getString(R.string.textEmailAndPasswordIncorrect))
+        if (email.isEmpty() || password.isEmpty()) {
+            baseValidacao.snackForError(view, getString(R.string.textEmailAndPasswordIncorrect))
             return
         }
 
@@ -58,12 +63,20 @@ class LoginActivity : AppCompatActivity() {
                 finish()
             }
             .addOnFailureListener { exception ->
-                baseValidacao.toast("${exception.message}")
+                val msgErro = when (exception) {
+                    is FirebaseAuthWeakPasswordException -> getString(R.string.textEmailAndPasswordIncorrect)
+                    is FirebaseAuthInvalidCredentialsException,
+                    is FirebaseAuthEmailException -> getString(R.string.textEmailAndPasswordIncorrect)
+
+                    is FirebaseAuthUserCollisionException -> getString(R.string.textEmailUsed)
+                    else -> getString(R.string.textErroUserRegister)
+                }
+                baseValidacao.snackForError(view, msgErro)
             }
     }
 
     // Verifica se o usuáro está logado após a criação e envia diretamente para a MainActivity se estiver
-    private fun verifyUserLogged() {
+    private fun verificarUsuarioLogado() {
         val user = auth.currentUser
         if (user != null) {
             startActivity(Intent(this, MainActivity::class.java))
