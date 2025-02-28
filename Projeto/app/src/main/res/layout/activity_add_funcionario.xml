@@ -41,13 +41,13 @@
     <View
         android:id="@+id/viewSeparator"
         style="@style/ViewSeparator"
-        app:layout_constraintBottom_toTopOf="@id/cpf"
+        app:layout_constraintBottom_toTopOf="@id/editCpf"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text" />
 
     <EditText
-        android:id="@+id/cpf"
+        android:id="@+id/editCpf"
         style="@style/EditText"
         android:hint="@string/cpf"
         android:inputType="number"
@@ -56,31 +56,31 @@
         app:layout_constraintTop_toBottomOf="@+id/viewSeparator" />
 
     <EditText
-        android:id="@+id/name"
+        android:id="@+id/editNome"
         style="@style/EditText"
         android:hint="@string/name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cpf" />
+        app:layout_constraintTop_toBottomOf="@+id/editCpf" />
 
     <EditText
-        android:id="@+id/funcao"
+        android:id="@+id/editFuncao"
         style="@style/EditText"
         android:hint="@string/textFuncao"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintTop_toBottomOf="@+id/editNome" />
 
     <EditText
-        android:id="@+id/cargaHoraria"
+        android:id="@+id/editCargaHoraria"
         style="@style/EditText"
         android:hint="@string/textCargHoraria"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/funcao" />
+        app:layout_constraintTop_toBottomOf="@+id/editFuncao" />
 
     <Button
         android:id="@+id/btnRegister"
@@ -88,6 +88,6 @@
         android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cargaHoraria" />
+        app:layout_constraintTop_toBottomOf="@+id/editCargaHoraria" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
