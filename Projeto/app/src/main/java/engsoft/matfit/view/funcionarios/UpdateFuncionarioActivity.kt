@@ -42,17 +42,17 @@ private fun dadosPadroes(){
     val funcao = intent?.getStringExtra("funcao") ?: ""
     val cargaHoraria = intent?.getIntExtra("cargaHoraria", 0).toString()
 
-    binding.name.setText(nome)
-    binding.funcao.setText(funcao)
-    binding.cargaHoraria.setText(cargaHoraria)
+    binding.editName.setText(nome)
+    binding.editFuncao.setText(funcao)
+    binding.editCargaHoraria.setText(cargaHoraria)
     Log.i("info_UpdateFuncionarioActiviy -> dadosPadroes", "dadosPadroes: $nome")
 
 }
     private fun atualizar() {
         val cpf = intent.getStringExtra("cpf") ?: ""
-        val nome = binding.name.text.toString()
-        val funcao = binding.funcao.text.toString()
-        val cargaHoraria = binding.cargaHoraria.text.toString().toInt()
+        val nome = binding.editName.text.toString()
+        val funcao = binding.editFuncao.text.toString()
+        val cargaHoraria = binding.editCargaHoraria.text.toString().toInt()
         val funcionarioUpdate = FuncionarioUpdate(nome, funcao, cargaHoraria)
 
         if (!baseValidacao.validarNome(nome))
