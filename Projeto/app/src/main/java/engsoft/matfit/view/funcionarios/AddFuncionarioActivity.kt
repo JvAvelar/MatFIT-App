@@ -23,7 +23,7 @@ class AddFuncionarioActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel = ViewModelProvider(this)[FuncionarioViewModel::class.java]
         supportActionBar?.hide()
-        binding.cargaHoraria.setText("1")
+        binding.editCargaHoraria.setText("1")
 
         observadores()
 
@@ -42,10 +42,10 @@ class AddFuncionarioActivity : AppCompatActivity() {
     }
 
     private fun addFuncionario() {
-        val cpf = binding.cpf.text.toString()
-        val nome = binding.name.text.toString()
-        val funcao = binding.funcao.text.toString()
-        val cargaHoraria = binding.cargaHoraria.text.toString().toInt()
+        val cpf = binding.editCpf.text.toString()
+        val nome = binding.editNome.text.toString()
+        val funcao = binding.editFuncao.text.toString()
+        val cargaHoraria = binding.editCargaHoraria.text.toString().toInt()
 
         if (!baseValidacao.validarCpf(cpf))
             baseValidacao.toast(getString(R.string.textErrorCpf))
