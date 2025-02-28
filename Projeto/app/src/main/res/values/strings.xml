@@ -98,5 +98,11 @@
     <string name="textRegisterLogin">Cadastre-se</string>
     <string name="textAccountLogin">Ainda não tem uma conta? </string>
     <string name="textSloganMatFit">Mat-Fit - Você no controle!</string>
+    <string name="textEmailAndPasswordIncorrect">Email e/ou senha incorretos.</string>
+    <string name="textInformationWelcomeBack">Seja bem vindo(a) de volta!</string>
+    <string name="textInformationEmailAndPasswordMandatory">Email e senha obrigatórios para realizar seu cadastro.</string>
+    <string name="textPasswordLessSixCharacter">Sua senha deve conter pelo menos 6 caracteres.</string>
+    <string name="textEmailInvalid">Email inválido. Verifique!</string>
+    <string name="textSuccessRegisterEmail">foi cadastrado com sucesso!</string>
 
 </resources>
