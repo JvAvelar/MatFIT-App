@@ -8,37 +8,38 @@ import com.google.android.material.snackbar.Snackbar
 
 open class BaseValidacao(val context: Context) {
 
+    // Toast para reutilização
     fun toast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
+    // Snach de erros para reutilização
     fun snackForError(view: View, msg: String){
         Snackbar.make(view, msg, Snackbar.LENGTH_LONG)
             .setBackgroundTint(Color.RED)
             .show()
     }
 
+    // validação da Carga Horária
     fun validarCargaHoraria(carga: Int) = carga > 0
 
+    // validação do Nome
     fun validarNome(nome: String) =
         (nome.isNotBlank() && nome.isNotEmpty() && nome.length >= 4)
 
-    // Faz a validação do esporte
+    // validação do esporte
     fun validarEsporte(esporte: String) =
         (esporte.length >= 3 && esporte.isNotBlank() && esporte.isNotEmpty())
-    // Faz a validação do cpf
+
+    // validação do cpf
     fun validarCpf(cpfAntigo: String): Boolean {
-        // Remove caracteres não numéricos do CPF
         var cpf = cpfAntigo
         cpf = cpf.replace("[^0-9]".toRegex(), "")
-            .replace("-", "").replace(".", "")
 
-        // Verifica se o CPF tem 11 dígitos
         if (cpf.length != 11) {
             return false
         }
 
-        // Verifica se todos os dígitos são iguais
         var digitosIguais = true
         for (i in 1..10) {
             if (cpf[i] != cpf[0]) {
@@ -46,11 +47,11 @@ open class BaseValidacao(val context: Context) {
                 break
             }
         }
+
         if (digitosIguais) {
             return false
         }
 
-        // Validação dos dígitos verificadores
         var soma = 0
         for (i in 0..8) {
             soma += (10 - i) * (cpf[i].code - '0'.code)
