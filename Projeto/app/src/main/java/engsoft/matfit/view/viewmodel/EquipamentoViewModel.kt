@@ -1,20 +1,19 @@
 package engsoft.matfit.view.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import engsoft.matfit.model.EquipamentoDTO
 import engsoft.matfit.service.repository.EquipamentoRepository
+import engsoft.matfit.util.EstadoRequisicao
 import kotlinx.coroutines.launch
 
 class EquipamentoViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = EquipamentoRepository()
-
-    private val _listar = MutableLiveData<List<EquipamentoDTO>>()
-    val listarEquipamentos: LiveData<List<EquipamentoDTO>> = _listar
 
     private val _buscarEquipamento = MutableLiveData<EquipamentoDTO>()
     val buscarEquipamento: LiveData<EquipamentoDTO> = _buscarEquipamento
@@ -28,9 +27,25 @@ class EquipamentoViewModel(application: Application) : AndroidViewModel(applicat
     private val _atualizar = MutableLiveData<EquipamentoDTO?>()
     val atualizar: LiveData<EquipamentoDTO?> = _atualizar
 
+    private val _estadoRequisicao = MutableLiveData<EstadoRequisicao<List<EquipamentoDTO>>>()
+    val estadoRequisicao: LiveData<EstadoRequisicao<List<EquipamentoDTO>>> = _estadoRequisicao
+
     fun listarEquipamentos() {
-        viewModelScope.launch {
-            _listar.postValue(repository.listarEquipamentos())
+        _estadoRequisicao.postValue(EstadoRequisicao.Carregando())
+
+        try {
+            viewModelScope.launch {
+                val response = repository.listarEquipamentos()
+
+                if (response.isNotEmpty())
+                    _estadoRequisicao.postValue(EstadoRequisicao.Sucesso(response))
+                else
+                    _estadoRequisicao.postValue(EstadoRequisicao.Sucesso(emptyList()))
+                Log.i("info_listarEquipamento", "Sucesso! -> $response")
+            }
+        } catch (e: Exception) {
+            Log.i("info_listarEquipamento", "Erro! -> ${e.message}")
+            _estadoRequisicao.postValue(EstadoRequisicao.Erro("Erro ao buscar equipamentos!"))
         }
     }
 
@@ -44,7 +59,9 @@ class EquipamentoViewModel(application: Application) : AndroidViewModel(applicat
         viewModelScope.launch {
             try {
                 _atualizar.postValue(repository.atualizarEquipamento(id, equipamentoDTO))
-            } catch (e: Exception){
+                Log.i("info_atualizarEquipamento", "Sucesso ao atualizar equipamento! -> id = $id")
+            } catch (e: Exception) {
+                Log.i("info_atualizarEquipamento", "ERRO ao atualizar equipamento! ${e.message}")
                 _atualizar.postValue(null)
                 e.printStackTrace()
             }
@@ -53,12 +70,12 @@ class EquipamentoViewModel(application: Application) : AndroidViewModel(applicat
 
     fun deletarEquipamento(id: Int) {
         viewModelScope.launch {
-           _deletar.postValue(repository.deletarEquipamento(id))
+            _deletar.postValue(repository.deletarEquipamento(id))
             listarEquipamentos()
         }
     }
 
-    fun resetarDeletar(){
+    fun reseteDeletar() {
         _deletar.postValue(null)
     }
 
