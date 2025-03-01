@@ -1,23 +1,29 @@
 package engsoft.matfit.view.viewmodel
 
 import android.app.Application
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import engsoft.matfit.R
 import engsoft.matfit.model.Aluno
 import engsoft.matfit.model.AlunoRequest
 import engsoft.matfit.model.AlunoResponse
 import engsoft.matfit.model.AlunoUpdate
 import engsoft.matfit.service.repository.AlunoRepository
+import engsoft.matfit.util.EstadoRequisicao
 import kotlinx.coroutines.launch
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import java.io.OutputStream
 
 class AlunoViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = AlunoRepository(application.applicationContext)
-
-    private val _listarAlunos = MutableLiveData<List<Aluno>>()
-    val listarAlunos: LiveData<List<Aluno>> = _listarAlunos
 
     private val _cadastro = MutableLiveData<Boolean>()
     val cadastro: LiveData<Boolean> = _cadastro
@@ -32,14 +38,28 @@ class AlunoViewModel(application: Application) : AndroidViewModel(application) {
     val atualizarAluno: LiveData<AlunoResponse?> = _atualizarAluno
 
     private val _realizarPagamento = MutableLiveData<Boolean>()
-    val realizarPagamento : LiveData<Boolean> = _realizarPagamento
+    val realizarPagamento: LiveData<Boolean> = _realizarPagamento
 
     private val _verificarPagamento = MutableLiveData<AlunoResponse?>()
-    val verificarPagamento : LiveData<AlunoResponse?> = _verificarPagamento
+    val verificarPagamento: LiveData<AlunoResponse?> = _verificarPagamento
+
+    private val _estadoRequisicao = MutableLiveData<EstadoRequisicao<List<Aluno>>>()
+    val estadoRequisicao: LiveData<EstadoRequisicao<List<Aluno>>> = _estadoRequisicao
 
     fun listarAlunos() {
+        _estadoRequisicao.postValue(EstadoRequisicao.Carregando())
+
         viewModelScope.launch {
-            _listarAlunos.postValue(repository.listarAlunos())
+            try {
+                val response = repository.listarAlunos()
+
+                if (response.isNotEmpty())
+                    _estadoRequisicao.postValue(EstadoRequisicao.Sucesso(response))
+                else
+                    _estadoRequisicao.postValue(EstadoRequisicao.Sucesso(emptyList()))
+            } catch (e: Exception) {
+                _estadoRequisicao.postValue(EstadoRequisicao.Erro("Erro ao buscar aluno!"))
+            }
         }
     }
 
@@ -56,7 +76,7 @@ class AlunoViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun resetarDeletar(){
+    fun reseteDeletar() {
         _deletar.postValue(null)
     }
 
@@ -82,15 +102,74 @@ class AlunoViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun realizarPagamento(cpf: String){
+    fun realizarPagamento(cpf: String) {
         viewModelScope.launch {
             _realizarPagamento.postValue(repository.realizarPagamento(cpf))
         }
     }
 
-    fun verificarPagamento(cpf: String){
+    fun verificarPagamento(cpf: String) {
         viewModelScope.launch {
             _verificarPagamento.postValue(repository.verificarPagamento(cpf))
         }
+    }
+
+    // responsável por Exportar os dados em formato excel
+    fun exportarAlunosParaExcel(
+        listAlunos: List<Aluno>,
+        salvarAquivoLauncher: ActivityResultLauncher<String>
+    ) {
+        salvarAquivoLauncher.launch("Alunos_Cadastrados.xlsx")
+
+    }
+
+    // responsável por fazer a criação e inserção dos alunos na tabela a ser exportada
+    fun escreverExcel(uri: Uri, context: Context, listAlunos: List<Aluno>) {
+        try {
+            val workbook = XSSFWorkbook()
+            val sheet = workbook.createSheet("Alunos")
+
+            val cabecalho = sheet.createRow(0)
+            cabecalho.createCell(0).setCellValue("cpf")
+            cabecalho.createCell(1).setCellValue("nome")
+            cabecalho.createCell(2).setCellValue("esporte")
+            cabecalho.createCell(3).setCellValue("data do Pagamento")
+            cabecalho.createCell(4).setCellValue("pagamento em dia")
+
+            listAlunos.forEachIndexed { index, aluno ->
+                val linha = sheet.createRow(index + 1)
+                linha.createCell(0).setCellValue(aluno.cpf)
+                linha.createCell(1).setCellValue(aluno.nome)
+                linha.createCell(2).setCellValue(aluno.esporte)
+                linha.createCell(3).setCellValue(aluno.dataPagamento)
+                linha.createCell(4)
+                    .setCellValue(if (aluno.pagamentoAtrasado) "Pendente" else "Pago")
+
+            }
+
+            context.contentResolver.openOutputStream(uri)?.use { outputStream: OutputStream ->
+                workbook.write(outputStream)
+                workbook.close()
+            }
+
+            abrirArquivo(uri, context)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    // responsável por abrir o arquivo exportado após o download no dispositivo 
+    //  -> faz uma verificação no sistema para saber se existe algum aplicativo para abri-lo
+    private fun abrirArquivo(uri: Uri, context: Context) {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        } else
+            Toast.makeText(context, context.getString(R.string.textAppNotFound), Toast.LENGTH_SHORT)
+                .show()
     }
 }
