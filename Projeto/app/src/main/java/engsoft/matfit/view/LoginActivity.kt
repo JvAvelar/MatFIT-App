@@ -86,9 +86,10 @@ class LoginActivity : AppCompatActivity() {
             Log.i("info_LoginActivity_verificarUsuarioLogado", "Sucesso! -> $user")
             startActivity(Intent(this, MainActivity::class.java))
             finish()
-        } else
+        } else {
             Log.i("info_LoginActivity_verificarUsuarioLogado", "Erro! -> $user")
             return
+        }
     }
 }
 
