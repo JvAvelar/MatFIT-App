@@ -64,14 +64,17 @@ class AlunoFragment : Fragment() {
         val listener = object : OnAlunoListener {
             override fun onUpdate(cpf: String) {
                 atualizarAluno(cpf)
+                Log.i("info_BtnOnUpdate", "sucesso ao cadastrar aluno!")
             }
 
             override fun onDelete(cpf: String) {
                 deletarAluno(cpf)
+                Log.i("info_BtnOnDelete", "sucesso ao deletar aluno!")
             }
 
             override fun OnPayment(cpf: String) {
                 verificarPagamento(cpf)
+                Log.i("info_BtnOnPayment", "sucesso ao realizar pagamento!")
             }
         }
 
@@ -113,12 +116,13 @@ class AlunoFragment : Fragment() {
                 }
 
                 else -> {
+                    toast("ERRO: valor nulo!! -> $sucesso")
                     Log.i("info_deletar", "ERRO: valor nulo! -> $sucesso")
                 }
             }
         }
 
-        // Listagem de alunos com o estado de requisição para gerenciar o ProgressBar
+        // responsável por lista os alunos cadastrados e carregar corretamente os estados da barra de progresso
         viewModel.estadoRequisicao.observe(viewLifecycleOwner) { estado ->
             when (estado) {
                 is EstadoRequisicao.Carregando -> {
