@@ -15,7 +15,8 @@ class FuncionarioViewHolder(
      */
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     fun bindData(func: FuncionarioDTO) {
-        bind.textDoCpf.text = " ${func.cpf}"
+        val cpf = formatarCpf(func.cpf)
+        bind.textDoCpf.text = " $cpf"
         bind.textDoName.text = " ${func.nome}"
         bind.textDoSport.text = " ${func.funcao}"
         bind.textDoDay.text = " ${func.cargaHoraria}"
@@ -28,4 +29,17 @@ class FuncionarioViewHolder(
             listener.onDelete(func.cpf)
         }
     }
+
+    private fun formatarCpf(cpf: String): String {
+        val cpfNumerico = cpf.replace("[^0-9]".toRegex(), "")
+        return if (cpfNumerico.length == 11) {
+            "%s.%s.%s-%s".format(
+                cpfNumerico.substring(0, 3),
+                cpfNumerico.substring(3, 6),
+                cpfNumerico.substring(6, 9),
+                cpfNumerico.substring(9, 11)
+            )
+        } else cpf
+    }
+
 }
