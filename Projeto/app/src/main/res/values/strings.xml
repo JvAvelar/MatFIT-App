@@ -106,5 +106,6 @@
     <string name="textSuccessRegisterEmail">foi cadastrado com sucesso!</string>
     <string name="textEmailUsed">O email já está em uso.</string>
     <string name="textErroUserRegister">Erro ao cadastrar usuário.</string>
+    <string name="textAppNotFound">Nenhum aplicativo encontrado para abrir o arquivo Excel.</string>
 
 </resources>
