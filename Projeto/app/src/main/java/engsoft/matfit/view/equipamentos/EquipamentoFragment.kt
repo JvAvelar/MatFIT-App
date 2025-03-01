@@ -15,6 +15,7 @@ import engsoft.matfit.R
 import engsoft.matfit.databinding.FragmentEquipamentoBinding
 import engsoft.matfit.listener.OnEquipamentoListener
 import engsoft.matfit.model.Constantes
+import engsoft.matfit.util.EstadoRequisicao
 import engsoft.matfit.view.equipamentos.adapter.EquipamentoAdapter
 import engsoft.matfit.view.viewmodel.EquipamentoViewModel
 
@@ -36,34 +37,19 @@ class EquipamentoFragment : Fragment() {
         binding.recyclerListEquipamento.layoutManager = LinearLayoutManager(context)
         binding.recyclerListEquipamento.adapter = adapter
 
+        binding.btnAdd.setOnClickListener {
+            startActivity(Intent(context, AddEquipamentoActivity::class.java))
+        }
+
         val listener = object : OnEquipamentoListener {
             override fun onDelete(id: Int) {
-                AlertDialog.Builder(requireContext())
-                    .setTitle(getString(R.string.deleteEquipamento))
-                    .setMessage(getString(R.string.textConfirmationDelete))
-                    .setPositiveButton(getString(R.string.yes)) { dialog, which ->
-                        viewModel.deletarEquipamento(id)
-                    }
-                    .setNegativeButton(getString(R.string.cancel)) { dialog, which -> null }
-                    .create()
-                    .show()
+                deletarEquipamento(id)
+                Log.i("info_BtnOnDelete", "sucesso ao deletar equipamento!")
             }
 
             override fun onUpdate(id: Int) {
-                viewModel.buscarEquipamento(id)
-                viewModel.buscarEquipamento.observe(viewLifecycleOwner) { equipamento ->
-                    if (equipamento != null) {
-                        Log.i("info_onUpdateEquipamento", "Operação bem-sucedida -> $equipamento")
-                        val intent = Intent(context, UpdateEquipamentoActivity::class.java)
-                        intent.putExtra(Constantes.Equipamento.ID, equipamento.id)
-                        intent.putExtra(Constantes.Equipamento.NOME, equipamento.nome)
-                        intent.putExtra(Constantes.Equipamento.QUANTIDADE, equipamento.quantidade)
-                        startActivity(intent)
-                    } else {
-                        Log.i("info_onUpdateEquipamento", "Erro de execução -> $equipamento")
-                        toast(getString(R.string.textEquipamentoNotFound))
-                    }
-                }
+                atualizarEquipamento(id)
+                Log.i("info_BtnOnUpdate", "sucesso ao cadastrar equipamento!")
             }
         }
 
@@ -73,10 +59,9 @@ class EquipamentoFragment : Fragment() {
 
         observadores()
 
-        click()
-
         return binding.root
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -89,45 +74,101 @@ class EquipamentoFragment : Fragment() {
     }
 
     private fun observadores() {
-        viewModel.listarEquipamentos.observe(viewLifecycleOwner) { listEquipamentos ->
-            if (listEquipamentos.isNullOrEmpty())
-                mostrarMsgListaVazia()
-            else {
-                mostrarCadModel()
-                adapter.updateEquipamentos(listEquipamentos)
-            }
-        }
-
-        // valores invertidos para sucesso
+        // no deletar os valores são invertidos para sucesso ->
         viewModel.deletar.observe(viewLifecycleOwner) { sucesso ->
             when (sucesso) {
                 false -> {
+                    Log.i("info_deletarEquipamento", "sucesso ao deletar equipamento! -> $sucesso")
                     toast(getString(R.string.textSuccessDeleteEquipamento))
-                    viewModel.resetarDeletar()
+                    viewModel.reseteDeletar()
                 }
+
                 true -> {
+                    Log.i("info_deletarEquipamento", "falha ao deletar equipamento! -> $sucesso")
                     toast(getString(R.string.textFailureDeleteEquipamento))
-                    viewModel.resetarDeletar()
+                    viewModel.reseteDeletar()
                 }
-                else -> {}
+
+                else -> {
+                    toast("ERRO: valor nulo!! -> $sucesso")
+                    Log.i("info_deletar", "ERRO: valor nulo! -> $sucesso")
+                }
+            }
+        }
+
+        // responsável por lista os equipamentos cadastrados e carregar corretamente os estados da barra de progresso
+        viewModel.estadoRequisicao.observe(viewLifecycleOwner) { estado ->
+            when (estado) {
+                is EstadoRequisicao.Carregando -> {
+                    mostrarCarregamento()
+                    Log.i("info_EstadoRequisicaoCarregando", "Carregando os dados!!")
+                }
+
+                is EstadoRequisicao.Sucesso -> {
+                    adapter.updateEquipamentos(estado.data)
+                    mostrarCardModel()
+                    Log.i("info_EstadoRequisicaoSucesso", "Sucesso ao listar os equipamentos!!")
+                }
+
+                is EstadoRequisicao.Erro -> {
+                    mostrarMsgListaVazia()
+                    toast(estado.mensagem)
+                    Log.i(
+                        "info_EstadoRequisicaoErro",
+                        "Erro ao listar os equipamentos!! -> ${estado.mensagem}"
+                    )
+                }
+
+                else -> mostrarMsgListaVazia()
             }
         }
     }
 
-    private fun click() {
-        binding.btnAdd.setOnClickListener {
-            startActivity(Intent(context, AddEquipamentoActivity::class.java))
+    private fun deletarEquipamento(id: Int) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.deleteEquipamento))
+            .setMessage(getString(R.string.textConfirmationDelete))
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                viewModel.deletarEquipamento(id)
+            }
+            .setNegativeButton(getString(R.string.cancel)) { _, _ -> null }
+            .create()
+            .show()
+    }
+
+    private fun atualizarEquipamento(id: Int) {
+        viewModel.buscarEquipamento(id)
+        viewModel.buscarEquipamento.observe(viewLifecycleOwner) { equipamento ->
+            if (equipamento != null) {
+                Log.i("info_onUpdateEquipamento", "Operação bem-sucedida -> $equipamento")
+                val intent = Intent(context, UpdateEquipamentoActivity::class.java)
+                intent.putExtra(Constantes.Equipamento.ID, equipamento.id)
+                intent.putExtra(Constantes.Equipamento.NOME, equipamento.nome)
+                intent.putExtra(Constantes.Equipamento.QUANTIDADE, equipamento.quantidade)
+                startActivity(intent)
+            } else {
+                Log.i("info_onUpdateEquipamento", "Erro de execução -> $equipamento")
+                toast(getString(R.string.textEquipamentoNotFound))
+            }
         }
     }
 
-    private fun mostrarMsgListaVazia() {
-        binding.recyclerListEquipamento.visibility = View.GONE
+    private fun mostrarCarregamento() {
+        binding.ProgressBar.visibility = View.VISIBLE
         binding.emptyView.visibility = View.VISIBLE
+        binding.recyclerListEquipamento.visibility = View.GONE
     }
 
-    private fun mostrarCadModel(){
+    private fun mostrarMsgListaVazia() {
+        binding.emptyView.visibility = View.VISIBLE
+        binding.recyclerListEquipamento.visibility = View.GONE
+        binding.ProgressBar.visibility = View.GONE
+    }
+
+    private fun mostrarCardModel() {
         binding.recyclerListEquipamento.visibility = View.VISIBLE
         binding.emptyView.visibility = View.GONE
+        binding.ProgressBar.visibility = View.GONE
     }
 
     private fun toast(msg: String) {
