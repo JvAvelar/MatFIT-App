@@ -57,6 +57,14 @@
             android:textSize="18sp"
             android:textColor="@android:color/black" />
 
+        <ProgressBar
+            android:id="@+id/ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            />
+
         <ImageView
             android:id="@+id/empty_image"
             android:layout_width="200dp"
