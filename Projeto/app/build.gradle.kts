@@ -68,6 +68,12 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.activity)
+
+    // Mockito
+    testImplementation ("org.mockito:mockito-core:5.16.0")
+    // Truth
+    testImplementation ("com.google.truth:truth:1.4.4")
+
     testImplementation(libs.junit)
     testImplementation(libs.junit.junit)
     testImplementation(libs.junit.junit)
