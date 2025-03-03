@@ -1,17 +1,16 @@
 package engsoft.matfit.view.viewmodel
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import engsoft.matfit.model.EquipamentoDTO
 import engsoft.matfit.service.repository.EquipamentoRepository
 import engsoft.matfit.util.EstadoRequisicao
 import kotlinx.coroutines.launch
 
-class EquipamentoViewModel(application: Application) : AndroidViewModel(application) {
+class EquipamentoViewModel : ViewModel() {
 
     private val repository = EquipamentoRepository()
 
