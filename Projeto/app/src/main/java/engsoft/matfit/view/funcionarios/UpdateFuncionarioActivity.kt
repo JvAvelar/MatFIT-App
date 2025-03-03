@@ -8,46 +8,48 @@ import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityUpdateFuncionarioBinding
 import engsoft.matfit.util.BaseValidacao
 import engsoft.matfit.model.FuncionarioUpdate
+import engsoft.matfit.util.Constantes
 import engsoft.matfit.view.viewmodel.FuncionarioViewModel
 
 class UpdateFuncionarioActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityUpdateFuncionarioBinding.inflate(layoutInflater)
     }
-    private lateinit var viewModel: FuncionarioViewModel
+
+    private val viewModel by lazy {
+        ViewModelProvider(this)[FuncionarioViewModel::class.java]
+    }
+
     private val baseValidacao = BaseValidacao(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[FuncionarioViewModel::class.java]
 
-        click()
-
-        observadores()
-
-        dadosPadroes()
-    }
-
-    private fun click() {
         binding.iconBack.setOnClickListener {
             finish()
         }
         binding.btnRegister.setOnClickListener {
             atualizar()
         }
+
+        observadores()
+
+        dadosPadroes()
     }
-private fun dadosPadroes(){
-    val nome = intent?.getStringExtra("nome") ?: ""
-    val funcao = intent?.getStringExtra("funcao") ?: ""
-    val cargaHoraria = intent?.getIntExtra("cargaHoraria", 0).toString()
 
-    binding.editName.setText(nome)
-    binding.editFuncao.setText(funcao)
-    binding.editCargaHoraria.setText(cargaHoraria)
-    Log.i("info_UpdateFuncionarioActiviy -> dadosPadroes", "dadosPadroes: $nome")
+    private fun dadosPadroes() {
+        val nome = intent?.getStringExtra(Constantes.Funcionario.NOME) ?: ""
+        val funcao = intent?.getStringExtra(Constantes.Funcionario.FUNCAO) ?: ""
+        val cargaHoraria = intent?.getIntExtra(Constantes.Funcionario.CARGA_HORARIA, 0).toString()
 
-}
+        binding.editName.setText(nome)
+        binding.editFuncao.setText(funcao)
+        binding.editCargaHoraria.setText(cargaHoraria)
+        Log.i("info_UpdateFuncionarioActiviy -> dadosPadroes", "dadosPadroes: $nome")
+
+    }
+
     private fun atualizar() {
         val cpf = intent.getStringExtra("cpf") ?: ""
         val nome = binding.editName.text.toString()
@@ -65,12 +67,12 @@ private fun dadosPadroes(){
     }
 
     private fun observadores() {
-        viewModel.atualizarFuncionario.observe(this){ funcionario ->
-            if(funcionario != null){
-                baseValidacao.toast("Funcionário atualizado com sucesso!")
+        viewModel.atualizarFuncionario.observe(this) { funcionario ->
+            if (funcionario != null) {
+                baseValidacao.toast(getString(R.string.textSuccessUpdateFuncionario))
                 finish()
             } else
-                baseValidacao.toast("Falha ao atualizar o funcionário. Verifique!")
+                baseValidacao.toast(getString(R.string.textFailureUpdateFuncionario))
         }
     }
 }
