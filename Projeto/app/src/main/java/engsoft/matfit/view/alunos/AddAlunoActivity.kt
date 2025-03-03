@@ -13,32 +13,19 @@ class AddAlunoActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityAddAlunoBinding.inflate(layoutInflater)
     }
-    private lateinit var viewModel: AlunoViewModel
+
+    private val viewModel by lazy {
+        ViewModelProvider(this)[AlunoViewModel::class.java]
+    }
+
     private val baseValidacao = BaseValidacao(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[AlunoViewModel::class.java]
         supportActionBar?.hide()
-        observadores()
+        observador()
 
-        click()
-
-    }
-
-    private fun observadores() {
-        viewModel.cadastro.observe(this) {
-            if (it) {
-                baseValidacao.toast(getString(R.string.textSucessRegisterAluno))
-                finish()
-            } else
-                baseValidacao.toast(getString(R.string.textFailureRegisterAluno))
-        }
-
-    }
-
-    private fun click() {
         binding.buttonAdd.setOnClickListener {
             addAluno()
         }
@@ -60,5 +47,15 @@ class AddAlunoActivity : AppCompatActivity() {
             baseValidacao.toast(getString(R.string.textErrorSport))
         else
             viewModel.cadastrarAluno(AlunoRequest(cpf, nome, esporte))
+    }
+
+    private fun observador() {
+        viewModel.cadastro.observe(this) {
+            if (it) {
+                baseValidacao.toast(getString(R.string.textSucessRegisterAluno))
+                finish()
+            } else
+                baseValidacao.toast(getString(R.string.textFailureRegisterAluno))
+        }
     }
 }
