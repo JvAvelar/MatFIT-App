@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import engsoft.matfit.R
 import engsoft.matfit.databinding.FragmentEquipamentoBinding
 import engsoft.matfit.listener.OnEquipamentoListener
-import engsoft.matfit.model.Constantes
+import engsoft.matfit.util.Constantes
 import engsoft.matfit.util.EstadoRequisicao
 import engsoft.matfit.view.equipamentos.adapter.EquipamentoAdapter
 import engsoft.matfit.view.viewmodel.EquipamentoViewModel

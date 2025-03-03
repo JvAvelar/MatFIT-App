@@ -12,8 +12,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityLoginBinding
-import engsoft.matfit.model.BaseValidacao
-import kotlin.math.log
+import engsoft.matfit.util.BaseValidacao
 
 class LoginActivity : AppCompatActivity() {
     private val binding by lazy {

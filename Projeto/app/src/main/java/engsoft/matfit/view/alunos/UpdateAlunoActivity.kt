@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityUpdateAlunoBinding
 import engsoft.matfit.model.AlunoUpdate
-import engsoft.matfit.model.BaseValidacao
+import engsoft.matfit.util.BaseValidacao
 import engsoft.matfit.view.viewmodel.AlunoViewModel
 
 class UpdateAlunoActivity : AppCompatActivity() {

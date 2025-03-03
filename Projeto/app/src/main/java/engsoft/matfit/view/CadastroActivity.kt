@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthEmailException
@@ -13,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityCadastroBinding
-import engsoft.matfit.model.BaseValidacao
+import engsoft.matfit.util.BaseValidacao
 
 class CadastroActivity : AppCompatActivity() {
     private val binding by lazy {

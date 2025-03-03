@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityUpdateEquipamentoBinding
-import engsoft.matfit.model.BaseValidacao
+import engsoft.matfit.util.BaseValidacao
 import engsoft.matfit.model.EquipamentoDTO
 import engsoft.matfit.view.viewmodel.EquipamentoViewModel
 

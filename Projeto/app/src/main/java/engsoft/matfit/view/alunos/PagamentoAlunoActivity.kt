@@ -9,8 +9,8 @@ import engsoft.matfit.R
 import engsoft.matfit.R.drawable.ic_cancel
 import engsoft.matfit.R.drawable.ic_done
 import engsoft.matfit.databinding.ActivityPagamentoAlunoBinding
-import engsoft.matfit.model.BaseValidacao
-import engsoft.matfit.model.Constantes
+import engsoft.matfit.util.BaseValidacao
+import engsoft.matfit.util.Constantes
 import engsoft.matfit.view.viewmodel.AlunoViewModel
 
 @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")

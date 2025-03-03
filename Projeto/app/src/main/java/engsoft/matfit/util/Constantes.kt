@@ -1,4 +1,4 @@
-package engsoft.matfit.model
+package engsoft.matfit.util
 
 class Constantes {
 

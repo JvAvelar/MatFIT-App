@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import engsoft.matfit.R
 import engsoft.matfit.databinding.FragmentFuncionarioBinding
 import engsoft.matfit.listener.OnFuncionarioListener
-import engsoft.matfit.model.Constantes
+import engsoft.matfit.util.Constantes
 import engsoft.matfit.util.EstadoRequisicao
 import engsoft.matfit.view.funcionarios.adapter.FuncionarioAdapter
 import engsoft.matfit.view.viewmodel.FuncionarioViewModel

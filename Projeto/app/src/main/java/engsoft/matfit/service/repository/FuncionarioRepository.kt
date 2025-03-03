@@ -2,7 +2,7 @@ package engsoft.matfit.service.repository
 
 import android.content.Context
 import android.util.Log
-import engsoft.matfit.model.BaseValidacao
+import engsoft.matfit.util.BaseValidacao
 import engsoft.matfit.model.FuncionarioDTO
 import engsoft.matfit.model.FuncionarioUpdate
 import engsoft.matfit.service.FuncionarioService
