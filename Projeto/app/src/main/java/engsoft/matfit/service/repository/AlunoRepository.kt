@@ -1,16 +1,14 @@
 package engsoft.matfit.service.repository
 
-import android.content.Context
 import android.util.Log
 import engsoft.matfit.model.Aluno
 import engsoft.matfit.model.AlunoRequest
 import engsoft.matfit.model.AlunoResponse
 import engsoft.matfit.model.AlunoUpdate
-import engsoft.matfit.util.BaseValidacao
 import engsoft.matfit.service.AlunoService
 import engsoft.matfit.service.RetrofitService
 
-class AlunoRepository(context: Context) : BaseValidacao(context) {
+class AlunoRepository {
 
     private val remote = RetrofitService.getService(AlunoService::class.java)
 
