@@ -9,9 +9,7 @@ import engsoft.matfit.model.EquipamentoDTO
 class EquipamentoViewHolder(private val bind: CardModelEquipamentoBinding, private val listener: OnEquipamentoListener) :
     RecyclerView.ViewHolder(bind.root) {
 
-    /**
-     * Atribui valores aos elementos de interface do card model
-     */
+     // Atribui valores aos elementos de interface do card model
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     fun bindData(equipamento: EquipamentoDTO) {
         bind.textDoCpf.text = " ${equipamento.nome}"
