@@ -23,7 +23,11 @@ class EquipamentoFragment : Fragment() {
 
     private var _binding: FragmentEquipamentoBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: EquipamentoViewModel
+
+    private val viewModel by lazy {
+        ViewModelProvider(this)[EquipamentoViewModel::class.java]
+    }
+
     private val adapter = EquipamentoAdapter()
 
     override fun onCreateView(
@@ -32,7 +36,6 @@ class EquipamentoFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentEquipamentoBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this)[EquipamentoViewModel::class.java]
 
         binding.recyclerListEquipamento.layoutManager = LinearLayoutManager(context)
         binding.recyclerListEquipamento.adapter = adapter
