@@ -18,17 +18,30 @@ class PagamentoAlunoActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityPagamentoAlunoBinding.inflate(layoutInflater)
     }
-    private lateinit var viewModel: AlunoViewModel
-    private val baseValidacao = BaseValidacao(this)
 
+    private val viewModel by lazy {
+        ViewModelProvider(this)[AlunoViewModel::class.java]
+    }
+
+    private val baseValidacao = BaseValidacao(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[AlunoViewModel::class.java]
+
+
+        binding.btnPagar.setOnClickListener {
+            fazerPagamento()
+        }
+
+        binding.imageBack.setOnClickListener {
+            finish()
+        }
+
         alterarDados()
-        click()
-        observadores()
+
+        observador()
+
         supportActionBar?.hide()
     }
 
@@ -62,21 +75,11 @@ class PagamentoAlunoActivity : AppCompatActivity() {
         if (pagamentoAtrasado) {
             viewModel.realizarPagamento(cpf)
         } else {
-            baseValidacao.toast("A mensalidade deste mês já foi paga.")
+            baseValidacao.toast(getString(R.string.textMensalidadeOK))
         }
     }
 
-    private fun click() {
-        binding.btnPagar.setOnClickListener {
-            fazerPagamento()
-        }
-
-        binding.imageBack.setOnClickListener {
-            finish()
-        }
-    }
-
-    private fun observadores() {
+    private fun observador() {
         viewModel.realizarPagamento.observe(this) {
             if (it) {
                 baseValidacao.toast(getString(R.string.textSuccessPayment))
