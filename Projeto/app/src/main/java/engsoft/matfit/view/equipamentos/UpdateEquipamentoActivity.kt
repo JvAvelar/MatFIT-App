@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityUpdateEquipamentoBinding
-import engsoft.matfit.util.BaseValidacao
 import engsoft.matfit.model.EquipamentoDTO
+import engsoft.matfit.util.BaseValidacao
+import engsoft.matfit.util.Constantes
 import engsoft.matfit.view.viewmodel.EquipamentoViewModel
 
 @SuppressLint("SetTextI18n")
@@ -15,33 +16,31 @@ class UpdateEquipamentoActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityUpdateEquipamentoBinding.inflate(layoutInflater)
     }
-    private lateinit var viewModel: EquipamentoViewModel
+
+    private val viewModel by lazy {
+        ViewModelProvider(this)[EquipamentoViewModel::class.java]
+    }
+
     private val baseValidacao = BaseValidacao(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this)[EquipamentoViewModel::class.java]
-
-        click()
-
-        observador()
-
-        dadosPadroes()
-    }
-
-    private fun click() {
         binding.btnRegister.setOnClickListener {
             atualizar()
         }
         binding.iconBack.setOnClickListener {
             finish()
         }
+
+        observador()
+
+        dadosPadroes()
     }
 
     private fun atualizar() {
-        val id = intent?.getIntExtra("id", 0) ?: 0
+        val id = intent?.getIntExtra(Constantes.Equipamento.ID, 0) ?: 0
         val nome = binding.editNome.text.toString()
         val quantidade = binding.editQuantidade.text.toString().toInt()
 
@@ -54,20 +53,19 @@ class UpdateEquipamentoActivity : AppCompatActivity() {
     }
 
 
-    private fun dadosPadroes(){
-        val nome = intent?.getStringExtra("nome") ?: ""
-        val quantidade = intent?.getIntExtra("quantidade", 0) ?: 0
+    private fun dadosPadroes() {
+        val nome = intent?.getStringExtra(Constantes.Equipamento.NOME) ?: ""
+        val quantidade = intent?.getIntExtra(Constantes.Equipamento.QUANTIDADE, 0) ?: 0
         binding.editNome.setText(nome)
         binding.editQuantidade.setText(quantidade.toString())
     }
 
     private fun observador() {
-        viewModel.atualizar.observe(this){ equipamento ->
+        viewModel.atualizar.observe(this) { equipamento ->
             if (equipamento != null) {
                 baseValidacao.toast(getString(R.string.textSuccessUpdateEquipamento))
                 finish()
-            }
-            else
+            } else
                 baseValidacao.toast(getString(R.string.textFailureUpdateEquipamento))
         }
     }
