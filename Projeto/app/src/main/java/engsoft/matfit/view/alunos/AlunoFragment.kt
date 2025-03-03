@@ -23,11 +23,15 @@ import engsoft.matfit.util.EstadoRequisicao
 import engsoft.matfit.view.alunos.adapter.AlunoAdapter
 import engsoft.matfit.view.viewmodel.AlunoViewModel
 
+@SuppressLint("SetTextI18n")
 class AlunoFragment : Fragment() {
-
     private var _binding: FragmentAlunoBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: AlunoViewModel
+
+    private val viewModel by lazy {
+        ViewModelProvider(this)[AlunoViewModel::class.java]
+    }
+
     private val adapter = AlunoAdapter()
 
     private var listaAlunosExcel = emptyList<Aluno>()
@@ -53,11 +57,11 @@ class AlunoFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentAlunoBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this)[AlunoViewModel::class.java]
 
         // Layout e Adapter
         binding.recyclerListAlunos.layoutManager = LinearLayoutManager(context)
         binding.recyclerListAlunos.adapter = adapter
+
         // Mostra o texto ao passar o dedo no botão de download
         TooltipCompat.setTooltipText(binding.btnDownload, "Exportar dados")
 
@@ -99,7 +103,6 @@ class AlunoFragment : Fragment() {
         _binding = null
     }
 
-    @SuppressLint("SetTextI18n")
     private fun observadores() {
         viewModel.deletar.observe(viewLifecycleOwner) { sucesso ->
             when (sucesso) {
@@ -236,5 +239,4 @@ class AlunoFragment : Fragment() {
     private fun toast(msg: String) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
     }
-
 }
