@@ -18,11 +18,12 @@ import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var appBarConfiguration: AppBarConfiguration
+
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+
     private val auth by lazy {
         FirebaseAuth.getInstance()
     }
@@ -35,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.appBarMain.toolbar)
 
         setupNavigation()
-
     }
 
     // Responsável por gerenciar a navegação das fragments associadas à main
