@@ -8,36 +8,36 @@ import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityUpdateAlunoBinding
 import engsoft.matfit.model.AlunoUpdate
 import engsoft.matfit.util.BaseValidacao
+import engsoft.matfit.util.Constantes
 import engsoft.matfit.view.viewmodel.AlunoViewModel
 
 class UpdateAlunoActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityUpdateAlunoBinding.inflate(layoutInflater)
     }
-    private lateinit var viewModel: AlunoViewModel
+
+    private val viewModel by lazy {
+        ViewModelProvider(this)[AlunoViewModel::class.java]
+    }
+
     private lateinit var cpf: String
     private val baseValidacao = BaseValidacao(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[AlunoViewModel::class.java]
 
-        click()
-
-        dadosPadroes()
-
-        observadores()
-
-    }
-
-    private fun click() {
         binding.buttonUpdate.setOnClickListener {
             atualizar()
         }
         binding.iconBack.setOnClickListener {
             finish()
         }
+
+        dadosPadroes()
+
+        observador()
+
     }
 
     private fun atualizar() {
@@ -56,16 +56,16 @@ class UpdateAlunoActivity : AppCompatActivity() {
     }
 
     private fun dadosPadroes() {
-        cpf = intent?.getStringExtra("cpf") ?: ""
-        val nome = intent?.getStringExtra("nome") ?: ""
-        val esporte = intent?.getStringExtra("esporte") ?: ""
+        cpf = intent?.getStringExtra(Constantes.Aluno.CPF) ?: ""
+        val nome = intent?.getStringExtra(Constantes.Aluno.NOME) ?: ""
+        val esporte = intent?.getStringExtra(Constantes.Aluno.ESPORTE) ?: ""
         Log.i("info_UpdateActivity -> dadosPadroes", "dadosPadroes: $cpf")
 
         binding.editName.setText(nome)
         binding.editSport.setText(esporte)
     }
 
-    private fun observadores() {
+    private fun observador() {
         viewModel.atualizarAluno.observe(this) { aluno ->
             if (aluno != null) {
                 baseValidacao.toast(getString(R.string.textSucessUpdatedAluno))
