@@ -1,14 +1,13 @@
 package engsoft.matfit.view.viewmodel
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import engsoft.matfit.R
 import engsoft.matfit.model.Aluno
@@ -21,9 +20,9 @@ import kotlinx.coroutines.launch
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.OutputStream
 
-class AlunoViewModel(application: Application) : AndroidViewModel(application) {
+class AlunoViewModel : ViewModel() {
 
-    private val repository = AlunoRepository(application.applicationContext)
+    private val repository = AlunoRepository()
 
     private val _cadastro = MutableLiveData<Boolean>()
     val cadastro: LiveData<Boolean> = _cadastro
