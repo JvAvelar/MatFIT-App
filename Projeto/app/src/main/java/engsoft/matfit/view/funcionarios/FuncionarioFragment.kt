@@ -23,7 +23,11 @@ class FuncionarioFragment : Fragment() {
 
     private var _binding: FragmentFuncionarioBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: FuncionarioViewModel
+
+    private val viewModel by lazy {
+        ViewModelProvider(this)[FuncionarioViewModel::class.java]
+    }
+
     private val adapter = FuncionarioAdapter()
 
     override fun onCreateView(
@@ -32,7 +36,6 @@ class FuncionarioFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentFuncionarioBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this)[FuncionarioViewModel::class.java]
 
         binding.recyclerListFuncionario.layoutManager = LinearLayoutManager(context)
         binding.recyclerListFuncionario.adapter = adapter
