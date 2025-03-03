@@ -14,14 +14,18 @@ class AddFuncionarioActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityAddFuncionarioBinding.inflate(layoutInflater)
     }
-    private lateinit var viewModel: FuncionarioViewModel
+
+    private val viewModel by lazy {
+        ViewModelProvider(this)[FuncionarioViewModel::class.java]
+    }
+
     private val baseValidacao = BaseValidacao(this)
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[FuncionarioViewModel::class.java]
+
         supportActionBar?.hide()
         binding.editCargaHoraria.setText("1")
 
