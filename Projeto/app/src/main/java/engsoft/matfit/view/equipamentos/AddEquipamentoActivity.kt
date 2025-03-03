@@ -6,33 +6,35 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityAddEquipamentoBinding
-import engsoft.matfit.util.BaseValidacao
 import engsoft.matfit.model.EquipamentoDTO
+import engsoft.matfit.util.BaseValidacao
+import engsoft.matfit.util.Constantes
 import engsoft.matfit.view.viewmodel.EquipamentoViewModel
 
+@SuppressLint("SetTextI18n")
 class AddEquipamentoActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityAddEquipamentoBinding.inflate(layoutInflater)
     }
-    private lateinit var viewModel: EquipamentoViewModel
+
+    private val viewModel by lazy {
+        ViewModelProvider(this)[EquipamentoViewModel::class.java]
+    }
+
     private val baseValidacao = BaseValidacao(this)
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this)[EquipamentoViewModel::class.java]
+        ViewModelProvider(this)[EquipamentoViewModel::class.java]
+
         supportActionBar?.hide()
-        binding.editQuantidade.setText("1")
+
+        binding.editQuantidade.setText(Constantes.Equipamento.DEFAULT_VALUE)
 
         observador()
 
-        click()
-
-    }
-
-    private fun click() {
         binding.btnRegister.setOnClickListener {
             addEquipamento()
         }
@@ -40,6 +42,7 @@ class AddEquipamentoActivity : AppCompatActivity() {
             finish()
         }
     }
+
 
     private fun addEquipamento() {
         val nome = binding.editName.text.toString()
@@ -51,7 +54,6 @@ class AddEquipamentoActivity : AppCompatActivity() {
             baseValidacao.toast(getString(R.string.textValidationQuantity))
         else
             viewModel.cadastrarEquipamento(EquipamentoDTO(nome = nome, quantidade = quantidade))
-
     }
 
     private fun observador() {
