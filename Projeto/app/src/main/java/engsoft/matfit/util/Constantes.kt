@@ -18,6 +18,7 @@ class Constantes {
     }
 
     object Equipamento {
+        const val DEFAULT_VALUE = "1"
         const val ID = "id"
         const val NOME = "nome"
         const val QUANTIDADE = "quantidade"
