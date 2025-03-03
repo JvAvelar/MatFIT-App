@@ -1,4 +1,4 @@
-package engsoft.matfit.model
+package engsoft.matfit.util
 
 import android.content.Context
 import android.graphics.Color

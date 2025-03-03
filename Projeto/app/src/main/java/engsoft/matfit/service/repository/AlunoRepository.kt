@@ -6,7 +6,7 @@ import engsoft.matfit.model.Aluno
 import engsoft.matfit.model.AlunoRequest
 import engsoft.matfit.model.AlunoResponse
 import engsoft.matfit.model.AlunoUpdate
-import engsoft.matfit.model.BaseValidacao
+import engsoft.matfit.util.BaseValidacao
 import engsoft.matfit.service.AlunoService
 import engsoft.matfit.service.RetrofitService
 

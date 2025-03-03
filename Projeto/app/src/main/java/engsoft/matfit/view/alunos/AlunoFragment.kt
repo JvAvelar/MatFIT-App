@@ -18,7 +18,7 @@ import engsoft.matfit.R
 import engsoft.matfit.databinding.FragmentAlunoBinding
 import engsoft.matfit.listener.OnAlunoListener
 import engsoft.matfit.model.Aluno
-import engsoft.matfit.model.Constantes
+import engsoft.matfit.util.Constantes
 import engsoft.matfit.util.EstadoRequisicao
 import engsoft.matfit.view.alunos.adapter.AlunoAdapter
 import engsoft.matfit.view.viewmodel.AlunoViewModel
