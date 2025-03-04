@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import engsoft.matfit.R
 import engsoft.matfit.databinding.FragmentAlunoBinding
 import engsoft.matfit.listener.OnAlunoListener
-import engsoft.matfit.model.Aluno
+import engsoft.matfit.model.AlunoDTO
 import engsoft.matfit.util.Constantes
 import engsoft.matfit.util.EstadoRequisicao
 import engsoft.matfit.view.alunos.adapter.AlunoAdapter
@@ -34,7 +34,7 @@ class AlunoFragment : Fragment() {
 
     private val adapter = AlunoAdapter()
 
-    private var listaAlunosExcel = emptyList<Aluno>()
+    private var listaAlunosExcel = emptyList<AlunoDTO>()
 
     private val salvarArquivoLauncher = registerForActivityResult(
         ActivityResultContracts.CreateDocument("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
@@ -118,10 +118,7 @@ class AlunoFragment : Fragment() {
                     viewModel.reseteDeletar()
                 }
 
-                else -> {
-                    toast("ERRO: valor nulo!! -> $sucesso")
-                    Log.i("info_deletar", "ERRO: valor nulo! -> $sucesso")
-                }
+                else -> Log.i("info_deletar", "ERRO: valor nulo! -> $sucesso")
             }
         }
 
@@ -143,7 +140,6 @@ class AlunoFragment : Fragment() {
 
                 is EstadoRequisicao.Erro -> {
                     mostrarMsgListaVazia()
-                    toast(estado.mensagem)
                     Log.i(
                         "info_EstadoRequisicaoErro",
                         "Erro ao listar alunos! -> ${estado.mensagem} "
