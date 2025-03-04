@@ -51,14 +51,17 @@ class FuncionarioRepository {
     }
 
     suspend fun buscarFuncionario(cpf: String): FuncionarioDTO? {
-        var funcionario: FuncionarioDTO? = null
-        try {
+        return try {
             val retorno = remote.buscarFuncionario(cpf)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
-                    Log.i("info_cadastrarFuncionario", "Operação bem-sucedida = $it")
-                    funcionario = it
-                    return funcionario
+                    if (it.cpf == cpf) {
+                        it
+                        Log.i("info_cadastrarFuncionario", "Operação bem-sucedida = $it")
+                    } else Log.i(
+                        "info_cadastrarFuncionario",
+                        "CPF retornado não corresponde ao solicitado"
+                    )
                 }
             } else {
                 Log.i(
@@ -66,12 +69,12 @@ class FuncionarioRepository {
                     "Erro na operação: = ${retorno.code()} - ${retorno.message()}"
                 )
             }
-
+            null
         } catch (e: Exception) {
             Log.i("info_buscarFuncionario", "${e.message}")
             e.printStackTrace()
+            null
         }
-        return funcionario
     }
 
     suspend fun atualizarFuncionario(cpf: String, funcionario: FuncionarioUpdate): FuncionarioDTO? {
