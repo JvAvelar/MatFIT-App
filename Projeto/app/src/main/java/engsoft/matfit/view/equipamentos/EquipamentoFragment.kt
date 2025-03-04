@@ -92,10 +92,7 @@ class EquipamentoFragment : Fragment() {
                     viewModel.reseteDeletar()
                 }
 
-                else -> {
-                    toast("ERRO: valor nulo!! -> $sucesso")
-                    Log.i("info_deletar", "ERRO: valor nulo! -> $sucesso")
-                }
+                else -> Log.i("info_deletar", "ERRO: valor nulo! -> $sucesso")
             }
         }
 
