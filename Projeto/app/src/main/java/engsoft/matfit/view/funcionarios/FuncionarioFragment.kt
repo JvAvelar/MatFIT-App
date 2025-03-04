@@ -117,10 +117,7 @@ class FuncionarioFragment : Fragment() {
                     viewModel.reseteDeletar()
                 }
 
-                else -> {
-                    toast("ERRO: valor nulo!! -> $sucesso")
-                    Log.i("info_deletarFuncionario", "ERRO: valor nulo! -> $sucesso")
-                }
+                else -> Log.i("info_deletarFuncionario", "ERRO: valor nulo! -> $sucesso")
             }
         }
     }
