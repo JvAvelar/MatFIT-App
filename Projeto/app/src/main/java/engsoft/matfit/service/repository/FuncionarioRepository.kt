@@ -1,14 +1,12 @@
 package engsoft.matfit.service.repository
 
-import android.content.Context
 import android.util.Log
-import engsoft.matfit.util.BaseValidacao
 import engsoft.matfit.model.FuncionarioDTO
 import engsoft.matfit.model.FuncionarioUpdate
 import engsoft.matfit.service.FuncionarioService
 import engsoft.matfit.service.RetrofitService
 
-class FuncionarioRepository(context: Context) : BaseValidacao(context) {
+class FuncionarioRepository {
 
     private val remote = RetrofitService.getService(FuncionarioService::class.java)
 
@@ -104,19 +102,19 @@ class FuncionarioRepository(context: Context) : BaseValidacao(context) {
         var sucesso = false
         try {
             val retorno = remote.deletarFuncionario(cpf)
-            if (retorno.isSuccessful){
+            if (retorno.isSuccessful) {
                 retorno.body()?.let {
                     Log.i("info_deletarFuncionario", "Operação bem-sucedida = $it")
                     sucesso = it
                     return sucesso
                 }
-            } else{
+            } else {
                 Log.i(
                     "info_deletarFuncionario",
                     "Erro na operação: = ${retorno.code()} - ${retorno.message()}"
                 )
             }
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Log.i("info_deletarFuncionario", "${e.message}")
             e.printStackTrace()
         }
