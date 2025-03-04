@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 import engsoft.matfit.databinding.CardModelAlunoBinding
 import engsoft.matfit.listener.OnAlunoListener
-import engsoft.matfit.model.Aluno
+import engsoft.matfit.model.AlunoDTO
 
 class AlunoViewHolder(private val bind: CardModelAlunoBinding, private val listener: OnAlunoListener) :
     RecyclerView.ViewHolder(bind.root) {
@@ -13,7 +13,7 @@ class AlunoViewHolder(private val bind: CardModelAlunoBinding, private val liste
      * Atribui valores aos elementos de interface do card model
      */
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
-    fun bindData(aluno: Aluno) {
+    fun bindData(aluno: AlunoDTO) {
         val cpf = formatarCpf(aluno.cpf)
         bind.textDoCpf.text = " $cpf"
         bind.textDoName.text = " ${aluno.nome}"
