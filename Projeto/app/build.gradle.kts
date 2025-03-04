@@ -42,6 +42,9 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -73,6 +76,8 @@ dependencies {
     testImplementation ("org.mockito:mockito-core:5.16.0")
     // Truth
     testImplementation ("com.google.truth:truth:1.4.4")
+    // runTest
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
     testImplementation(libs.junit)
     testImplementation(libs.junit.junit)
