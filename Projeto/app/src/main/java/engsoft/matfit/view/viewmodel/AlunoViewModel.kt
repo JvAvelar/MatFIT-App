@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import engsoft.matfit.R
-import engsoft.matfit.model.Aluno
+import engsoft.matfit.model.AlunoDTO
 import engsoft.matfit.model.AlunoRequest
 import engsoft.matfit.model.AlunoResponse
 import engsoft.matfit.model.AlunoUpdate
@@ -42,8 +42,8 @@ class AlunoViewModel : ViewModel() {
     private val _verificarPagamento = MutableLiveData<AlunoResponse?>()
     val verificarPagamento: LiveData<AlunoResponse?> = _verificarPagamento
 
-    private val _estadoRequisicao = MutableLiveData<EstadoRequisicao<List<Aluno>>>()
-    val estadoRequisicao: LiveData<EstadoRequisicao<List<Aluno>>> = _estadoRequisicao
+    private val _estadoRequisicao = MutableLiveData<EstadoRequisicao<List<AlunoDTO>>>()
+    val estadoRequisicao: LiveData<EstadoRequisicao<List<AlunoDTO>>> = _estadoRequisicao
 
     fun listarAlunos() {
         _estadoRequisicao.postValue(EstadoRequisicao.Carregando())
@@ -115,7 +115,7 @@ class AlunoViewModel : ViewModel() {
 
     // responsável por Exportar os dados em formato excel
     fun exportarAlunosParaExcel(
-        listAlunos: List<Aluno>,
+        listAlunos: List<AlunoDTO>,
         salvarAquivoLauncher: ActivityResultLauncher<String>
     ) {
         salvarAquivoLauncher.launch("Alunos_Cadastrados.xlsx")
@@ -123,7 +123,7 @@ class AlunoViewModel : ViewModel() {
     }
 
     // responsável por fazer a criação e inserção dos alunos na tabela a ser exportada
-    fun escreverExcel(uri: Uri, context: Context, listAlunos: List<Aluno>) {
+    fun escreverExcel(uri: Uri, context: Context, listAlunos: List<AlunoDTO>) {
         try {
             val workbook = XSSFWorkbook()
             val sheet = workbook.createSheet("Alunos")
