@@ -1,10 +1,9 @@
 package engsoft.matfit.view.viewmodel
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import engsoft.matfit.model.FuncionarioDTO
 import engsoft.matfit.model.FuncionarioUpdate
@@ -12,9 +11,9 @@ import engsoft.matfit.service.repository.FuncionarioRepository
 import engsoft.matfit.util.EstadoRequisicao
 import kotlinx.coroutines.launch
 
-class FuncionarioViewModel(application: Application) : AndroidViewModel(application) {
+class FuncionarioViewModel : ViewModel() {
 
-    private val repository = FuncionarioRepository(application.applicationContext)
+    private val repository = FuncionarioRepository()
 
     private val _cadastro = MutableLiveData<Boolean>()
     val cadastroFuncionario: LiveData<Boolean> = _cadastro
@@ -44,7 +43,7 @@ class FuncionarioViewModel(application: Application) : AndroidViewModel(applicat
                     _estadoRequisicao.postValue(EstadoRequisicao.Sucesso(emptyList()))
                 Log.i("info_listarFuncionarios", "Sucesso! -> $response")
             }
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Log.i("info_listarFuncionarios", "Erro! -> ${e.message}")
             _estadoRequisicao.postValue(EstadoRequisicao.Erro("Erro ao buscar funcionários!"))
         }
@@ -75,7 +74,10 @@ class FuncionarioViewModel(application: Application) : AndroidViewModel(applicat
                 Log.i("info_atualizarFuncionarios", "Sucesso ao atualizar funcionario! ")
                 _atualizar.postValue(repository.atualizarFuncionario(cpf, funcionario))
             } catch (e: Exception) {
-                Log.i("info_atualizarFuncionarios", "Erro ao atualizar funcionario! -> ${e.message}")
+                Log.i(
+                    "info_atualizarFuncionarios",
+                    "Erro ao atualizar funcionario! -> ${e.message}"
+                )
                 _atualizar.postValue(null)
                 e.printStackTrace()
             }
