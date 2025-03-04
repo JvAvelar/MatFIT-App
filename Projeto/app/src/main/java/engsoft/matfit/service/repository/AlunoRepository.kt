@@ -1,7 +1,7 @@
 package engsoft.matfit.service.repository
 
 import android.util.Log
-import engsoft.matfit.model.Aluno
+import engsoft.matfit.model.AlunoDTO
 import engsoft.matfit.model.AlunoRequest
 import engsoft.matfit.model.AlunoResponse
 import engsoft.matfit.model.AlunoUpdate
@@ -12,7 +12,7 @@ class AlunoRepository {
 
     private val remote = RetrofitService.getService(AlunoService::class.java)
 
-    suspend fun listarAlunos(): List<Aluno> {
+    suspend fun listarAlunos(): List<AlunoDTO> {
         try {
             val retorno = remote.listarAlunos()
             if (retorno.isSuccessful) {
@@ -76,14 +76,16 @@ class AlunoRepository {
     }
 
     suspend fun buscarAluno(cpf: String): AlunoResponse? {
-        var aluno: AlunoResponse? = null
-        try {
+        return try {
             val retorno = remote.buscarAluno(cpf)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
-                    Log.i("info_buscarAluno", "Operação bem-sucedida = $it")
-                    aluno = it
-                    return aluno
+                    if (it.cpf == cpf) {
+                        Log.i("info_buscarAluno", "Operação bem-sucedida = $it")
+                        return it
+                    } else {
+                        Log.i("info_buscarAluno", "CPF retornado não corresponde ao solicitado")
+                    }
                 }
             } else {
                 Log.i(
@@ -91,11 +93,12 @@ class AlunoRepository {
                     "Erro na operação: = ${retorno.code()} - ${retorno.message()}"
                 )
             }
+            null
         } catch (e: Exception) {
-            Log.i("info_buscarAluno", "Erro durante a execusão: ${e.message}")
+            Log.i("info_buscarAluno", "Erro durante a execução: ${e.message}")
             e.printStackTrace()
+            null
         }
-        return aluno
     }
 
     suspend fun atualizarAluno(cpf: String, aluno: AlunoUpdate): AlunoResponse? {
