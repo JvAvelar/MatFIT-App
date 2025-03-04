@@ -1,6 +1,6 @@
 package engsoft.matfit.service
 
-import engsoft.matfit.model.Aluno
+import engsoft.matfit.model.AlunoDTO
 import engsoft.matfit.model.AlunoRequest
 import engsoft.matfit.model.AlunoResponse
 import engsoft.matfit.model.AlunoUpdate
@@ -18,7 +18,7 @@ interface AlunoService {
 
     @GET("/aluno")
     @Headers("Content-Type: application/json")
-    suspend fun listarAlunos(): Response<List<Aluno>>
+    suspend fun listarAlunos(): Response<List<AlunoDTO>>
 
     @POST("/aluno")
     @Headers("Content-Type: application/json")
