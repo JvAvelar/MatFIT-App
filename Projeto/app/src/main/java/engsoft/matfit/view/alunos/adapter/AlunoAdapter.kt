@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import engsoft.matfit.databinding.CardModelAlunoBinding
 import engsoft.matfit.listener.OnAlunoListener
-import engsoft.matfit.model.Aluno
+import engsoft.matfit.model.AlunoDTO
 import engsoft.matfit.view.alunos.viewholder.AlunoViewHolder
 
 class AlunoAdapter : RecyclerView.Adapter<AlunoViewHolder>() {
 
-    private var listAlunos: List<Aluno> = arrayListOf()
+    private var listAlunos: List<AlunoDTO> = arrayListOf()
     private lateinit var listener: OnAlunoListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlunoViewHolder {
@@ -33,7 +33,7 @@ class AlunoAdapter : RecyclerView.Adapter<AlunoViewHolder>() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateAlunos(list: List<Aluno>){
+    fun updateAlunos(list: List<AlunoDTO>){
         listAlunos = list
         notifyDataSetChanged()
     }
