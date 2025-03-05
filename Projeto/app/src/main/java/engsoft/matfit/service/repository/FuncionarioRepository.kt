@@ -27,14 +27,12 @@ class FuncionarioRepository {
     }
 
     suspend fun cadastrarFuncionario(funcionario: FuncionarioDTO): Boolean {
-        var sucesso = false
         try {
             val retorno = remote.cadastrarFuncionario(funcionario)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
                     Log.i("info_cadastrarFuncionario", "Operação bem-sucedida = $it")
-                    sucesso = true
-                    return sucesso
+                    return true
                 }
             } else {
                 Log.i(
@@ -47,7 +45,7 @@ class FuncionarioRepository {
             Log.i("info_cadastrarFuncionario", "Falhou -> ${e.message}")
             e.printStackTrace()
         }
-        return sucesso
+        return false
     }
 
     suspend fun buscarFuncionario(cpf: String): FuncionarioDTO? {
@@ -78,14 +76,12 @@ class FuncionarioRepository {
     }
 
     suspend fun atualizarFuncionario(cpf: String, funcionario: FuncionarioUpdate): FuncionarioDTO? {
-        var funcionarioRetornado: FuncionarioDTO? = null
         try {
             val retorno = remote.atualizarFuncionario(cpf, funcionario)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
                     Log.i("info_atualizarFuncionario", "Operação bem-sucedida = $it")
-                    funcionarioRetornado = it
-                    return funcionarioRetornado
+                    return it
                 }
             } else {
                 Log.i(
@@ -98,18 +94,16 @@ class FuncionarioRepository {
             Log.i("info_atualizarFuncionario", "${e.message}")
             e.printStackTrace()
         }
-        return funcionarioRetornado
+        return null
     }
 
     suspend fun deletarFuncionario(cpf: String): Boolean {
-        var sucesso = false
         try {
             val retorno = remote.deletarFuncionario(cpf)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
                     Log.i("info_deletarFuncionario", "Operação bem-sucedida = $it")
-                    sucesso = it
-                    return sucesso
+                    return it
                 }
             } else {
                 Log.i(
@@ -121,6 +115,6 @@ class FuncionarioRepository {
             Log.i("info_deletarFuncionario", "${e.message}")
             e.printStackTrace()
         }
-        return sucesso
+        return false
     }
 }
