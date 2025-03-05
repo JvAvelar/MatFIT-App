@@ -29,14 +29,12 @@ class AlunoRepository {
     }
 
     suspend fun cadastrarAluno(aluno: AlunoRequest): Boolean {
-        var sucesso = false
         try {
             val retorno = remote.cadastrarAluno(aluno)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
                     Log.i("info_cadastrarAluno", "Operação bem-sucedida = $it")
-                    sucesso = !it.pagamentoAtrasado
-                    return sucesso
+                    return !it.pagamentoAtrasado
                 }
             } else {
                 Log.i(
@@ -48,19 +46,17 @@ class AlunoRepository {
             Log.i("info_cadastrarAluno", "Erro durante a execusão: ${e.message}")
             e.printStackTrace()
         }
-        return sucesso
+        return false
     }
 
     suspend fun deletarAluno(cpf: String): Boolean {
-        var sucesso = false
         try {
             val retorno = remote.deletarAluno(cpf)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
                     Log.i("info_deletarAluno", "Operação bem-sucedida = $it")
                     listarAlunos()
-                    sucesso = it
-                    return sucesso
+                    return it
                 }
             } else {
                 Log.i(
@@ -72,7 +68,7 @@ class AlunoRepository {
             Log.i("info_deletarAluno", "Erro durante a exclusão: ${e.message}")
             e.printStackTrace()
         }
-        return sucesso
+        return false
     }
 
     suspend fun buscarAluno(cpf: String): AlunoResponse? {
@@ -102,14 +98,12 @@ class AlunoRepository {
     }
 
     suspend fun atualizarAluno(cpf: String, aluno: AlunoUpdate): AlunoResponse? {
-        var alunoRetorno: AlunoResponse? = null
         try {
             val retorno = remote.atualizarAluno(cpf, aluno)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
                     Log.i("info_atualizarAluno", "Operação bem-sucedida: $it")
-                    alunoRetorno = it
-                    return alunoRetorno
+                    return it
                 }
             } else {
                 Log.i(
@@ -122,18 +116,16 @@ class AlunoRepository {
             Log.i("info_atualizarAluno", "Erro durante a execução ${e.message}")
             e.printStackTrace()
         }
-        return alunoRetorno
+        return null
     }
 
     suspend fun realizarPagamento(cpf: String): Boolean {
-        var sucesso = false
         try {
             val retorno = remote.realizarPagamento(cpf)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
                     Log.i("info_realizarPagamento", "Operação bem-sucedida: $it")
-                    sucesso = it
-                    return sucesso
+                    return it
                 }
             } else {
                 Log.i(
@@ -141,23 +133,20 @@ class AlunoRepository {
                     "Erro na Operação -> ${retorno.code()} - ${retorno.message()}"
                 )
             }
-
         } catch (e: Exception) {
             Log.i("info_realizarPagamento", "Erro durante a execução ${e.message}")
             e.printStackTrace()
         }
-        return sucesso
+        return false
     }
 
     suspend fun verificarPagamento(cpf: String): AlunoResponse? {
-        var aluno: AlunoResponse? = null
         try {
             val retorno = remote.verificarPagamento(cpf)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
                     Log.i("info_verificarPagamento", "Operação bem-sucedida: $it")
-                    aluno = it
-                    return aluno
+                    return it
                 }
             } else {
                 Log.i(
@@ -169,6 +158,6 @@ class AlunoRepository {
             Log.i("info_verificarPagamento", "Erro durante a execução ${e.message}")
             e.printStackTrace()
         }
-        return aluno
+        return null
     }
 }
