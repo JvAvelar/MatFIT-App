@@ -52,7 +52,7 @@ class PagamentoAlunoActivity : AppCompatActivity() {
         val esporte = intent?.getStringExtra(Constantes.Aluno.ESPORTE) ?: ""
         val dataPagamento = intent?.getStringExtra(Constantes.Aluno.DATA_PAGAMENTO) ?: ""
 
-        binding.textDoCpf.text = " $cpf"
+        binding.textDoCpf.text = " ${formatarCpf(cpf)}"
         binding.textDoName.text = " $nome"
         binding.textDoSport.text = " $esporte"
         binding.textDoDay.text = " $dataPagamento"
@@ -66,6 +66,18 @@ class PagamentoAlunoActivity : AppCompatActivity() {
             binding.imageStatus.setImageDrawable(getDrawable(ic_done))
         else
             binding.imageStatus.setImageDrawable(getDrawable(ic_cancel))
+    }
+
+    private fun formatarCpf(cpf: String): String {
+        val cpfNumerico = cpf.replace("[^0-9]".toRegex(), "")
+        return if (cpfNumerico.length == 11) {
+            "%s.%s.%s-%s".format(
+                cpfNumerico.substring(0, 3),
+                cpfNumerico.substring(3, 6),
+                cpfNumerico.substring(6, 9),
+                cpfNumerico.substring(9, 11)
+            )
+        } else cpf
     }
 
     private fun fazerPagamento() {
