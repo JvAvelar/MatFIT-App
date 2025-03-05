@@ -10,14 +10,12 @@ class EquipamentoRepository {
     private val remote = RetrofitService.getService(EquipamentoService::class.java)
 
     suspend fun cadastrarEquipamento(equipamento: EquipamentoDTO): Boolean {
-        var sucesso = false
         try {
             val retorno = remote.cadastrarEquipamento(equipamento)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
                     Log.i("info_cadastrarEquipamento", "Operação bem-sucedida: $it")
-                    sucesso = true
-                    return sucesso
+                    return true
                 }
             } else {
                 Log.i(
@@ -29,7 +27,7 @@ class EquipamentoRepository {
             Log.i("info_cadastrarEquipamento", "Falhou -> ${e.message}")
             e.printStackTrace()
         }
-        return sucesso
+        return false
     }
 
     suspend fun buscarEquipamento(id: Int): EquipamentoDTO? {
@@ -57,14 +55,12 @@ class EquipamentoRepository {
     }
 
     suspend fun atualizarEquipamento(id: Int, equipamento: EquipamentoDTO): EquipamentoDTO? {
-        var equipamentoRetornado: EquipamentoDTO? = null
         try {
             val retorno = remote.atualizarEquipamento(id, equipamento)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
                     Log.i("info_atualizarEquipamento", "Operação bem-sucedida: $it")
-                    equipamentoRetornado = it
-                    return equipamentoRetornado
+                    return it
                 }
             } else {
                 Log.i(
@@ -76,18 +72,16 @@ class EquipamentoRepository {
             Log.i("info_atualizarEquipamento", "Falhou -> ${e.message}")
             e.printStackTrace()
         }
-        return equipamentoRetornado
+        return null
     }
 
     suspend fun deletarEquipamento(id: Int): Boolean {
-        var sucesso = false
         try {
             val retorno = remote.deletarEquipamento(id)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
                     Log.i("info_deletarEquipamento", "Operação bem-sucedida: $it")
-                    sucesso = it
-                    return sucesso
+                    return it
                 }
             } else {
                 Log.i(
@@ -99,7 +93,7 @@ class EquipamentoRepository {
             Log.i("info_deletarEquipamento", "Falhou -> ${e.message}")
             e.printStackTrace()
         }
-        return sucesso
+        return false
     }
 
     suspend fun listarEquipamentos(): List<EquipamentoDTO> {
