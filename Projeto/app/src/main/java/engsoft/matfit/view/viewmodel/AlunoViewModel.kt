@@ -14,6 +14,8 @@ import engsoft.matfit.model.AlunoDTO
 import engsoft.matfit.model.AlunoRequest
 import engsoft.matfit.model.AlunoResponse
 import engsoft.matfit.model.AlunoUpdate
+import engsoft.matfit.service.AlunoService
+import engsoft.matfit.service.RetrofitService
 import engsoft.matfit.service.repository.AlunoRepository
 import engsoft.matfit.util.EstadoRequisicao
 import kotlinx.coroutines.launch
@@ -22,7 +24,7 @@ import java.io.OutputStream
 
 class AlunoViewModel : ViewModel() {
 
-    private val repository = AlunoRepository()
+    private val repository = AlunoRepository(RetrofitService.getService(AlunoService::class.java))
 
     private val _cadastro = MutableLiveData<Boolean>()
     val cadastro: LiveData<Boolean> = _cadastro
