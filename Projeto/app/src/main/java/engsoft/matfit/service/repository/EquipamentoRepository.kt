@@ -14,8 +14,16 @@ class EquipamentoRepository {
             val retorno = remote.cadastrarEquipamento(equipamento)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
-                    Log.i("info_cadastrarEquipamento", "Operação bem-sucedida: $it")
-                    return true
+                    if (equipamento.quantidade > 1) {
+                        Log.i("info_cadastrarEquipamento", "Operação bem-sucedida: $it")
+                        return true
+                    } else {
+                        Log.i(
+                            "info_cadastrarEquipamento",
+                            "Falha! A quantidade não pode ser menor que 1. -> quantidade: ${it.quantidade}"
+                        )
+                        return false
+                    }
                 }
             } else {
                 Log.i(
@@ -31,14 +39,16 @@ class EquipamentoRepository {
     }
 
     suspend fun buscarEquipamento(id: Int): EquipamentoDTO? {
-       return  try {
+        try {
             val retorno = remote.buscarEquipamento(id)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
                     if (it.id == id) {
                         Log.i("info_buscarEquipamento", "Operação bem-sucedida: $it")
-                        it
-                    } else Log.i("info_buscarEquipamento", "ID retornado não corresponde ao solicitado")
+                        return it
+                    } else {
+                        Log.i("info_buscarEquipamento", "O id recebido não corresponde com o solicitado")
+                    }
                 }
             } else {
                 Log.i(
@@ -46,12 +56,11 @@ class EquipamentoRepository {
                     "Erro na operação: = ${retorno.code()} - ${retorno.message()}"
                 )
             }
-            null
         } catch (e: Exception) {
             Log.i("info_buscarEquipamento", "Falhou -> ${e.message}")
             e.printStackTrace()
-           null
-       }
+        }
+        return null
     }
 
     suspend fun atualizarEquipamento(id: Int, equipamento: EquipamentoDTO): EquipamentoDTO? {
@@ -59,8 +68,12 @@ class EquipamentoRepository {
             val retorno = remote.atualizarEquipamento(id, equipamento)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
-                    Log.i("info_atualizarEquipamento", "Operação bem-sucedida: $it")
-                    return it
+                    if (id == equipamento.id && equipamento.quantidade > 1) {
+                        Log.i("info_atualizarEquipamento", "Operação bem-sucedida: $it")
+                        return it
+                    } else {
+                        Log.i("info_buscarEquipamento", "O id recebido não corresponde com o solicitado")
+                    }
                 }
             } else {
                 Log.i(
