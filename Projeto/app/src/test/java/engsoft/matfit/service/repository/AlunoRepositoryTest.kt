@@ -5,6 +5,7 @@ import engsoft.matfit.model.AlunoDTO
 import engsoft.matfit.model.AlunoRequest
 import engsoft.matfit.model.AlunoResponse
 import engsoft.matfit.model.AlunoUpdate
+import engsoft.matfit.model.EquipamentoDTO
 import engsoft.matfit.service.AlunoService
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody
@@ -16,58 +17,57 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import retrofit2.Response
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.ResponseBody.Companion.toResponseBody
 
 @RunWith(MockitoJUnitRunner::class)
 class AlunoRepositoryTest {
 
     @Mock
-    private lateinit var mockAlunoRepository: AlunoRepository
-
-    @Mock
     private lateinit var mockRemote: AlunoService
+
+    private lateinit var alunoRepository: AlunoRepository
+    private lateinit var responseBodyError: ResponseBody
 
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         // criando instância real do AlunoRepository
-        mockAlunoRepository = Mockito.spy(AlunoRepository())
-
-        // mock do AlunoService via Reflection
-        val remoteField = AlunoRepository::class.java.getDeclaredField("remote")
-        remoteField.isAccessible = true
-        remoteField.set(mockAlunoRepository, mockRemote)
+        alunoRepository = AlunoRepository(mockRemote)
+        responseBodyError = "Falha na API".toResponseBody("application/json".toMediaTypeOrNull())
     }
 
     @Test
     fun listarAlunos_sucesso_retornaListaAlunos() = runTest {
         // DADO -> sucesso
-        val mockListaAlunos = listOf(
+        val listaAlunos = listOf(
             AlunoDTO("129.078.459-12", "Joaquim Abreu", "Musculação"),
             AlunoDTO("038.295.820-99", "Cosmos Dantas", "Crossfit")
         )
         // moca os dados e retorna o comportamento esperado
-        Mockito.doReturn(mockListaAlunos).`when`(mockAlunoRepository).listarAlunos()
+        Mockito.doReturn(Response.success(listaAlunos)).`when`(mockRemote).listarAlunos()
 
         // QUANDO
-        val lista = mockAlunoRepository.listarAlunos()
+        val resultado = alunoRepository.listarAlunos()
 
         // ENTÂO
-        assertThat(lista).isNotEmpty()
-        assertThat(lista).hasSize(2)
+        assertThat(resultado).isNotNull()
+        assertThat(resultado).isNotEmpty()
+        assertThat(resultado).hasSize(2)
     }
 
     @Test
-    fun listarAlunos_falha_retornaListaVazia() = runTest {
+    fun listarAlunos_listaVazia_retornaListaVazia() = runTest {
         // DADO -> falha = lista vazia
-        val mockListaVazia = emptyList<AlunoDTO>()
-        Mockito.doReturn(mockListaVazia).`when`(mockAlunoRepository).listarAlunos()
+        val listaVazia = emptyList<AlunoDTO>()
+        Mockito.doReturn(Response.success(listaVazia)).`when`(mockRemote).listarAlunos()
 
         // QUANDO
-        val lista = mockAlunoRepository.listarAlunos()
+        val resultado = alunoRepository.listarAlunos()
 
         // ENTÃO
-        assertThat(lista).isEmpty()
-        assertThat(lista).isNotNull()
+        assertThat(resultado).isNotNull()
+        assertThat(resultado).isEmpty()
     }
 
     @Test
@@ -75,58 +75,62 @@ class AlunoRepositoryTest {
         // DADO -> falha na API
         Mockito.doReturn(
             Response.error<List<AlunoDTO>>(
-                404, ResponseBody.create(null, "falha na API")
+                404, responseBodyError
             )
         ).`when`(mockRemote).listarAlunos()
 
         // QUANDO
-        val lista = mockAlunoRepository.listarAlunos()
+        val resultado = alunoRepository.listarAlunos()
 
         // ENTÃO
-        assertThat(lista).isEmpty()
-        assertThat(lista).isNotNull()
+        assertThat(resultado).isNotNull()
+        assertThat(resultado).isEmpty()
     }
 
     @Test
-    fun cadastrarAluno_CpfVeridico_retornaTrue() = runTest {
-        // DADO -> cpf válido
+    fun cadastrarAluno_sucesso_retornaTrue() = runTest {
+        // DADO -> sucesso
+        val alunoEsperado =
+            AlunoResponse("038.295.820-99", "Cosmos Dantas", "Crossfit", "06/03/2025", false)
         val aluno = AlunoRequest("038.295.820-99", "Cosmos Dantas", "Crossfit")
-        Mockito.doReturn(true).`when`(mockAlunoRepository).cadastrarAluno(aluno)
+        Mockito.doReturn(Response.success(alunoEsperado)).`when`(mockRemote).cadastrarAluno(aluno)
 
         // QUANDO
-        val salvar = mockAlunoRepository.cadastrarAluno(aluno)
+        val resultado = alunoRepository.cadastrarAluno(aluno)
 
         //ENTÃO
-        assertThat(salvar).isTrue()
+        assertThat(resultado).isNotNull()
+        assertThat(resultado).isTrue()
     }
 
     @Test
-    fun cadastrarAluno_CpfFalso_retornaFalse() = runTest {
-        // DADO -> cpf inválido
-        val alunoCpfFalso = AlunoRequest("129.078.459-12", "Joaquim Abreu", "Musculação")
-        Mockito.doReturn(false).`when`(mockAlunoRepository).cadastrarAluno(alunoCpfFalso)
+    fun cadastrarAluno_falha_retornaFalse() = runTest {
+        // DADO -> falha -> cpf invalido
+        val aluno = AlunoRequest("123.456.789-10", "Joaquim Abreu", "Musculação")
+        Mockito.doReturn(Response.error<Boolean>(400, responseBodyError)).`when`(mockRemote).cadastrarAluno(aluno)
 
         // QUANDO
-        val salvarAluno = mockAlunoRepository.cadastrarAluno(alunoCpfFalso)
+        val resultado = alunoRepository.cadastrarAluno(aluno)
 
         //ENTÃO
-        assertThat(salvarAluno).isFalse()
+        assertThat(resultado).isNotNull()
+        assertThat(resultado).isFalse()
     }
 
     @Test
     fun cadastrarAluno_falhaNaAPI_retornaFalse() = runTest {
         // DADO -> falha na API
-        val alunoCpfFalso = AlunoRequest("038.295.820-99", "Joaquim Abreu", "Musculação")
-        Mockito.doReturn(Response.error<Boolean>(404, ResponseBody.create(null, "Falha na API")))
-            .`when`(mockRemote).cadastrarAluno(alunoCpfFalso)
+        val aluno = AlunoRequest("038.295.820-99", "Joaquim Abreu", "Musculação")
+        Mockito.doReturn(Response.error<Boolean>(404, responseBodyError)).`when`(mockRemote)
+            .cadastrarAluno(aluno)
 
         // QUANDO
-        val salvarAluno = mockAlunoRepository.cadastrarAluno(alunoCpfFalso)
+        val resultado = alunoRepository.cadastrarAluno(aluno)
 
         //ENTÃO
-        assertThat(salvarAluno).isFalse()
+        assertThat(resultado).isNotNull()
+        assertThat(resultado).isFalse()
     }
-
 
     @Test
     fun deletarAluno_sucesso_retornaTrue() = runTest {
@@ -135,42 +139,45 @@ class AlunoRepositoryTest {
         Mockito.doReturn(Response.success(true)).`when`(mockRemote).deletarAluno(cpf)
 
         // QUANDO
-        val deletar = mockAlunoRepository.deletarAluno(cpf)
+        val resultado = alunoRepository.deletarAluno(cpf)
 
         // ENTÃO
-        assertThat(deletar).isTrue()
+        assertThat(resultado).isNotNull()
+        assertThat(resultado).isTrue()
     }
 
     @Test
     fun deletarAluno_falha_retornaFalse() = runTest {
         // DADO -> falha
         val cpf = "129.078.459-12"
-        Mockito.doReturn(Response.success(false)).`when`(mockRemote).deletarAluno(cpf)
+        Mockito.doReturn(Response.error<Boolean>(400, responseBodyError)).`when`(mockRemote).deletarAluno(cpf)
 
         // QUANDO
-        val deletar = mockAlunoRepository.deletarAluno(cpf)
+        val resultado = alunoRepository.deletarAluno(cpf)
 
         // ENTÃO
-        assertThat(deletar).isFalse()
+        assertThat(resultado).isNotNull()
+        assertThat(resultado).isFalse()
     }
 
     @Test
     fun deletarAluno_falhaNaAPI_retornaFalse() = runTest {
         // DADO -> falha na API
         val cpf = "129.078.459-12"
-        Mockito.doReturn(Response.error<Boolean>(404, ResponseBody.create(null, "Falha na API")))
-            .`when`(mockRemote).deletarAluno(cpf)
+        Mockito.doReturn(Response.error<Boolean>(404, responseBodyError)).`when`(mockRemote)
+            .deletarAluno(cpf)
 
         // QUANDO
-        val deletar = mockAlunoRepository.deletarAluno(cpf)
+        val resultado = alunoRepository.deletarAluno(cpf)
 
         // ENTÃO
-        assertThat(deletar).isFalse()
+        assertThat(resultado).isNotNull()
+        assertThat(resultado).isFalse()
     }
 
     @Test
     fun buscarAluno_sucesso_retornaAluno() = runTest {
-        // DADO - cpf válido
+        // DADO - sucesso = cpf válido
         val cpf = "918.243.680-03"
         val alunoEsperado = AlunoResponse(
             "918.243.680-03", "Felipe Santos", "musculação", "04/04/2025", false
@@ -178,42 +185,40 @@ class AlunoRepositoryTest {
         Mockito.doReturn(Response.success(alunoEsperado)).`when`(mockRemote).buscarAluno(cpf)
 
         // QUANDO
-        val busca = mockAlunoRepository.buscarAluno(cpf)
+        val resultado = alunoRepository.buscarAluno(cpf)
 
         // ENTÃO
-        assertThat(busca).isEqualTo(alunoEsperado)
-        assertThat(busca!!.cpf).isEqualTo(alunoEsperado.cpf)
+        assertThat(resultado).isNotNull()
+        assertThat(resultado?.cpf).isEqualTo(alunoEsperado.cpf)
+        assertThat(resultado).isEqualTo(alunoEsperado)
     }
 
     @Test
     fun buscarAluno_falha_retornaNull() = runTest {
-        // DADO - cpf inválido
-        val cpf = "133.368.314-63"
-        val alunoEsperado = AlunoResponse(
-            "918.243.680-03", "Felipe Santos", "musculação", "04/04/2025", false
-        )
-        Mockito.doReturn(Response.success(alunoEsperado)).`when`(mockRemote).buscarAluno(cpf)
+        // DADO - falha = cpf inválido
+        val cpf = "133.368.314-63" // -> cpf inválido
+        Mockito.doReturn(Response.error<AlunoResponse>(400, responseBodyError))
+            .`when`(mockRemote).buscarAluno(cpf)
 
         // QUANDO
-        val busca = mockAlunoRepository.buscarAluno(cpf)
+        val resultado = alunoRepository.buscarAluno(cpf)
 
         // ENTÃO
-        assertThat(busca).isNull()
+        assertThat(resultado).isNull()
     }
 
     @Test
     fun buscarAluno_falhaNaAPI_retornaNull() = runTest {
         // DADO -> falha na API
         val cpf = "133.362.312-63"
-
-        Mockito.doReturn(Response.error<AlunoResponse>(404, ResponseBody.create(null, "")))
-            .`when`(mockRemote).buscarAluno(cpf)
+        Mockito.doReturn(Response.error<AlunoResponse>(404, responseBodyError)).`when`(mockRemote)
+            .buscarAluno(cpf)
 
         // QUANDO
-        val busca = mockAlunoRepository.buscarAluno(cpf)
+        val resultado = alunoRepository.buscarAluno(cpf)
 
         // ENTÃO
-        assertThat(busca).isNull()
+        assertThat(resultado).isNull()
     }
 
     @Test
@@ -227,11 +232,12 @@ class AlunoRepositoryTest {
             .atualizarAluno(cpf, dadosAtualizados)
 
         // QUANDO
-        val resultado = mockAlunoRepository.atualizarAluno(cpf, dadosAtualizados)
+        val resultado = alunoRepository.atualizarAluno(cpf, dadosAtualizados)
 
         // ENTÃO
+        assertThat(resultado).isNotNull()
         assertThat(resultado).isEqualTo(alunoEsperado)
-        assertThat(resultado!!.cpf).isEqualTo(alunoEsperado.cpf)
+        assertThat(resultado?.cpf).isEqualTo(alunoEsperado.cpf)
     }
 
     @Test
@@ -241,13 +247,11 @@ class AlunoRepositoryTest {
         val dadosAtualizados = AlunoUpdate("João Vitor", "Musculação")
 
         Mockito.doReturn(
-            Response.error<AlunoResponse>(
-                404, ResponseBody.create(null, "Aluno não encontrado")
-            )
+            Response.error<AlunoResponse>(404, responseBodyError)
         ).`when`(mockRemote).atualizarAluno(cpf, dadosAtualizados)
 
         // QUANDO
-        val resultado = mockAlunoRepository.atualizarAluno(cpf, dadosAtualizados)
+        val resultado = alunoRepository.atualizarAluno(cpf, dadosAtualizados)
 
         // ENTÃO
         assertThat(resultado).isNull()
@@ -261,9 +265,10 @@ class AlunoRepositoryTest {
         Mockito.doReturn(Response.success(true)).`when`(mockRemote).realizarPagamento(cpf)
 
         // QUANDO
-        val resultado = mockAlunoRepository.realizarPagamento(cpf)
+        val resultado = alunoRepository.realizarPagamento(cpf)
 
         // ENTÃO
+        assertThat(resultado).isNotNull()
         assertThat(resultado).isTrue()
     }
 
@@ -271,14 +276,14 @@ class AlunoRepositoryTest {
     fun realizarPagamento_falhaNaAPI_retornaFalse() = runTest {
         // Dado -> sucesso
         val cpf = "918.243.680-03"
-
         Mockito.doReturn(Response.error<Boolean>(404, ResponseBody.create(null, "falha na API")))
             .`when`(mockRemote).realizarPagamento(cpf)
 
         // QUANDO
-        val resultado = mockAlunoRepository.realizarPagamento(cpf)
+        val resultado = alunoRepository.realizarPagamento(cpf)
 
         // ENTÃO
+        assertThat(resultado).isNotNull()
         assertThat(resultado).isFalse()
     }
 
@@ -286,11 +291,12 @@ class AlunoRepositoryTest {
     fun verificarPagamento_sucesso_retornaAluno() = runTest {
         // DADO
         val cpf = "918.243.680-03"
-        val alunoEsperado = AlunoResponse(cpf, "Felipe Santos", "musculação", "01/04/2025", false)
+        val alunoEsperado = AlunoResponse(cpf, "Felipe Santos", "musculação",
+            "01/04/2025", false)
         Mockito.doReturn(Response.success(alunoEsperado)).`when`(mockRemote).verificarPagamento(cpf)
 
         // QUANDO
-        val resultado = mockAlunoRepository.verificarPagamento(cpf)
+        val resultado = alunoRepository.verificarPagamento(cpf)
 
         // ENTÃO
         assertThat(resultado).isNotNull()
@@ -303,13 +309,11 @@ class AlunoRepositoryTest {
         // DADO
         val cpf = "918.243.680-03"
         Mockito.doReturn(
-            Response.error<AlunoResponse>(
-                404, ResponseBody.create(null, "falha na API")
-            )
+            Response.error<AlunoResponse>(404, responseBodyError)
         ).`when`(mockRemote).verificarPagamento(cpf)
 
         // QUANDO
-        val resultado = mockAlunoRepository.verificarPagamento(cpf)
+        val resultado = alunoRepository.verificarPagamento(cpf)
 
         // ENTÃO
         assertThat(resultado).isNull()
