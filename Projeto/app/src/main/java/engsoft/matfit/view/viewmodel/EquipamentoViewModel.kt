@@ -6,13 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import engsoft.matfit.model.EquipamentoDTO
+import engsoft.matfit.service.EquipamentoService
+import engsoft.matfit.service.RetrofitService
 import engsoft.matfit.service.repository.EquipamentoRepository
 import engsoft.matfit.util.EstadoRequisicao
 import kotlinx.coroutines.launch
 
 class EquipamentoViewModel : ViewModel() {
 
-    private val repository = EquipamentoRepository()
+    private val repository = EquipamentoRepository(RetrofitService.getService(EquipamentoService::class.java))
 
     private val _buscarEquipamento = MutableLiveData<EquipamentoDTO>()
     val buscarEquipamento: LiveData<EquipamentoDTO> = _buscarEquipamento
