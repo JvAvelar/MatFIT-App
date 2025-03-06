@@ -7,13 +7,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import engsoft.matfit.model.FuncionarioDTO
 import engsoft.matfit.model.FuncionarioUpdate
+import engsoft.matfit.service.FuncionarioService
+import engsoft.matfit.service.RetrofitService
 import engsoft.matfit.service.repository.FuncionarioRepository
 import engsoft.matfit.util.EstadoRequisicao
 import kotlinx.coroutines.launch
 
 class FuncionarioViewModel : ViewModel() {
 
-    private val repository = FuncionarioRepository()
+    private val repository = FuncionarioRepository(RetrofitService.getService(FuncionarioService::class.java))
 
     private val _cadastro = MutableLiveData<Boolean>()
     val cadastroFuncionario: LiveData<Boolean> = _cadastro
