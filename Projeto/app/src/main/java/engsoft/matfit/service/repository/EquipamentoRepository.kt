@@ -5,9 +5,7 @@ import engsoft.matfit.model.EquipamentoDTO
 import engsoft.matfit.service.EquipamentoService
 import engsoft.matfit.service.RetrofitService
 
-class EquipamentoRepository {
-
-    private val remote = RetrofitService.getService(EquipamentoService::class.java)
+class EquipamentoRepository(private val remote: EquipamentoService) {
 
     suspend fun cadastrarEquipamento(equipamento: EquipamentoDTO): Boolean {
         try {
