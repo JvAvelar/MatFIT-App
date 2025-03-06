@@ -6,9 +6,7 @@ import engsoft.matfit.model.FuncionarioUpdate
 import engsoft.matfit.service.FuncionarioService
 import engsoft.matfit.service.RetrofitService
 
-class FuncionarioRepository {
-
-    private val remote = RetrofitService.getService(FuncionarioService::class.java)
+class FuncionarioRepository(private val remote: FuncionarioService) {
 
     suspend fun listarFuncionarios(): List<FuncionarioDTO> {
         try {
@@ -49,12 +47,12 @@ class FuncionarioRepository {
     }
 
     suspend fun buscarFuncionario(cpf: String): FuncionarioDTO? {
-        return try {
+        try {
             val retorno = remote.buscarFuncionario(cpf)
             if (retorno.isSuccessful) {
                 retorno.body()?.let {
                     if (it.cpf == cpf) {
-                        it
+                        return it
                         Log.i("info_cadastrarFuncionario", "Operação bem-sucedida = $it")
                     } else Log.i(
                         "info_cadastrarFuncionario",
@@ -67,12 +65,11 @@ class FuncionarioRepository {
                     "Erro na operação: = ${retorno.code()} - ${retorno.message()}"
                 )
             }
-            null
         } catch (e: Exception) {
             Log.i("info_buscarFuncionario", "${e.message}")
             e.printStackTrace()
-            null
         }
+        return null
     }
 
     suspend fun atualizarFuncionario(cpf: String, funcionario: FuncionarioUpdate): FuncionarioDTO? {
