@@ -8,9 +8,7 @@ import engsoft.matfit.model.AlunoUpdate
 import engsoft.matfit.service.AlunoService
 import engsoft.matfit.service.RetrofitService
 
-class AlunoRepository {
-
-    private val remote = RetrofitService.getService(AlunoService::class.java)
+class AlunoRepository(private val remote: AlunoService) {
 
     suspend fun listarAlunos(): List<AlunoDTO> {
         try {
