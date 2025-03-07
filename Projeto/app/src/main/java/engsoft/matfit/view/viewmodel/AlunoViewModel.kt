@@ -59,7 +59,7 @@ class AlunoViewModel : ViewModel() {
                 else
                     _estadoRequisicao.postValue(EstadoRequisicao.Sucesso(emptyList()))
             } catch (e: Exception) {
-                _estadoRequisicao.postValue(EstadoRequisicao.Erro("Erro ao buscar aluno!"))
+                _estadoRequisicao.postValue(EstadoRequisicao.Erro("Lista vazia!"))
             }
         }
     }
