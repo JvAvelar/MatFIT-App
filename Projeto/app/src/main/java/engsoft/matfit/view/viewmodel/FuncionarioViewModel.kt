@@ -47,7 +47,7 @@ class FuncionarioViewModel : ViewModel() {
             }
         } catch (e: Exception) {
             Log.i("info_listarFuncionarios", "Erro! -> ${e.message}")
-            _estadoRequisicao.postValue(EstadoRequisicao.Erro("Erro ao buscar funcionários!"))
+            _estadoRequisicao.postValue(EstadoRequisicao.Erro("Lista vazia!"))
         }
     }
 
