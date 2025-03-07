@@ -5,20 +5,19 @@ import engsoft.matfit.model.AlunoDTO
 import engsoft.matfit.model.AlunoRequest
 import engsoft.matfit.model.AlunoResponse
 import engsoft.matfit.model.AlunoUpdate
-import engsoft.matfit.model.EquipamentoDTO
 import engsoft.matfit.service.AlunoService
 import kotlinx.coroutines.test.runTest
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.whenever
 import retrofit2.Response
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.ResponseBody.Companion.toResponseBody
 
 @RunWith(MockitoJUnitRunner::class)
 class AlunoRepositoryTest {
@@ -45,7 +44,8 @@ class AlunoRepositoryTest {
             AlunoDTO("038.295.820-99", "Cosmos Dantas", "Crossfit")
         )
         // moca os dados e retorna o comportamento esperado
-        Mockito.doReturn(Response.success(listaAlunos)).`when`(mockRemote).listarAlunos()
+        whenever(mockRemote.listarAlunos())
+            .thenReturn(Response.success(listaAlunos))
 
         // QUANDO
         val resultado = alunoRepository.listarAlunos()
@@ -59,8 +59,8 @@ class AlunoRepositoryTest {
     @Test
     fun listarAlunos_listaVazia_retornaListaVazia() = runTest {
         // DADO -> falha = lista vazia
-        val listaVazia = emptyList<AlunoDTO>()
-        Mockito.doReturn(Response.success(listaVazia)).`when`(mockRemote).listarAlunos()
+        whenever(mockRemote.listarAlunos())
+            .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
         val resultado = alunoRepository.listarAlunos()
@@ -73,11 +73,8 @@ class AlunoRepositoryTest {
     @Test
     fun listarAlunos_falhaNaAPI_retornaListaVazia() = runTest {
         // DADO -> falha na API
-        Mockito.doReturn(
-            Response.error<List<AlunoDTO>>(
-                404, responseBodyError
-            )
-        ).`when`(mockRemote).listarAlunos()
+        whenever(mockRemote.listarAlunos())
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = alunoRepository.listarAlunos()
@@ -90,10 +87,13 @@ class AlunoRepositoryTest {
     @Test
     fun cadastrarAluno_sucesso_retornaTrue() = runTest {
         // DADO -> sucesso
-        val alunoEsperado =
-            AlunoResponse("038.295.820-99", "Cosmos Dantas", "Crossfit", "06/03/2025", false)
+        val alunoEsperado = AlunoResponse(
+            "038.295.820-99", "Cosmos Dantas",
+            "Crossfit", "06/03/2025", false
+        )
         val aluno = AlunoRequest("038.295.820-99", "Cosmos Dantas", "Crossfit")
-        Mockito.doReturn(Response.success(alunoEsperado)).`when`(mockRemote).cadastrarAluno(aluno)
+        whenever(mockRemote.cadastrarAluno(aluno))
+            .thenReturn(Response.success(alunoEsperado))
 
         // QUANDO
         val resultado = alunoRepository.cadastrarAluno(aluno)
@@ -107,7 +107,8 @@ class AlunoRepositoryTest {
     fun cadastrarAluno_falha_retornaFalse() = runTest {
         // DADO -> falha -> cpf invalido
         val aluno = AlunoRequest("123.456.789-10", "Joaquim Abreu", "Musculação")
-        Mockito.doReturn(Response.error<Boolean>(400, responseBodyError)).`when`(mockRemote).cadastrarAluno(aluno)
+        whenever(mockRemote.cadastrarAluno(aluno))
+            .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
         val resultado = alunoRepository.cadastrarAluno(aluno)
@@ -121,8 +122,8 @@ class AlunoRepositoryTest {
     fun cadastrarAluno_falhaNaAPI_retornaFalse() = runTest {
         // DADO -> falha na API
         val aluno = AlunoRequest("038.295.820-99", "Joaquim Abreu", "Musculação")
-        Mockito.doReturn(Response.error<Boolean>(404, responseBodyError)).`when`(mockRemote)
-            .cadastrarAluno(aluno)
+        whenever(mockRemote.cadastrarAluno(aluno))
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = alunoRepository.cadastrarAluno(aluno)
@@ -136,7 +137,8 @@ class AlunoRepositoryTest {
     fun deletarAluno_sucesso_retornaTrue() = runTest {
         // DADO -> sucesso
         val cpf = "426.411.790-91"
-        Mockito.doReturn(Response.success(true)).`when`(mockRemote).deletarAluno(cpf)
+        whenever(mockRemote.deletarAluno(cpf))
+            .thenReturn(Response.success(true))
 
         // QUANDO
         val resultado = alunoRepository.deletarAluno(cpf)
@@ -150,7 +152,8 @@ class AlunoRepositoryTest {
     fun deletarAluno_falha_retornaFalse() = runTest {
         // DADO -> falha
         val cpf = "129.078.459-12"
-        Mockito.doReturn(Response.error<Boolean>(400, responseBodyError)).`when`(mockRemote).deletarAluno(cpf)
+        whenever(mockRemote.deletarAluno(cpf))
+            .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
         val resultado = alunoRepository.deletarAluno(cpf)
@@ -164,8 +167,8 @@ class AlunoRepositoryTest {
     fun deletarAluno_falhaNaAPI_retornaFalse() = runTest {
         // DADO -> falha na API
         val cpf = "129.078.459-12"
-        Mockito.doReturn(Response.error<Boolean>(404, responseBodyError)).`when`(mockRemote)
-            .deletarAluno(cpf)
+        whenever(mockRemote.deletarAluno(cpf))
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = alunoRepository.deletarAluno(cpf)
@@ -182,7 +185,8 @@ class AlunoRepositoryTest {
         val alunoEsperado = AlunoResponse(
             "918.243.680-03", "Felipe Santos", "musculação", "04/04/2025", false
         )
-        Mockito.doReturn(Response.success(alunoEsperado)).`when`(mockRemote).buscarAluno(cpf)
+        whenever(mockRemote.buscarAluno(cpf))
+            .thenReturn(Response.success(alunoEsperado))
 
         // QUANDO
         val resultado = alunoRepository.buscarAluno(cpf)
@@ -197,8 +201,8 @@ class AlunoRepositoryTest {
     fun buscarAluno_falha_retornaNull() = runTest {
         // DADO - falha = cpf inválido
         val cpf = "133.368.314-63" // -> cpf inválido
-        Mockito.doReturn(Response.error<AlunoResponse>(400, responseBodyError))
-            .`when`(mockRemote).buscarAluno(cpf)
+        whenever(mockRemote.buscarAluno(cpf))
+            .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
         val resultado = alunoRepository.buscarAluno(cpf)
@@ -211,8 +215,8 @@ class AlunoRepositoryTest {
     fun buscarAluno_falhaNaAPI_retornaNull() = runTest {
         // DADO -> falha na API
         val cpf = "133.362.312-63"
-        Mockito.doReturn(Response.error<AlunoResponse>(404, responseBodyError)).`when`(mockRemote)
-            .buscarAluno(cpf)
+        whenever(mockRemote.buscarAluno(cpf))
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = alunoRepository.buscarAluno(cpf)
@@ -227,9 +231,8 @@ class AlunoRepositoryTest {
         val cpf = "105.938.774-38"
         val dadosAtualizados = AlunoUpdate("João Vitor", "Musculação")
         val alunoEsperado = AlunoResponse(cpf, "João Vitor", "Musculação", "24/03/2025", false)
-
-        Mockito.doReturn(Response.success(alunoEsperado)).`when`(mockRemote)
-            .atualizarAluno(cpf, dadosAtualizados)
+        whenever(mockRemote.atualizarAluno(cpf, dadosAtualizados))
+            .thenReturn(Response.success(alunoEsperado))
 
         // QUANDO
         val resultado = alunoRepository.atualizarAluno(cpf, dadosAtualizados)
@@ -246,9 +249,8 @@ class AlunoRepositoryTest {
         val cpf = "105.938.774-38"
         val dadosAtualizados = AlunoUpdate("João Vitor", "Musculação")
 
-        Mockito.doReturn(
-            Response.error<AlunoResponse>(404, responseBodyError)
-        ).`when`(mockRemote).atualizarAluno(cpf, dadosAtualizados)
+        whenever(mockRemote.atualizarAluno(cpf, dadosAtualizados))
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = alunoRepository.atualizarAluno(cpf, dadosAtualizados)
@@ -262,7 +264,8 @@ class AlunoRepositoryTest {
     fun realizarPagamento_sucesso_retornaTrue() = runTest {
         // Dado -> sucesso
         val cpf = "918.243.680-03"
-        Mockito.doReturn(Response.success(true)).`when`(mockRemote).realizarPagamento(cpf)
+        whenever(mockRemote.realizarPagamento(cpf))
+            .thenReturn(Response.success(true))
 
         // QUANDO
         val resultado = alunoRepository.realizarPagamento(cpf)
@@ -276,8 +279,8 @@ class AlunoRepositoryTest {
     fun realizarPagamento_falhaNaAPI_retornaFalse() = runTest {
         // Dado -> sucesso
         val cpf = "918.243.680-03"
-        Mockito.doReturn(Response.error<Boolean>(404, ResponseBody.create(null, "falha na API")))
-            .`when`(mockRemote).realizarPagamento(cpf)
+        whenever(mockRemote.realizarPagamento(cpf))
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = alunoRepository.realizarPagamento(cpf)
@@ -291,9 +294,12 @@ class AlunoRepositoryTest {
     fun verificarPagamento_sucesso_retornaAluno() = runTest {
         // DADO
         val cpf = "918.243.680-03"
-        val alunoEsperado = AlunoResponse(cpf, "Felipe Santos", "musculação",
-            "01/04/2025", false)
-        Mockito.doReturn(Response.success(alunoEsperado)).`when`(mockRemote).verificarPagamento(cpf)
+        val alunoEsperado = AlunoResponse(
+            cpf, "Felipe Santos", "musculação",
+            "01/04/2025", false
+        )
+        whenever(mockRemote.verificarPagamento(cpf))
+            .thenReturn(Response.success(alunoEsperado))
 
         // QUANDO
         val resultado = alunoRepository.verificarPagamento(cpf)
@@ -308,9 +314,8 @@ class AlunoRepositoryTest {
     fun verificarPagamento_falhaNaAPI_retornaNull() = runTest {
         // DADO
         val cpf = "918.243.680-03"
-        Mockito.doReturn(
-            Response.error<AlunoResponse>(404, responseBodyError)
-        ).`when`(mockRemote).verificarPagamento(cpf)
+        whenever(mockRemote.verificarPagamento(cpf))
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = alunoRepository.verificarPagamento(cpf)
