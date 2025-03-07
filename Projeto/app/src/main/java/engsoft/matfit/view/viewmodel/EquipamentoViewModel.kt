@@ -46,7 +46,7 @@ class EquipamentoViewModel : ViewModel() {
             }
         } catch (e: Exception) {
             Log.i("info_listarEquipamento", "Erro! -> ${e.message}")
-            _estadoRequisicao.postValue(EstadoRequisicao.Erro("Erro ao buscar equipamentos!"))
+            _estadoRequisicao.postValue(EstadoRequisicao.Erro("Lista vazia!"))
         }
     }
 
