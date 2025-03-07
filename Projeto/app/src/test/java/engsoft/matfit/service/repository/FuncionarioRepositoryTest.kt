@@ -8,14 +8,13 @@ import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
-
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.whenever
 import retrofit2.Response
 
 @RunWith(MockitoJUnitRunner::class)
@@ -42,9 +41,8 @@ class FuncionarioRepositoryTest {
             FuncionarioDTO("181.348.230-68", "Gabriel Silva", "Personal", 20),
             FuncionarioDTO("657.399.860-01", "Joao Souza", "Faxineiro", 20)
         )
-
-        Mockito.doReturn(Response.success(listaFuncionarios)).`when`(mockRemote)
-            .listarFuncionarios()
+        whenever(mockRemote.listarFuncionarios())
+            .thenReturn(Response.success(listaFuncionarios))
 
         // QUANDO
         val resultado = funcionarioRepository.listarFuncionarios()
@@ -58,8 +56,8 @@ class FuncionarioRepositoryTest {
     fun listarFuncionarios_listaVazia_retornaListaVazia() = runTest {
         // DADO -> falha
         val listaFuncionarios = emptyList<FuncionarioDTO>()
-        Mockito.doReturn(Response.success(listaFuncionarios)).`when`(mockRemote)
-            .listarFuncionarios()
+        whenever(mockRemote.listarFuncionarios())
+            .thenReturn(Response.success(listaFuncionarios))
 
         // QUANDO
         val resultado = funcionarioRepository.listarFuncionarios()
@@ -72,8 +70,8 @@ class FuncionarioRepositoryTest {
     @Test
     fun listarFuncionarios_falhaNaAPI_retornaListaVazia() = runTest {
         // DADO -> falha na API
-        Mockito.doReturn(Response.error<List<FuncionarioDTO>>(404, responseBodyError))
-            .`when`(mockRemote).listarFuncionarios()
+        whenever(mockRemote.listarFuncionarios())
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = funcionarioRepository.listarFuncionarios()
@@ -87,8 +85,8 @@ class FuncionarioRepositoryTest {
     fun cadastrarFuncionario_sucesso_retornaTrue() = runTest {
         // DADO -> sucesso
         val funcionario = FuncionarioDTO("181.348.230-68", "Gabriel Silva", "Personal", 20)
-        Mockito.doReturn(Response.success(funcionario)).`when`(mockRemote)
-            .cadastrarFuncionario(funcionario)
+        whenever(mockRemote.cadastrarFuncionario(funcionario))
+            .thenReturn(Response.success(funcionario))
 
         // QUANDO
         val resultado = funcionarioRepository.cadastrarFuncionario(funcionario)
@@ -102,8 +100,8 @@ class FuncionarioRepositoryTest {
     fun cadastrarFuncionario_falha_retornaFalse() = runTest {
         // DADO -> falha
         val funcionario = FuncionarioDTO("181.342.220-68", "Gabriel Silva", "Personal", 20)
-        Mockito.doReturn(Response.error<FuncionarioDTO>(400, responseBodyError)).`when`(mockRemote)
-            .cadastrarFuncionario(funcionario)
+        whenever(mockRemote.cadastrarFuncionario(funcionario))
+            .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
         val resultado = funcionarioRepository.cadastrarFuncionario(funcionario)
@@ -117,8 +115,8 @@ class FuncionarioRepositoryTest {
     fun cadastrarFuncionario_falhaNaAPI_retornaFalse() = runTest {
         // DADO -> falha na API
         val funcionario = FuncionarioDTO("181.342.220-68", "Gabriel Silva", "Personal", 20)
-        Mockito.doReturn(Response.error<FuncionarioDTO>(404, responseBodyError)).`when`(mockRemote)
-            .cadastrarFuncionario(funcionario)
+        whenever(mockRemote.cadastrarFuncionario(funcionario))
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = funcionarioRepository.cadastrarFuncionario(funcionario)
@@ -133,8 +131,8 @@ class FuncionarioRepositoryTest {
         // DADO -> sucesso
         val cpf = "181.342.220-68"
         val funcionarioEsperado = FuncionarioDTO("181.342.220-68", "Gabriel Silva", "Personal", 20)
-        Mockito.doReturn(Response.success(funcionarioEsperado)).`when`(mockRemote)
-            .buscarFuncionario(cpf)
+        whenever(mockRemote.buscarFuncionario(cpf))
+            .thenReturn(Response.success(funcionarioEsperado))
 
         // QUANDO
         val resultado = funcionarioRepository.buscarFuncionario(cpf)
@@ -148,9 +146,8 @@ class FuncionarioRepositoryTest {
     fun buscarFuncionario_falha_retornaNull() = runTest {
         // DADO -> falha
         val cpf = "123.456.789-10"
-        Mockito.doReturn(Response.error<FuncionarioDTO>(400, responseBodyError))
-            .`when`(mockRemote).buscarFuncionario(cpf)
-
+        whenever(mockRemote.buscarFuncionario(cpf))
+            .thenReturn(Response.error(400, responseBodyError))
         // QUANDO
         val resultado = funcionarioRepository.buscarFuncionario(cpf)
 
@@ -162,8 +159,8 @@ class FuncionarioRepositoryTest {
     fun buscarFuncionario_falhaNaAPI_retornaNull() = runTest {
         // DADO -> falha na API
         val cpf = "181.342.220-68"
-        Mockito.doReturn(Response.error<FuncionarioDTO>(404, responseBodyError))
-            .`when`(mockRemote).buscarFuncionario(cpf)
+        whenever(mockRemote.buscarFuncionario(cpf))
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = funcionarioRepository.buscarFuncionario(cpf)
@@ -178,8 +175,8 @@ class FuncionarioRepositoryTest {
         val cpf = "181.342.220-68"
         val dadosAtualizados = FuncionarioUpdate("Gabriel Silva", "Personal", 24)
         val funcionarioEsperado = FuncionarioDTO(cpf, "Gabriel Silva", "Personal", 24)
-        Mockito.doReturn(Response.success(funcionarioEsperado)).`when`(mockRemote)
-            .atualizarFuncionario(cpf, dadosAtualizados)
+        whenever(mockRemote.atualizarFuncionario(cpf, dadosAtualizados))
+            .thenReturn(Response.success(funcionarioEsperado))
 
         // QUANDO
         val resultado = funcionarioRepository.atualizarFuncionario(cpf, dadosAtualizados)
@@ -194,9 +191,8 @@ class FuncionarioRepositoryTest {
         // DADO -> falha
         val cpf = "181.342.223-64"
         val dadosAtualizados = FuncionarioUpdate("Gabriel Silva", "Personal", 24)
-
-        Mockito.doReturn(Response.error<FuncionarioDTO>(400, responseBodyError))
-            .`when`(mockRemote).atualizarFuncionario(cpf, dadosAtualizados)
+        whenever(mockRemote.atualizarFuncionario(cpf, dadosAtualizados))
+            .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
         val resultado = funcionarioRepository.atualizarFuncionario(cpf, dadosAtualizados)
@@ -210,9 +206,8 @@ class FuncionarioRepositoryTest {
         // DADO -> falha na API
         val cpf = "181.342.220-68"
         val dadosAtualizados = FuncionarioUpdate("Gabriel Silva", "Personal", 24)
-
-        Mockito.doReturn(Response.error<FuncionarioDTO>(404, responseBodyError))
-            .`when`(mockRemote).atualizarFuncionario(cpf, dadosAtualizados)
+        whenever(mockRemote.atualizarFuncionario(cpf, dadosAtualizados))
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = funcionarioRepository.atualizarFuncionario(cpf, dadosAtualizados)
@@ -224,8 +219,9 @@ class FuncionarioRepositoryTest {
     @Test
     fun deletarFuncionario_sucesso_retornatrue() = runTest {
         // DADO -> sucesso
-        val cpf =  "181.342.220-68"
-        Mockito.doReturn(Response.success(true)).`when`(mockRemote).deletarFuncionario(cpf)
+        val cpf = "181.342.220-68"
+        whenever(mockRemote.deletarFuncionario(cpf))
+            .thenReturn(Response.success(true))
 
         // QUANDO
         val resultado = funcionarioRepository.deletarFuncionario(cpf)
@@ -238,8 +234,9 @@ class FuncionarioRepositoryTest {
     @Test
     fun deletarFuncionario_falha_retornaFalse() = runTest {
         // DADO -> falha
-        val cpf =  "181.342.221-62"
-        Mockito.doReturn(Response.error<Boolean>(400, responseBodyError)).`when`(mockRemote).deletarFuncionario(cpf)
+        val cpf = "181.342.221-62"
+        whenever(mockRemote.deletarFuncionario(cpf))
+            .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
         val resultado = funcionarioRepository.deletarFuncionario(cpf)
@@ -252,8 +249,9 @@ class FuncionarioRepositoryTest {
     @Test
     fun deletarFuncionario_falhaNaAPI_retornaFalse() = runTest {
         // DADO -> falha na API
-        val cpf =  "181.342.220-68"
-        Mockito.doReturn(Response.error<Boolean>(404, responseBodyError)).`when`(mockRemote).deletarFuncionario(cpf)
+        val cpf = "181.342.220-68"
+        whenever(mockRemote.deletarFuncionario(cpf))
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = funcionarioRepository.deletarFuncionario(cpf)
