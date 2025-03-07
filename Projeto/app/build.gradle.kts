@@ -76,10 +76,13 @@ dependencies {
 
     // Mockito
     testImplementation ("org.mockito:mockito-core:5.16.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
     // Truth
     testImplementation ("com.google.truth:truth:1.4.4")
     // runTest
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    // LiveDataTest
+    testImplementation ("androidx.arch.core:core-testing:2.2.0")
 
     testImplementation(libs.junit)
     testImplementation(libs.junit.junit)
