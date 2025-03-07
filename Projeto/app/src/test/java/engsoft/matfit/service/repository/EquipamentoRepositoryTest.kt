@@ -4,17 +4,17 @@ import com.google.common.truth.Truth.assertThat
 import engsoft.matfit.model.EquipamentoDTO
 import engsoft.matfit.service.EquipamentoService
 import kotlinx.coroutines.test.runTest
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.whenever
 import retrofit2.Response
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.ResponseBody.Companion.toResponseBody
 
 @RunWith(MockitoJUnitRunner::class)
 class EquipamentoRepositoryTest {
@@ -41,8 +41,8 @@ class EquipamentoRepositoryTest {
             EquipamentoDTO(2, "barra", 3),
             EquipamentoDTO(3, "halteres", 10),
         )
-        Mockito.doReturn(Response.success(listaEquipamentos)).`when`(mockRemote)
-            .listarEquipamentos()
+        whenever(mockRemote.listarEquipamentos())
+            .thenReturn(Response.success(listaEquipamentos))
 
         // QUANDO
         val resultado = equipamentoRepository.listarEquipamentos()
@@ -57,8 +57,8 @@ class EquipamentoRepositoryTest {
     fun listarEquipamentos_listaVazia_retornaListaVazia() = runTest {
         // DADO -> falha
         val listaEquipamentos = emptyList<EquipamentoDTO>()
-        Mockito.doReturn(Response.success(listaEquipamentos)).`when`(mockRemote)
-            .listarEquipamentos()
+        whenever(mockRemote.listarEquipamentos())
+            .thenReturn(Response.success(listaEquipamentos))
 
         // QUANDO
         val resultado = equipamentoRepository.listarEquipamentos()
@@ -71,8 +71,8 @@ class EquipamentoRepositoryTest {
     @Test
     fun listarEquipamentos_falhaNaAPI_retornaListaVazia() = runTest {
         // DADO -> falha na API
-        Mockito.doReturn(Response.error<List<EquipamentoDTO>>(404,responseBodyError))
-            .`when`(mockRemote).listarEquipamentos()
+        whenever(mockRemote.listarEquipamentos())
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = equipamentoRepository.listarEquipamentos()
@@ -86,8 +86,8 @@ class EquipamentoRepositoryTest {
     fun cadastrarEquipamento_sucesso_retornaEquipamento() = runTest {
         // DADO -> sucesso
         val equipamento = EquipamentoDTO(nome = "halteres", quantidade = 1)
-        Mockito.doReturn(Response.success(equipamento)).`when`(mockRemote)
-            .cadastrarEquipamento(equipamento)
+        whenever(mockRemote.cadastrarEquipamento(equipamento))
+            .thenReturn(Response.success(equipamento))
 
         // QUANDO
         val resultado = equipamentoRepository.cadastrarEquipamento(equipamento)
@@ -101,8 +101,8 @@ class EquipamentoRepositoryTest {
     fun cadastrarEquipamento_falha_retornaFalse() = runTest {
         // DADO -> falha por quantidade ser menor que 1
         val equipamento = EquipamentoDTO(nome = "halteres", quantidade = 0)
-        Mockito.doReturn(Response.error<EquipamentoDTO>(400, responseBodyError)).`when`(mockRemote)
-            .cadastrarEquipamento(equipamento)
+        whenever(mockRemote.cadastrarEquipamento(equipamento))
+            .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
         val resultado = equipamentoRepository.cadastrarEquipamento(equipamento)
@@ -116,8 +116,8 @@ class EquipamentoRepositoryTest {
     fun cadastrarEquipamento_falhaNaAPI_retornaFalse() = runTest {
         // DADO -> falha na API
         val equipamento = EquipamentoDTO(nome = "pesos", quantidade = 2)
-        Mockito.doReturn(Response.error<EquipamentoDTO>(404, responseBodyError))
-            .`when`(mockRemote).cadastrarEquipamento(equipamento)
+        whenever(mockRemote.cadastrarEquipamento(equipamento))
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = equipamentoRepository.cadastrarEquipamento(equipamento)
@@ -132,8 +132,8 @@ class EquipamentoRepositoryTest {
         // DADO
         val id = 1
         val equipamentoEsperado = EquipamentoDTO(id, nome = "halteres", quantidade = 2)
-        Mockito.doReturn(Response.success(equipamentoEsperado)).`when`(mockRemote)
-            .buscarEquipamento(id)
+        whenever(mockRemote.buscarEquipamento(id))
+            .thenReturn(Response.success(equipamentoEsperado))
 
         // QUANDO
         val resultado = equipamentoRepository.buscarEquipamento(id)
@@ -147,8 +147,8 @@ class EquipamentoRepositoryTest {
     fun buscarEquipamento_falha_retornaNull() = runTest {
         // DADO
         val id = -1
-        Mockito.doReturn(Response.error<EquipamentoDTO>(400, responseBodyError)).`when`(mockRemote)
-            .buscarEquipamento(id)
+        whenever(mockRemote.buscarEquipamento(id))
+            .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
         val resultado = equipamentoRepository.buscarEquipamento(id)
@@ -161,8 +161,8 @@ class EquipamentoRepositoryTest {
     fun buscarEquipamento_falhaNaAPI_retornaNull() = runTest {
         // DADO
         val id = 3
-        Mockito.doReturn(Response.error<EquipamentoDTO>(404, responseBodyError))
-            .`when`(mockRemote).buscarEquipamento(id)
+        whenever(mockRemote.buscarEquipamento(id))
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = equipamentoRepository.buscarEquipamento(id)
@@ -178,8 +178,8 @@ class EquipamentoRepositoryTest {
         val dadosAtualizados = EquipamentoDTO(id, nome = "", quantidade = 3)
         val equipamentoEsperado = EquipamentoDTO(id, "barra", 3)
 
-        Mockito.doReturn(Response.success(equipamentoEsperado)).`when`(mockRemote)
-            .atualizarEquipamento(id, dadosAtualizados)
+        whenever(mockRemote.atualizarEquipamento(id, dadosAtualizados))
+            .thenReturn(Response.success(equipamentoEsperado))
 
         // QUANDO
         val resultado = equipamentoRepository.atualizarEquipamento(id, dadosAtualizados)
@@ -195,8 +195,8 @@ class EquipamentoRepositoryTest {
         val id = 1
         val dadosAtualizados = EquipamentoDTO(id, nome = "", quantidade = 0)
 
-        Mockito.doReturn(Response.error<EquipamentoDTO>(400, responseBodyError)).`when`(mockRemote)
-            .atualizarEquipamento(id, dadosAtualizados)
+        whenever(mockRemote.atualizarEquipamento(id, dadosAtualizados))
+            .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
         val resultado = equipamentoRepository.atualizarEquipamento(id, dadosAtualizados)
@@ -210,12 +210,9 @@ class EquipamentoRepositoryTest {
         // DADO -> falha na API
         val id = 1
         val dadosAtualizados = EquipamentoDTO(id, nome = "", quantidade = 3)
-        Mockito.doReturn(
-            Response.error<EquipamentoDTO>(
-                404,
-                responseBodyError
-            )
-        ).`when`(mockRemote).atualizarEquipamento(id, dadosAtualizados)
+
+        whenever(mockRemote.atualizarEquipamento(id, dadosAtualizados))
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = equipamentoRepository.atualizarEquipamento(id, dadosAtualizados)
@@ -228,7 +225,8 @@ class EquipamentoRepositoryTest {
     fun deletarEquipamento_sucesso_retornaTrue() = runTest {
         // DADO
         val id = 2
-        Mockito.doReturn(Response.success(true)).`when`(mockRemote).deletarEquipamento(id)
+        whenever(mockRemote.deletarEquipamento(id))
+            .thenReturn(Response.success(true))
 
         // QUANDO
         val resultado = equipamentoRepository.deletarEquipamento(id)
@@ -242,7 +240,8 @@ class EquipamentoRepositoryTest {
     fun deletarEquipamento_falha_retornaFalse() = runTest {
         // DADO
         val id = 2
-        Mockito.doReturn(Response.error<Boolean>(400, responseBodyError)).`when`(mockRemote).deletarEquipamento(id)
+        whenever(mockRemote.deletarEquipamento(id))
+            .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
         val resultado = equipamentoRepository.deletarEquipamento(id)
@@ -256,8 +255,8 @@ class EquipamentoRepositoryTest {
     fun deletarEquipamento_falhaNaAPI_retornaFalse() = runTest {
         // DADO
         val id = 2
-        Mockito.doReturn(Response.error<Boolean>(404, responseBodyError))
-            .`when`(mockRemote).deletarEquipamento(id)
+        whenever(mockRemote.deletarEquipamento(id))
+            .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
         val resultado = equipamentoRepository.deletarEquipamento(id)
