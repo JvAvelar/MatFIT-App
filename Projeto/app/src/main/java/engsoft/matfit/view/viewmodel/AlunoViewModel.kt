@@ -65,20 +65,26 @@ class AlunoViewModel : ViewModel() {
     }
 
     fun cadastrarAluno(aluno: AlunoRequest) {
-        viewModelScope.launch {
-            _cadastro.postValue(repository.cadastrarAluno(aluno))
+        try {
+            viewModelScope.launch {
+                _cadastro.postValue(repository.cadastrarAluno(aluno))
+            }
+        } catch (e: Exception) {
+            _cadastro.postValue(false)
+            e.printStackTrace()
         }
     }
 
     fun deletarAluno(cpf: String) {
         viewModelScope.launch {
-            _deletar.postValue(repository.deletarAluno(cpf))
-            listarAlunos()
+            try {
+                _deletar.postValue(repository.deletarAluno(cpf))
+                listarAlunos()
+            } catch (e: Exception){
+                _deletar.postValue(null)
+                e.printStackTrace()
+            }
         }
-    }
-
-    fun reseteDeletar() {
-        _deletar.postValue(null)
     }
 
     fun buscarAluno(cpf: String) {
@@ -105,13 +111,23 @@ class AlunoViewModel : ViewModel() {
 
     fun realizarPagamento(cpf: String) {
         viewModelScope.launch {
-            _realizarPagamento.postValue(repository.realizarPagamento(cpf))
+            try {
+                _realizarPagamento.postValue(repository.realizarPagamento(cpf))
+            } catch (e: Exception) {
+                _realizarPagamento.postValue(false)
+                e.printStackTrace()
+            }
         }
     }
 
     fun verificarPagamento(cpf: String) {
         viewModelScope.launch {
-            _verificarPagamento.postValue(repository.verificarPagamento(cpf))
+            try {
+                _verificarPagamento.postValue(repository.verificarPagamento(cpf))
+            } catch (e: Exception) {
+                _verificarPagamento.postValue(null)
+                e.printStackTrace()
+            }
         }
     }
 
@@ -121,7 +137,6 @@ class AlunoViewModel : ViewModel() {
         salvarAquivoLauncher: ActivityResultLauncher<String>
     ) {
         salvarAquivoLauncher.launch("Alunos_Cadastrados.xlsx")
-
     }
 
     // responsável por fazer a criação e inserção dos alunos na tabela a ser exportada
