@@ -109,13 +109,11 @@ class AlunoFragment : Fragment() {
                 false -> {
                     Log.i("info_deletar", "sucesso ao deletar aluno! -> $sucesso")
                     toast(getString(R.string.textSucessDeletedAluno))
-                    viewModel.reseteDeletar()
                 }
 
                 true -> {
                     Log.i("info_deletar", "falha ao deletar aluno! -> $sucesso")
                     toast(getString(R.string.textFailureDeletedAluno))
-                    viewModel.reseteDeletar()
                 }
 
                 else -> Log.i("info_deletar", "ERRO: valor nulo! -> $sucesso")
