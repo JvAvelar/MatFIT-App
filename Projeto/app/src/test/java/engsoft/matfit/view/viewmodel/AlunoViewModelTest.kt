@@ -21,6 +21,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.whenever
+import java.util.concurrent.TimeoutException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
@@ -55,7 +56,8 @@ class AlunoViewModelTest {
             AlunoDTO("129.078.459-12", "Joaquim Abreu", "Musculação"),
             AlunoDTO("038.295.820-99", "Cosmos Dantas", "Crossfit")
         )
-        whenever(mockRepository.listarAlunos()).thenReturn(listaEsperada)
+        whenever(mockRepository.listarAlunos())
+            .thenReturn(listaEsperada)
 
         // QUANDO
         viewModel.listarAlunos()
@@ -73,7 +75,8 @@ class AlunoViewModelTest {
     @Test
     fun listarAlunos_falha_retornaListaVazia() = runTest {
         // DADO -> falha
-        whenever(mockRepository.listarAlunos()).thenReturn(null)
+        whenever(mockRepository.listarAlunos())
+            .thenThrow(RuntimeException("Erro Lista Vazia!"))
 
         // QUANDO
         viewModel.listarAlunos()
@@ -138,7 +141,8 @@ class AlunoViewModelTest {
     fun deletarAluno_falha_retornaFalse() = runTest {
         // DADO -> falha
         val cpf = "123.456.789-10"
-        whenever(mockRepository.deletarAluno(cpf)).thenReturn(false)
+        whenever(mockRepository.deletarAluno(cpf))
+            .thenThrow(RuntimeException("Erro ao deletar"))
 
         // QUANDO
         viewModel.deletarAluno(cpf)
@@ -146,8 +150,7 @@ class AlunoViewModelTest {
 
         // ENTÃO
         val resultado = viewModel.deletar.getOrAwaitValue()
-        assertThat(resultado).isNotNull()
-        assertThat(resultado).isFalse()
+        assertThat(resultado).isNull()
     }
 
     @Test
@@ -224,4 +227,77 @@ class AlunoViewModelTest {
         assertThat(resultado).isNull()
     }
 
+    @Test
+    fun realizarPagamento_sucesso_retornaTrue() = runTest {
+        // DADO -> sucesso
+        val cpf = "038.295.820-99"
+        whenever(mockRepository.realizarPagamento(cpf))
+            .thenReturn(true)
+
+        // QUANDO
+        viewModel.realizarPagamento(cpf)
+        advanceUntilIdle()
+
+        // ENTÃO
+        val resultado = viewModel.realizarPagamento.getOrAwaitValue()
+        assertThat(resultado).isNotNull()
+        assertThat(resultado).isTrue()
+
+    }
+
+    @Test
+    fun realizarPagamento_falha_retornaFalse() = runTest {
+        // DADO -> falha
+        val cpf = "123.456.789-10"
+        whenever(mockRepository.realizarPagamento(cpf)).thenThrow(RuntimeException("Erro ao realizar pagamento"))
+
+        // QUANDO
+        viewModel.realizarPagamento(cpf)
+        advanceUntilIdle()
+
+        // ENTÃO
+        val resultado = viewModel.realizarPagamento.getOrAwaitValue()
+        assertThat(resultado).isNotNull()
+        assertThat(resultado).isFalse()
+
+    }
+
+    @Test
+    fun verificarPagamento_sucesso_retornaAluno() = runTest {
+        // DADO -> sucesso
+        val cpf = "038.295.820-99"
+        val alunoEsperado = AlunoResponse(
+            cpf, "Joao Vitor", "Musculação",
+            "01/04/2025", false
+        )
+        whenever(mockRepository.verificarPagamento(cpf))
+            .thenReturn(alunoEsperado)
+
+        // QUANDO
+        viewModel.verificarPagamento(cpf)
+        advanceUntilIdle()
+
+        // ENTÃO
+        val resultado = viewModel.verificarPagamento.getOrAwaitValue()
+        assertThat(resultado).isNotNull()
+        assertThat(resultado).isEqualTo(alunoEsperado)
+
+    }
+
+
+    @Test
+    fun verificarPagamento_falha_retornaNull() = runTest {
+        // DADO -> falha
+        val cpf = "123.456.789-10"
+        whenever(mockRepository.verificarPagamento(cpf))
+            .thenThrow(RuntimeException("Erro ao verificar o pagamento"))
+
+        // QUANDO
+        viewModel.verificarPagamento(cpf)
+        advanceUntilIdle()
+
+        // ENTÃO
+        val resultado = viewModel.verificarPagamento.getOrAwaitValue(6)
+        assertThat(resultado).isNull()
+    }
 }
