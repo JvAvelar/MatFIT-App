@@ -15,7 +15,8 @@ import kotlinx.coroutines.launch
 
 class FuncionarioViewModel : ViewModel() {
 
-    private val repository = FuncionarioRepository(RetrofitService.getService(FuncionarioService::class.java))
+    private val repository =
+        FuncionarioRepository(RetrofitService.getService(FuncionarioService::class.java))
 
     private val _cadastro = MutableLiveData<Boolean>()
     val cadastroFuncionario: LiveData<Boolean> = _cadastro
@@ -35,25 +36,30 @@ class FuncionarioViewModel : ViewModel() {
 
     fun listarFuncionarios() {
         _estadoRequisicao.postValue(EstadoRequisicao.Carregando())
-
-        try {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 val response = repository.listarFuncionarios()
                 if (response.isNotEmpty())
                     _estadoRequisicao.postValue(EstadoRequisicao.Sucesso(response))
                 else
                     _estadoRequisicao.postValue(EstadoRequisicao.Sucesso(emptyList()))
                 Log.i("info_listarFuncionarios", "Sucesso! -> $response")
+
+            } catch (e: Exception) {
+                Log.i("info_listarFuncionarios", "Erro! -> ${e.message}")
+                _estadoRequisicao.postValue(EstadoRequisicao.Erro("Lista vazia!"))
             }
-        } catch (e: Exception) {
-            Log.i("info_listarFuncionarios", "Erro! -> ${e.message}")
-            _estadoRequisicao.postValue(EstadoRequisicao.Erro("Lista vazia!"))
         }
     }
 
     fun cadastrarFuncionario(funcionario: FuncionarioDTO) {
         viewModelScope.launch {
-            _cadastro.postValue(repository.cadastrarFuncionario(funcionario))
+            try {
+                _cadastro.postValue(repository.cadastrarFuncionario(funcionario))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _cadastro.postValue(false)
+            }
         }
     }
 
@@ -88,12 +94,13 @@ class FuncionarioViewModel : ViewModel() {
 
     fun deletarFuncionario(cpf: String) {
         viewModelScope.launch {
-            _deletar.postValue(repository.deletarFuncionario(cpf))
-            listarFuncionarios()
+            try {
+                _deletar.postValue(repository.deletarFuncionario(cpf))
+                listarFuncionarios()
+            } catch (e: Exception) {
+                _deletar.postValue(null)
+                e.printStackTrace()
+            }
         }
-    }
-
-    fun reseteDeletar() {
-        _deletar.postValue(null)
     }
 }
