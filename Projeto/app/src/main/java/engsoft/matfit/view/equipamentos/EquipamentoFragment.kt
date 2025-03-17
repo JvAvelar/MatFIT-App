@@ -83,13 +83,11 @@ class EquipamentoFragment : Fragment() {
                 false -> {
                     Log.i("info_deletarEquipamento", "sucesso ao deletar equipamento! -> $sucesso")
                     toast(getString(R.string.textSuccessDeleteEquipamento))
-                    viewModel.reseteDeletar()
                 }
 
                 true -> {
                     Log.i("info_deletarEquipamento", "falha ao deletar equipamento! -> $sucesso")
                     toast(getString(R.string.textFailureDeleteEquipamento))
-                    viewModel.reseteDeletar()
                 }
 
                 else -> Log.i("info_deletar", "ERRO: valor nulo! -> $sucesso")
