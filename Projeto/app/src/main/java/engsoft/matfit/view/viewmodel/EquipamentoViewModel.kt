@@ -14,10 +14,11 @@ import kotlinx.coroutines.launch
 
 class EquipamentoViewModel : ViewModel() {
 
-    private val repository = EquipamentoRepository(RetrofitService.getService(EquipamentoService::class.java))
+    private val repository =
+        EquipamentoRepository(RetrofitService.getService(EquipamentoService::class.java))
 
-    private val _buscarEquipamento = MutableLiveData<EquipamentoDTO>()
-    val buscarEquipamento: LiveData<EquipamentoDTO> = _buscarEquipamento
+    private val _buscarEquipamento = MutableLiveData<EquipamentoDTO?>()
+    val buscarEquipamento: LiveData<EquipamentoDTO?> = _buscarEquipamento
 
     private val _cadastrar = MutableLiveData<Boolean>()
     val cadastrar: LiveData<Boolean> = _cadastrar
@@ -33,9 +34,8 @@ class EquipamentoViewModel : ViewModel() {
 
     fun listarEquipamentos() {
         _estadoRequisicao.postValue(EstadoRequisicao.Carregando())
-
-        try {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 val response = repository.listarEquipamentos()
 
                 if (response.isNotEmpty())
@@ -43,16 +43,22 @@ class EquipamentoViewModel : ViewModel() {
                 else
                     _estadoRequisicao.postValue(EstadoRequisicao.Sucesso(emptyList()))
                 Log.i("info_listarEquipamento", "Sucesso! -> $response")
+
+            } catch (e: Exception) {
+                Log.i("info_listarEquipamento", "Erro! -> ${e.message}")
+                _estadoRequisicao.postValue(EstadoRequisicao.Erro("Lista vazia!"))
             }
-        } catch (e: Exception) {
-            Log.i("info_listarEquipamento", "Erro! -> ${e.message}")
-            _estadoRequisicao.postValue(EstadoRequisicao.Erro("Lista vazia!"))
         }
     }
 
     fun cadastrarEquipamento(equipamentoDTO: EquipamentoDTO) {
         viewModelScope.launch {
-            _cadastrar.postValue(repository.cadastrarEquipamento(equipamentoDTO))
+            try {
+                _cadastrar.postValue(repository.cadastrarEquipamento(equipamentoDTO))
+            } catch (e: Exception) {
+                _cadastrar.postValue(false)
+                e.printStackTrace()
+            }
         }
     }
 
@@ -71,18 +77,24 @@ class EquipamentoViewModel : ViewModel() {
 
     fun deletarEquipamento(id: Int) {
         viewModelScope.launch {
-            _deletar.postValue(repository.deletarEquipamento(id))
-            listarEquipamentos()
+            try {
+                _deletar.postValue(repository.deletarEquipamento(id))
+                listarEquipamentos()
+            } catch (e: Exception) {
+                _deletar.postValue(null)
+                e.printStackTrace()
+            }
         }
-    }
-
-    fun reseteDeletar() {
-        _deletar.postValue(null)
     }
 
     fun buscarEquipamento(id: Int) {
         viewModelScope.launch {
-            _buscarEquipamento.postValue(repository.buscarEquipamento(id))
+            try {
+                _buscarEquipamento.postValue(repository.buscarEquipamento(id))
+            } catch (e: Exception) {
+                _buscarEquipamento.postValue(null)
+                e.printStackTrace()
+            }
         }
     }
 }
