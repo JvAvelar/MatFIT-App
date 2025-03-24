@@ -92,8 +92,10 @@ class AlunoViewModelTest {
     @Test
     fun cadastrarAlunos_sucesso_retornaTrue() = runTest {
         // DADO -> sucesso
-        val aluno = AlunoRequest("038.295.820-99", "Cosmos Dantas", "Crossfit")
-        whenever(mockRepository.cadastrarAluno(aluno)).thenReturn(true)
+        val cpf = "038.295.820-99"
+        val aluno = AlunoRequest(cpf, "Cosmos Dantas", "Crossfit")
+        whenever(mockRepository.cadastrarAluno(aluno))
+            .thenReturn(true)
 
         // QUANDO
         viewModel.cadastrarAluno(aluno)
@@ -108,8 +110,10 @@ class AlunoViewModelTest {
     @Test
     fun cadastrarAlunos_falha_retornaFalse() = runTest {
         // DADO -> falha
-        val aluno = AlunoRequest("123.456.789-10", "Joaquim Abreu", "Musculação")
-        whenever(mockRepository.cadastrarAluno(aluno)).thenReturn(false)
+        val cpf = "123.456.789-10"
+        val aluno = AlunoRequest(cpf, "Joaquim Abreu", "Musculação")
+        whenever(mockRepository.cadastrarAluno(aluno))
+            .thenThrow(RuntimeException("CPF inválido!"))
 
         // QUANDO
         viewModel.cadastrarAluno(aluno)
@@ -125,7 +129,8 @@ class AlunoViewModelTest {
     fun deletarAluno_sucesso_retornaTrue() = runTest {
         // DADO -> sucesso
         val cpf = "038.295.820-99"
-        whenever(mockRepository.deletarAluno(cpf)).thenReturn(true)
+        whenever(mockRepository.deletarAluno(cpf))
+            .thenReturn(true)
 
         // QUANDO
         viewModel.deletarAluno(cpf)
@@ -157,8 +162,10 @@ class AlunoViewModelTest {
     fun buscarAluno_sucesso_retonaAluno() = runTest {
         // DADO -> sucesso
         val cpf = "038.295.820-99"
-        val alunoEsperado = AlunoResponse(cpf, "Joao", "Jiu jitsu", "01/04/2025", false)
-        whenever(mockRepository.buscarAluno(cpf)).thenReturn(alunoEsperado)
+        val alunoEsperado = AlunoResponse(cpf, "Joao", "Jiu jitsu",
+            "01/04/2025", false)
+        whenever(mockRepository.buscarAluno(cpf))
+            .thenReturn(alunoEsperado)
 
         // QUANDO
         viewModel.buscarAluno(cpf)
@@ -174,7 +181,8 @@ class AlunoViewModelTest {
     fun buscarAluno_falha_retonaNull() = runTest {
         // DADO -> falha
         val cpf = "123.456.789-10"
-        whenever(mockRepository.buscarAluno(cpf)).thenThrow(RuntimeException("Erro ao buscar aluno"))
+        whenever(mockRepository.buscarAluno(cpf))
+            .thenThrow(RuntimeException("Erro ao buscar aluno"))
 
         // QUANDO
         viewModel.buscarAluno(cpf)
@@ -194,7 +202,8 @@ class AlunoViewModelTest {
             cpf, "Joao Vitor", "Musculação",
             "01/04/2025", false
         )
-        whenever(mockRepository.atualizarAluno(cpf, dadosAtualizados)).thenReturn(alunoEsperado)
+        whenever(mockRepository.atualizarAluno(cpf, dadosAtualizados))
+            .thenReturn(alunoEsperado)
 
         // QUANDO
         viewModel.atualizarAluno(cpf, dadosAtualizados)
@@ -242,14 +251,14 @@ class AlunoViewModelTest {
         val resultado = viewModel.realizarPagamento.getOrAwaitValue()
         assertThat(resultado).isNotNull()
         assertThat(resultado).isTrue()
-
     }
 
     @Test
     fun realizarPagamento_falha_retornaFalse() = runTest {
         // DADO -> falha
         val cpf = "123.456.789-10"
-        whenever(mockRepository.realizarPagamento(cpf)).thenThrow(RuntimeException("Erro ao realizar pagamento"))
+        whenever(mockRepository.realizarPagamento(cpf))
+            .thenThrow(RuntimeException("Erro ao realizar pagamento"))
 
         // QUANDO
         viewModel.realizarPagamento(cpf)
@@ -259,7 +268,6 @@ class AlunoViewModelTest {
         val resultado = viewModel.realizarPagamento.getOrAwaitValue()
         assertThat(resultado).isNotNull()
         assertThat(resultado).isFalse()
-
     }
 
     @Test
@@ -281,7 +289,6 @@ class AlunoViewModelTest {
         val resultado = viewModel.verificarPagamento.getOrAwaitValue()
         assertThat(resultado).isNotNull()
         assertThat(resultado).isEqualTo(alunoEsperado)
-
     }
 
 
