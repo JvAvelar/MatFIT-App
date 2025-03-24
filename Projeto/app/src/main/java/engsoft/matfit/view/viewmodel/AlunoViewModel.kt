@@ -65,13 +65,13 @@ class AlunoViewModel : ViewModel() {
     }
 
     fun cadastrarAluno(aluno: AlunoRequest) {
-        try {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 _cadastro.postValue(repository.cadastrarAluno(aluno))
+            } catch (e: Exception) {
+                _cadastro.postValue(false)
+                e.printStackTrace()
             }
-        } catch (e: Exception) {
-            _cadastro.postValue(false)
-            e.printStackTrace()
         }
     }
 
@@ -80,7 +80,7 @@ class AlunoViewModel : ViewModel() {
             try {
                 _deletar.postValue(repository.deletarAluno(cpf))
                 listarAlunos()
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 _deletar.postValue(null)
                 e.printStackTrace()
             }
