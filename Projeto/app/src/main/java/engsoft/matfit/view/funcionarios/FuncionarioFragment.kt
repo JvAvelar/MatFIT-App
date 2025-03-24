@@ -108,13 +108,11 @@ class FuncionarioFragment : Fragment() {
                 false -> {
                     Log.i("info_deletarFuncionario", "Sucesso ao deletar funcionario! -> $sucesso")
                     toast(getString(R.string.textSuccessDeleteFuncionario))
-                    viewModel.reseteDeletar()
                 }
 
                 true -> {
                     Log.i("info_deletarFuncionario", "Erro ao deletar funcionario! -> $sucesso")
                     toast(getString(R.string.textFailureDeleteFuncionario))
-                    viewModel.reseteDeletar()
                 }
 
                 else -> Log.i("info_deletarFuncionario", "ERRO: valor nulo! -> $sucesso")
