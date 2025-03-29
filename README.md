@@ -122,14 +122,14 @@
     <li>API</li>
     <li>LiveData</li>
     <li>Retrofit</li>
+    <li>Arquitetura MVVM</li>
+    <li>Firebase</li>
+    <li>Testes Unitários</li>
+    <li>JUnit 4</li>
+    <li>Mockito</li>
 </ul>
 
-<h2>Autores:</h2>
+<h2>Autor:</h2>
 <ul>
    <li><a href="https://github.com/JvAvelar">@JvAvelar</a></li>
-   <li><a href="https://github.com/thassokarly">@thassokarly</a></li>
-   <li><a href="https://github.com/RonyAbreu">@RonyAbreu</a></li>
-   <li><a href="https://github.com/clebermarcolino">@clebermarcolino</a></li>
-   <li><a href="https://github.com/YesusVaz">@YesusVaz</a></li>
-   <li><a href="https://github.com/amaroelias">@amaroelias</a></li>
 </ul>
