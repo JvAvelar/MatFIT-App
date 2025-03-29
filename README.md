@@ -124,6 +124,7 @@
     <li>Retrofit</li>
     <li>Arquitetura MVVM</li>
     <li>Firebase</li>
+    <li>Corrotinas</li>
     <li>Testes Unitários</li>
     <li>JUnit 4</li>
     <li>Mockito</li>
