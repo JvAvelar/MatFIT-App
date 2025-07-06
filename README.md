@@ -1,4 +1,4 @@
-<h1 align="center">MATFIT</h1>
+<h1 align="center">MATFIT (README Desatualizado)</h1>
 
 <h3><strong>Este é um aplicativo pessoal destinado aos proprietários de academias. O aplicativo tem como objetivo facilitar a administração de clientes, funcionários e equipamentos.</strong></h3>
 
