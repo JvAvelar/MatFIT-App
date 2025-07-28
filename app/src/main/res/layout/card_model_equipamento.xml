@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="300dp"
+        android:layout_height="180dp"
+        android:background="@drawable/shape_model"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textNome"
+            style="@style/CardTextNormal"
+            android:text="@string/textCardName"
+            app:layout_constraintBottom_toTopOf="@id/textQuantity"
+            app:layout_constraintEnd_toStartOf="@id/textDoCpf"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textDoCpf"
+            style="@style/CardTextDo"
+            android:text="@string/name"
+            app:layout_constraintBottom_toBottomOf="@id/textNome"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/textNome"
+            app:layout_constraintTop_toTopOf="@id/textNome" />
+
+        <!-- Centraliza o texto de Quantidade -->
+        <TextView
+            android:id="@+id/textQuantity"
+            style="@style/CardTextNormal"
+            android:text="@string/textQuantity"
+            app:layout_constraintBottom_toTopOf="@id/iconDelete"
+            app:layout_constraintEnd_toStartOf="@id/textDoName"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textNome" />
+
+        <TextView
+            android:id="@+id/textDoName"
+            style="@style/CardTextDo"
+            android:text="@string/textResultRegisted"
+            app:layout_constraintBottom_toBottomOf="@id/textQuantity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/textQuantity"
+            app:layout_constraintTop_toTopOf="@id/textQuantity" />
+
+        <!-- Ícones de ação na parte inferior -->
+        <ImageView
+            android:id="@+id/iconDelete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iconEdit"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/iconEdit"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iconDelete" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
