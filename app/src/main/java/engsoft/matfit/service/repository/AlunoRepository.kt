@@ -1,16 +1,15 @@
 package engsoft.matfit.service.repository
 
 import android.util.Log
-import engsoft.matfit.model.AlunoDTO
-import engsoft.matfit.model.AlunoRequest
-import engsoft.matfit.model.AlunoResponse
-import engsoft.matfit.model.AlunoUpdate
+import engsoft.matfit.model.Student
+import engsoft.matfit.model.StudentRequestDTO
+import engsoft.matfit.model.StudentResponseDTO
+import engsoft.matfit.model.StudentUpdateDTO
 import engsoft.matfit.service.AlunoService
-import engsoft.matfit.service.RetrofitService
 
 class AlunoRepository(private val remote: AlunoService) {
 
-    suspend fun listarAlunos(): List<AlunoDTO> {
+    suspend fun listarAlunos(): List<Student> {
         try {
             val retorno = remote.listarAlunos()
             if (retorno.isSuccessful) {
@@ -26,7 +25,7 @@ class AlunoRepository(private val remote: AlunoService) {
         return emptyList()
     }
 
-    suspend fun cadastrarAluno(aluno: AlunoRequest): Boolean {
+    suspend fun cadastrarAluno(aluno: StudentRequestDTO): Boolean {
         try {
             val retorno = remote.cadastrarAluno(aluno)
             if (retorno.isSuccessful) {
@@ -69,7 +68,7 @@ class AlunoRepository(private val remote: AlunoService) {
         return false
     }
 
-    suspend fun buscarAluno(cpf: String): AlunoResponse? {
+    suspend fun buscarAluno(cpf: String): StudentResponseDTO? {
         return try {
             val retorno = remote.buscarAluno(cpf)
             if (retorno.isSuccessful) {
@@ -95,7 +94,7 @@ class AlunoRepository(private val remote: AlunoService) {
         }
     }
 
-    suspend fun atualizarAluno(cpf: String, aluno: AlunoUpdate): AlunoResponse? {
+    suspend fun atualizarAluno(cpf: String, aluno: StudentUpdateDTO): StudentResponseDTO? {
         try {
             val retorno = remote.atualizarAluno(cpf, aluno)
             if (retorno.isSuccessful) {
@@ -138,7 +137,7 @@ class AlunoRepository(private val remote: AlunoService) {
         return false
     }
 
-    suspend fun verificarPagamento(cpf: String): AlunoResponse? {
+    suspend fun verificarPagamento(cpf: String): StudentResponseDTO? {
         try {
             val retorno = remote.verificarPagamento(cpf)
             if (retorno.isSuccessful) {

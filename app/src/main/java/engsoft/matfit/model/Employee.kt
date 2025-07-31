@@ -2,7 +2,7 @@ package engsoft.matfit.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Funcionario(
+data class Employee (
     @SerializedName("cpf")
     var cpf: String = "",
 

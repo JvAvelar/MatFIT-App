@@ -2,10 +2,10 @@ package engsoft.matfit.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
-import engsoft.matfit.model.AlunoDTO
-import engsoft.matfit.model.AlunoRequest
-import engsoft.matfit.model.AlunoResponse
-import engsoft.matfit.model.AlunoUpdate
+import engsoft.matfit.model.Student
+import engsoft.matfit.model.StudentRequestDTO
+import engsoft.matfit.model.StudentResponseDTO
+import engsoft.matfit.model.StudentUpdateDTO
 import engsoft.matfit.service.repository.AlunoRepository
 import engsoft.matfit.util.EstadoRequisicao
 import engsoft.matfit.util.RegraTestCustomizada
@@ -21,7 +21,6 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.whenever
-import java.util.concurrent.TimeoutException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
@@ -53,8 +52,8 @@ class AlunoViewModelTest {
     fun listarAlunos_sucesso_retornaListaAlunos() = runTest {
         // DADO -> sucesso
         val listaEsperada = listOf(
-            AlunoDTO("129.078.459-12", "Joaquim Abreu", "Musculação"),
-            AlunoDTO("038.295.820-99", "Cosmos Dantas", "Crossfit")
+            Student("129.078.459-12", "Joaquim Abreu", "Musculação"),
+            Student("038.295.820-99", "Cosmos Dantas", "Crossfit")
         )
         whenever(mockRepository.listarAlunos())
             .thenReturn(listaEsperada)
@@ -93,7 +92,7 @@ class AlunoViewModelTest {
     fun cadastrarAlunos_sucesso_retornaTrue() = runTest {
         // DADO -> sucesso
         val cpf = "038.295.820-99"
-        val aluno = AlunoRequest(cpf, "Cosmos Dantas", "Crossfit")
+        val aluno = StudentRequestDTO(cpf, "Cosmos Dantas", "Crossfit")
         whenever(mockRepository.cadastrarAluno(aluno))
             .thenReturn(true)
 
@@ -111,7 +110,7 @@ class AlunoViewModelTest {
     fun cadastrarAlunos_falha_retornaFalse() = runTest {
         // DADO -> falha
         val cpf = "123.456.789-10"
-        val aluno = AlunoRequest(cpf, "Joaquim Abreu", "Musculação")
+        val aluno = StudentRequestDTO(cpf, "Joaquim Abreu", "Musculação")
         whenever(mockRepository.cadastrarAluno(aluno))
             .thenThrow(RuntimeException("CPF inválido!"))
 
@@ -162,7 +161,7 @@ class AlunoViewModelTest {
     fun buscarAluno_sucesso_retonaAluno() = runTest {
         // DADO -> sucesso
         val cpf = "038.295.820-99"
-        val alunoEsperado = AlunoResponse(cpf, "Joao", "Jiu jitsu",
+        val alunoEsperado = StudentResponseDTO(cpf, "Joao", "Jiu jitsu",
             "01/04/2025", false)
         whenever(mockRepository.buscarAluno(cpf))
             .thenReturn(alunoEsperado)
@@ -197,8 +196,8 @@ class AlunoViewModelTest {
     fun atualizarAluno_sucesso_retornaAluno() = runTest {
         // DADO -> sucesso
         val cpf = "038.295.820-99"
-        val dadosAtualizados = AlunoUpdate("Joao Vitor", "Musculação")
-        val alunoEsperado = AlunoResponse(
+        val dadosAtualizados = StudentUpdateDTO("Joao Vitor", "Musculação")
+        val alunoEsperado = StudentResponseDTO(
             cpf, "Joao Vitor", "Musculação",
             "01/04/2025", false
         )
@@ -219,7 +218,7 @@ class AlunoViewModelTest {
     fun atualizarAluno_falha_retornaNull() = runTest {
         // DADO -> falha
         val cpf = "123.456.789-10"
-        val dadosAtualizados = AlunoUpdate("Joao Vitor", "Musculação")
+        val dadosAtualizados = StudentUpdateDTO("Joao Vitor", "Musculação")
         whenever(
             mockRepository.atualizarAluno(
                 cpf,
@@ -274,7 +273,7 @@ class AlunoViewModelTest {
     fun verificarPagamento_sucesso_retornaAluno() = runTest {
         // DADO -> sucesso
         val cpf = "038.295.820-99"
-        val alunoEsperado = AlunoResponse(
+        val alunoEsperado = StudentResponseDTO(
             cpf, "Joao Vitor", "Musculação",
             "01/04/2025", false
         )

@@ -1,6 +1,6 @@
 package engsoft.matfit.model
 
-data class AlunoRequest(
+data class StudentRequestDTO(
     val cpf: String,
     val nome: String,
     val esporte: String

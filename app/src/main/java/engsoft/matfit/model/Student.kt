@@ -2,7 +2,7 @@ package engsoft.matfit.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Aluno(
+data class Student(
     @SerializedName("cpf")
     val cpf: String,
 

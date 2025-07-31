@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityAddFuncionarioBinding
 import engsoft.matfit.util.BaseValidacao
-import engsoft.matfit.model.FuncionarioDTO
+import engsoft.matfit.model.Employee
 import engsoft.matfit.view.viewmodel.FuncionarioViewModel
 
 class AddFuncionarioActivity : AppCompatActivity() {
@@ -59,7 +59,7 @@ class AddFuncionarioActivity : AppCompatActivity() {
             baseValidacao.toast(getString(R.string.textErrorFuncao))
         else if (!baseValidacao.validarCargaHoraria(cargaHoraria))
             baseValidacao.toast(getString(R.string.textValidarCargaHoraria))
-        else viewModel.cadastrarFuncionario(FuncionarioDTO(cpf, nome, funcao, cargaHoraria))
+        else viewModel.cadastrarFuncionario(Employee(cpf, nome, funcao, cargaHoraria))
     }
 
     private fun observadores() {

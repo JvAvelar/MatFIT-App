@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityUpdateAlunoBinding
-import engsoft.matfit.model.AlunoUpdate
+import engsoft.matfit.model.StudentUpdateDTO
 import engsoft.matfit.util.BaseValidacao
 import engsoft.matfit.util.Constantes
 import engsoft.matfit.view.viewmodel.AlunoViewModel
@@ -49,7 +49,7 @@ class UpdateAlunoActivity : AppCompatActivity() {
         else if (!baseValidacao.validarEsporte(esporte))
             baseValidacao.toast(getString(R.string.textErrorSport))
         else {
-            val aluno = AlunoUpdate(nome, esporte)
+            val aluno = StudentUpdateDTO(nome, esporte)
             viewModel.atualizarAluno(cpf, aluno)
         }
         Log.i("info_UpdateActivity -> atualizar", "Atualização bem sucedida")

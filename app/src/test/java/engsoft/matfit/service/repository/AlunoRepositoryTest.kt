@@ -1,10 +1,10 @@
 package engsoft.matfit.service.repository
 
 import com.google.common.truth.Truth.assertThat
-import engsoft.matfit.model.AlunoDTO
-import engsoft.matfit.model.AlunoRequest
-import engsoft.matfit.model.AlunoResponse
-import engsoft.matfit.model.AlunoUpdate
+import engsoft.matfit.model.Student
+import engsoft.matfit.model.StudentRequestDTO
+import engsoft.matfit.model.StudentResponseDTO
+import engsoft.matfit.model.StudentUpdateDTO
 import engsoft.matfit.service.AlunoService
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -40,8 +40,8 @@ class AlunoRepositoryTest {
     fun listarAlunos_sucesso_retornaListaAlunos() = runTest {
         // DADO -> sucesso
         val listaAlunos = listOf(
-            AlunoDTO("129.078.459-12", "Joaquim Abreu", "Musculação"),
-            AlunoDTO("038.295.820-99", "Cosmos Dantas", "Crossfit")
+            Student("129.078.459-12", "Joaquim Abreu", "Musculação"),
+            Student("038.295.820-99", "Cosmos Dantas", "Crossfit")
         )
         // moca os dados e retorna o comportamento esperado
         whenever(mockRemote.listarAlunos())
@@ -87,11 +87,11 @@ class AlunoRepositoryTest {
     @Test
     fun cadastrarAluno_sucesso_retornaTrue() = runTest {
         // DADO -> sucesso
-        val alunoEsperado = AlunoResponse(
+        val alunoEsperado = StudentResponseDTO(
             "038.295.820-99", "Cosmos Dantas",
             "Crossfit", "06/03/2025", false
         )
-        val aluno = AlunoRequest("038.295.820-99", "Cosmos Dantas", "Crossfit")
+        val aluno = StudentRequestDTO("038.295.820-99", "Cosmos Dantas", "Crossfit")
         whenever(mockRemote.cadastrarAluno(aluno))
             .thenReturn(Response.success(alunoEsperado))
 
@@ -106,7 +106,7 @@ class AlunoRepositoryTest {
     @Test
     fun cadastrarAluno_falha_retornaFalse() = runTest {
         // DADO -> falha -> cpf invalido
-        val aluno = AlunoRequest("123.456.789-10", "Joaquim Abreu", "Musculação")
+        val aluno = StudentRequestDTO("123.456.789-10", "Joaquim Abreu", "Musculação")
         whenever(mockRemote.cadastrarAluno(aluno))
             .thenReturn(Response.error(400, responseBodyError))
 
@@ -121,7 +121,7 @@ class AlunoRepositoryTest {
     @Test
     fun cadastrarAluno_falhaNaAPI_retornaFalse() = runTest {
         // DADO -> falha na API
-        val aluno = AlunoRequest("038.295.820-99", "Joaquim Abreu", "Musculação")
+        val aluno = StudentRequestDTO("038.295.820-99", "Joaquim Abreu", "Musculação")
         whenever(mockRemote.cadastrarAluno(aluno))
             .thenReturn(Response.error(404, responseBodyError))
 
@@ -182,7 +182,7 @@ class AlunoRepositoryTest {
     fun buscarAluno_sucesso_retornaAluno() = runTest {
         // DADO - sucesso = cpf válido
         val cpf = "918.243.680-03"
-        val alunoEsperado = AlunoResponse(
+        val alunoEsperado = StudentResponseDTO(
             "918.243.680-03", "Felipe Santos", "musculação", "04/04/2025", false
         )
         whenever(mockRemote.buscarAluno(cpf))
@@ -229,8 +229,8 @@ class AlunoRepositoryTest {
     fun atualizarAluno_sucesso_retornaAlunoAtualizado() = runTest {
         // DADO -> aluno atualizado
         val cpf = "105.938.774-38"
-        val dadosAtualizados = AlunoUpdate("João Vitor", "Musculação")
-        val alunoEsperado = AlunoResponse(cpf, "João Vitor", "Musculação", "24/03/2025", false)
+        val dadosAtualizados = StudentUpdateDTO("João Vitor", "Musculação")
+        val alunoEsperado = StudentResponseDTO(cpf, "João Vitor", "Musculação", "24/03/2025", false)
         whenever(mockRemote.atualizarAluno(cpf, dadosAtualizados))
             .thenReturn(Response.success(alunoEsperado))
 
@@ -247,7 +247,7 @@ class AlunoRepositoryTest {
     fun atualizarAluno_falhaNaAPI_retornaNull() = runTest {
         // DADO -> falha na API
         val cpf = "105.938.774-38"
-        val dadosAtualizados = AlunoUpdate("João Vitor", "Musculação")
+        val dadosAtualizados = StudentUpdateDTO("João Vitor", "Musculação")
 
         whenever(mockRemote.atualizarAluno(cpf, dadosAtualizados))
             .thenReturn(Response.error(404, responseBodyError))
@@ -294,7 +294,7 @@ class AlunoRepositoryTest {
     fun verificarPagamento_sucesso_retornaAluno() = runTest {
         // DADO
         val cpf = "918.243.680-03"
-        val alunoEsperado = AlunoResponse(
+        val alunoEsperado = StudentResponseDTO(
             cpf, "Felipe Santos", "musculação",
             "01/04/2025", false
         )

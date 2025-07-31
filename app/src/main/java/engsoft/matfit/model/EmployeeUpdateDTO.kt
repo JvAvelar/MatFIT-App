@@ -1,8 +1,7 @@
 package engsoft.matfit.model
 
-data class FuncionarioDTO (
-    val cpf: String,
+data class EmployeeUpdateDTO(
     val nome: String,
     val funcao: String,
-    val cargaHoraria: Int
+    val cargaHoraria: Int,
 )

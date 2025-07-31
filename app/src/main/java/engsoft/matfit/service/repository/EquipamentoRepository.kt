@@ -1,13 +1,12 @@
 package engsoft.matfit.service.repository
 
 import android.util.Log
-import engsoft.matfit.model.EquipamentoDTO
+import engsoft.matfit.model.Equipament
 import engsoft.matfit.service.EquipamentoService
-import engsoft.matfit.service.RetrofitService
 
 class EquipamentoRepository(private val remote: EquipamentoService) {
 
-    suspend fun cadastrarEquipamento(equipamento: EquipamentoDTO): Boolean {
+    suspend fun cadastrarEquipamento(equipamento: Equipament): Boolean {
         try {
             val retorno = remote.cadastrarEquipamento(equipamento)
             if (retorno.isSuccessful) {
@@ -36,7 +35,7 @@ class EquipamentoRepository(private val remote: EquipamentoService) {
         return false
     }
 
-    suspend fun buscarEquipamento(id: Int): EquipamentoDTO? {
+    suspend fun buscarEquipamento(id: Int): Equipament? {
         try {
             val retorno = remote.buscarEquipamento(id)
             if (retorno.isSuccessful) {
@@ -61,7 +60,7 @@ class EquipamentoRepository(private val remote: EquipamentoService) {
         return null
     }
 
-    suspend fun atualizarEquipamento(id: Int, equipamento: EquipamentoDTO): EquipamentoDTO? {
+    suspend fun atualizarEquipamento(id: Int, equipamento: Equipament): Equipament? {
         try {
             val retorno = remote.atualizarEquipamento(id, equipamento)
             if (retorno.isSuccessful) {
@@ -107,7 +106,7 @@ class EquipamentoRepository(private val remote: EquipamentoService) {
         return false
     }
 
-    suspend fun listarEquipamentos(): List<EquipamentoDTO> {
+    suspend fun listarEquipamentos(): List<Equipament> {
         try {
             val retorno = remote.listarEquipamentos()
             if (retorno.isSuccessful) {

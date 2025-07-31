@@ -1,6 +1,6 @@
 package engsoft.matfit.model
 
-data class AlunoUpdate(
+data class StudentUpdateDTO(
     val nome: String,
     val esporte: String
 )

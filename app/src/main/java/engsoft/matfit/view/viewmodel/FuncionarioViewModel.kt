@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import engsoft.matfit.model.FuncionarioDTO
-import engsoft.matfit.model.FuncionarioUpdate
+import engsoft.matfit.model.Employee
+import engsoft.matfit.model.EmployeeUpdateDTO
 import engsoft.matfit.service.FuncionarioService
 import engsoft.matfit.service.RetrofitService
 import engsoft.matfit.service.repository.FuncionarioRepository
@@ -24,14 +24,14 @@ class FuncionarioViewModel : ViewModel() {
     private val _deletar = MutableLiveData<Boolean?>()
     val deletarFuncionario: LiveData<Boolean?> = _deletar
 
-    private val _buscar = MutableLiveData<FuncionarioDTO?>()
-    val buscarFuncionario: LiveData<FuncionarioDTO?> = _buscar
+    private val _buscar = MutableLiveData<Employee?>()
+    val buscarFuncionario: LiveData<Employee?> = _buscar
 
-    private val _atualizar = MutableLiveData<FuncionarioDTO?>()
-    val atualizarFuncionario: LiveData<FuncionarioDTO?> = _atualizar
+    private val _atualizar = MutableLiveData<Employee?>()
+    val atualizarFuncionario: LiveData<Employee?> = _atualizar
 
-    private val _estadoRequisicao = MutableLiveData<EstadoRequisicao<List<FuncionarioDTO>>>()
-    val estadoRequisicao: LiveData<EstadoRequisicao<List<FuncionarioDTO>>> = _estadoRequisicao
+    private val _estadoRequisicao = MutableLiveData<EstadoRequisicao<List<Employee>>>()
+    val estadoRequisicao: LiveData<EstadoRequisicao<List<Employee>>> = _estadoRequisicao
 
 
     fun listarFuncionarios() {
@@ -52,7 +52,7 @@ class FuncionarioViewModel : ViewModel() {
         }
     }
 
-    fun cadastrarFuncionario(funcionario: FuncionarioDTO) {
+    fun cadastrarFuncionario(funcionario: Employee) {
         viewModelScope.launch {
             try {
                 _cadastro.postValue(repository.cadastrarFuncionario(funcionario))
@@ -76,7 +76,7 @@ class FuncionarioViewModel : ViewModel() {
         }
     }
 
-    fun atualizarFuncionario(cpf: String, funcionario: FuncionarioUpdate) {
+    fun atualizarFuncionario(cpf: String, funcionario: EmployeeUpdateDTO) {
         viewModelScope.launch {
             try {
                 Log.i("info_atualizarFuncionarios", "Sucesso ao atualizar funcionario! ")

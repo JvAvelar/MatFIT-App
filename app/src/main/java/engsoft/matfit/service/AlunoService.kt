@@ -1,9 +1,9 @@
 package engsoft.matfit.service
 
-import engsoft.matfit.model.AlunoDTO
-import engsoft.matfit.model.AlunoRequest
-import engsoft.matfit.model.AlunoResponse
-import engsoft.matfit.model.AlunoUpdate
+import engsoft.matfit.model.Student
+import engsoft.matfit.model.StudentRequestDTO
+import engsoft.matfit.model.StudentResponseDTO
+import engsoft.matfit.model.StudentUpdateDTO
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -18,13 +18,13 @@ interface AlunoService {
 
     @GET("/aluno")
     @Headers("Content-Type: application/json")
-    suspend fun listarAlunos(): Response<List<AlunoDTO>>
+    suspend fun listarAlunos(): Response<List<Student>>
 
     @POST("/aluno")
     @Headers("Content-Type: application/json")
     suspend fun cadastrarAluno(
-        @Body aluno: AlunoRequest
-    ): Response<AlunoResponse>
+        @Body aluno: StudentRequestDTO
+    ): Response<StudentResponseDTO>
 
     @HTTP(method = "DELETE", path = "/aluno/{cpf}", hasBody = true)
     @Headers("Content-Type: application/json")
@@ -36,14 +36,14 @@ interface AlunoService {
     @Headers("Content-Type: application/json")
     suspend fun atualizarAluno(
         @Path("cpf") cpf: String,
-        @Body aluno: AlunoUpdate
-    ): Response<AlunoResponse>
+        @Body aluno: StudentUpdateDTO
+    ): Response<StudentResponseDTO>
 
     @GET("/aluno/{cpf}")
     @Headers("Content-Type: application/json")
     suspend fun buscarAluno(
         @Path("cpf") cpf: String
-    ): Response<AlunoResponse>
+    ): Response<StudentResponseDTO>
 
 
     @PATCH("/aluno/pagar/{cpf}")
@@ -56,6 +56,6 @@ interface AlunoService {
     @Headers("Content-Type: application/json")
     suspend fun verificarPagamento(
         @Path("cpf") cpf: String
-    ): Response<AlunoResponse>
+    ): Response<StudentResponseDTO>
 
 }

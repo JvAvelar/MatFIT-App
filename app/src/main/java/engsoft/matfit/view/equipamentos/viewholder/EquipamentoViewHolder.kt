@@ -4,14 +4,14 @@ import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 import engsoft.matfit.databinding.CardModelEquipamentoBinding
 import engsoft.matfit.listener.OnEquipamentoListener
-import engsoft.matfit.model.EquipamentoDTO
+import engsoft.matfit.model.Equipament
 
 class EquipamentoViewHolder(private val bind: CardModelEquipamentoBinding, private val listener: OnEquipamentoListener) :
     RecyclerView.ViewHolder(bind.root) {
 
      // Atribui valores aos elementos de interface do card model
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
-    fun bindData(equipamento: EquipamentoDTO) {
+    fun bindData(equipamento: Equipament) {
         bind.textDoCpf.text = " ${equipamento.nome}"
         bind.textDoName.text = " ${equipamento.quantidade}"
 

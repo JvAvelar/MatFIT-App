@@ -2,7 +2,7 @@ package engsoft.matfit.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
-import engsoft.matfit.model.EquipamentoDTO
+import engsoft.matfit.model.Equipament
 import engsoft.matfit.service.repository.EquipamentoRepository
 import engsoft.matfit.util.EstadoRequisicao
 import engsoft.matfit.util.RegraTestCustomizada
@@ -50,8 +50,8 @@ class EquipamentoViewModelTest {
     fun listarEquipamentos_sucesso_retornaListaEquipamentos() = runTest {
         // DADO -> sucesso
         val listaEsperada = listOf(
-            EquipamentoDTO(nome = "barra grande", quantidade = 3),
-            EquipamentoDTO(nome = "pesos", quantidade = 12)
+            Equipament(nome = "barra grande", quantidade = 3),
+            Equipament(nome = "pesos", quantidade = 12)
         )
         whenever(mockRepository.listarEquipamentos())
             .thenReturn(listaEsperada)
@@ -87,7 +87,7 @@ class EquipamentoViewModelTest {
     @Test
     fun cadastrarEquipamento_sucesso_retornaTrue() = runTest {
         // DADO -> sucesso
-        val equipamento = EquipamentoDTO(nome = "halteres", quantidade = 3)
+        val equipamento = Equipament(nome = "halteres", quantidade = 3)
         whenever(mockRepository.cadastrarEquipamento(equipamento))
             .thenReturn(true)
 
@@ -104,7 +104,7 @@ class EquipamentoViewModelTest {
     @Test
     fun cadastrarEquipamento_falha_retornaFalse() = runTest {
         // DADO -> falha
-        val equipamento = EquipamentoDTO(nome = "halteres", quantidade = 0)
+        val equipamento = Equipament(nome = "halteres", quantidade = 0)
         whenever(mockRepository.cadastrarEquipamento(equipamento))
             .thenThrow(RuntimeException("Quantidade não pode ser menor que 1!!!"))
 
@@ -122,8 +122,8 @@ class EquipamentoViewModelTest {
     fun atualizarEquipamento_sucesso_retornaEquipamento() = runTest {
         // DADO -> sucesso
         val id = 1
-        val equipamentoQtdAtualizada = EquipamentoDTO(id, "halteres", 3)
-        val equipamentoEsperado = EquipamentoDTO(id, "halteres", 3)
+        val equipamentoQtdAtualizada = Equipament(id, "halteres", 3)
+        val equipamentoEsperado = Equipament(id, "halteres", 3)
         whenever(mockRepository.atualizarEquipamento(id, equipamentoQtdAtualizada))
             .thenReturn(equipamentoEsperado)
 
@@ -141,7 +141,7 @@ class EquipamentoViewModelTest {
     fun atualizarEquipamento_falha_retornaNull() = runTest {
         // DADO -> falha
         val id = 1
-        val equipamento = EquipamentoDTO(id, "halteres", 0)
+        val equipamento = Equipament(id, "halteres", 0)
         whenever(mockRepository.atualizarEquipamento(id, equipamento))
             .thenThrow(RuntimeException("Erro! Quantidade não permitida!"))
 
@@ -191,7 +191,7 @@ class EquipamentoViewModelTest {
     fun buscarEquipamento_sucesso_retornaEquipamento() = runTest {
         // DADO -> sucesso
         val id = 1
-        val equipamentoEsperado = EquipamentoDTO(id, "halteres", 2)
+        val equipamentoEsperado = Equipament(id, "halteres", 2)
 
         whenever(mockRepository.buscarEquipamento(id))
             .thenReturn(equipamentoEsperado)

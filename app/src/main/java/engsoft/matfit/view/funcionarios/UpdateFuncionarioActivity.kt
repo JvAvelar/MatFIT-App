@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityUpdateFuncionarioBinding
 import engsoft.matfit.util.BaseValidacao
-import engsoft.matfit.model.FuncionarioUpdate
+import engsoft.matfit.model.EmployeeUpdateDTO
 import engsoft.matfit.util.Constantes
 import engsoft.matfit.view.viewmodel.FuncionarioViewModel
 
@@ -55,7 +55,7 @@ class UpdateFuncionarioActivity : AppCompatActivity() {
         val nome = binding.editName.text.toString()
         val funcao = binding.editFuncao.text.toString()
         val cargaHoraria = binding.editCargaHoraria.text.toString().toInt()
-        val funcionarioUpdate = FuncionarioUpdate(nome, funcao, cargaHoraria)
+        val funcionarioUpdate = EmployeeUpdateDTO(nome, funcao, cargaHoraria)
 
         if (!baseValidacao.validarNome(nome))
             baseValidacao.toast(getString(R.string.textErrorName))

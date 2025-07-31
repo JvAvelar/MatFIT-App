@@ -2,8 +2,8 @@ package engsoft.matfit.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
-import engsoft.matfit.model.FuncionarioDTO
-import engsoft.matfit.model.FuncionarioUpdate
+import engsoft.matfit.model.Employee
+import engsoft.matfit.model.EmployeeUpdateDTO
 import engsoft.matfit.service.repository.FuncionarioRepository
 import engsoft.matfit.util.EstadoRequisicao
 import engsoft.matfit.util.RegraTestCustomizada
@@ -46,9 +46,9 @@ class FuncionarioViewModelTest {
     fun listarFuncionarios_sucesso_retornaListaFuncionario() = runTest {
         // DADO -> sucesso
         val listaEsperada = listOf(
-            FuncionarioDTO("592.829.630-47", "Zyon Avelar", "Eletricista", 20),
-            FuncionarioDTO("120.454.000-42", "Luana Duarte", "Personal", 20),
-            FuncionarioDTO("837.709.180-10", "Luiz alves", "Segurança", 20),
+            Employee("592.829.630-47", "Zyon Avelar", "Eletricista", 20),
+            Employee("120.454.000-42", "Luana Duarte", "Personal", 20),
+            Employee("837.709.180-10", "Luiz alves", "Segurança", 20),
         )
         whenever(mockRepository.listarFuncionarios())
             .thenReturn(listaEsperada)
@@ -85,7 +85,7 @@ class FuncionarioViewModelTest {
     fun cadastrarFuncionario_sucesso_retornaTrue() = runTest {
         // DADO -> sucesso
         val cpf = "592.829.630-47"
-        val funcionario = FuncionarioDTO(cpf, "Joao Vitor", "Personal", 20)
+        val funcionario = Employee(cpf, "Joao Vitor", "Personal", 20)
         whenever(mockRepository.cadastrarFuncionario(funcionario))
             .thenReturn(true)
 
@@ -103,7 +103,7 @@ class FuncionarioViewModelTest {
     fun cadastrarFuncionario_falha_retornaFalse() = runTest {
         // DADO -> falha
         val cpf = "123.456.789-10"
-        val funcionario = FuncionarioDTO(cpf, "Joao Vitor", "Personal", 20)
+        val funcionario = Employee(cpf, "Joao Vitor", "Personal", 20)
         whenever(mockRepository.cadastrarFuncionario(funcionario))
             .thenThrow(RuntimeException("CPF inválido!"))
 
@@ -121,7 +121,7 @@ class FuncionarioViewModelTest {
     fun buscarFuncionario_sucesso_retornaFuncionario() = runTest {
         // DADO -> sucesso
         val cpf = "592.829.630-47"
-        val funcionarioEsperado = FuncionarioDTO(
+        val funcionarioEsperado = Employee(
             "592.829.630-47", "Zyon Avelar",
             "Eletricista", 20
         )
@@ -158,11 +158,11 @@ class FuncionarioViewModelTest {
     fun atualizarFuncionario_sucesso_retornaFuncionario() = runTest {
         // DADO -> sucesso
         val cpf = "592.829.630-47"
-        val funcionarioEsperado =  FuncionarioDTO(
+        val funcionarioEsperado =  Employee(
             "592.829.630-47", "Zyon Avelar",
             "Segurança", 20
         )
-        val dadosAtualizados = FuncionarioUpdate("", "Segurança", 20)
+        val dadosAtualizados = EmployeeUpdateDTO("", "Segurança", 20)
         whenever(mockRepository.atualizarFuncionario(cpf, dadosAtualizados))
             .thenReturn(funcionarioEsperado)
 
@@ -180,7 +180,7 @@ class FuncionarioViewModelTest {
     fun atualizarFuncionario_falha_retornaNull() = runTest {
         // DADO -> falha
         val cpf = "592.829.630-47"
-        val dadosAtualizados = FuncionarioUpdate("", "Segurança", 0)
+        val dadosAtualizados = EmployeeUpdateDTO("", "Segurança", 0)
         whenever(mockRepository.atualizarFuncionario(cpf, dadosAtualizados))
             .thenThrow(RuntimeException("Carga horária invalida!"))
 

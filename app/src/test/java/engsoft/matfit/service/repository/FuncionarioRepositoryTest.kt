@@ -1,8 +1,8 @@
 package engsoft.matfit.service.repository
 
 import com.google.common.truth.Truth.assertThat
-import engsoft.matfit.model.FuncionarioDTO
-import engsoft.matfit.model.FuncionarioUpdate
+import engsoft.matfit.model.Employee
+import engsoft.matfit.model.EmployeeUpdateDTO
 import engsoft.matfit.service.FuncionarioService
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -38,8 +38,8 @@ class FuncionarioRepositoryTest {
     fun listarFuncionarios_sucesso_retornaListaFuncionario() = runTest {
         // DADO -> sucesso = lista de funcionários
         val listaFuncionarios = listOf(
-            FuncionarioDTO("181.348.230-68", "Gabriel Silva", "Personal", 20),
-            FuncionarioDTO("657.399.860-01", "Joao Souza", "Faxineiro", 20)
+            Employee("181.348.230-68", "Gabriel Silva", "Personal", 20),
+            Employee("657.399.860-01", "Joao Souza", "Faxineiro", 20)
         )
         whenever(mockRemote.listarFuncionarios())
             .thenReturn(Response.success(listaFuncionarios))
@@ -55,7 +55,7 @@ class FuncionarioRepositoryTest {
     @Test
     fun listarFuncionarios_listaVazia_retornaListaVazia() = runTest {
         // DADO -> falha
-        val listaFuncionarios = emptyList<FuncionarioDTO>()
+        val listaFuncionarios = emptyList<Employee>()
         whenever(mockRemote.listarFuncionarios())
             .thenReturn(Response.success(listaFuncionarios))
 
@@ -84,7 +84,7 @@ class FuncionarioRepositoryTest {
     @Test
     fun cadastrarFuncionario_sucesso_retornaTrue() = runTest {
         // DADO -> sucesso
-        val funcionario = FuncionarioDTO("181.348.230-68", "Gabriel Silva", "Personal", 20)
+        val funcionario = Employee("181.348.230-68", "Gabriel Silva", "Personal", 20)
         whenever(mockRemote.cadastrarFuncionario(funcionario))
             .thenReturn(Response.success(funcionario))
 
@@ -99,7 +99,7 @@ class FuncionarioRepositoryTest {
     @Test
     fun cadastrarFuncionario_falha_retornaFalse() = runTest {
         // DADO -> falha
-        val funcionario = FuncionarioDTO("181.342.220-68", "Gabriel Silva", "Personal", 20)
+        val funcionario = Employee("181.342.220-68", "Gabriel Silva", "Personal", 20)
         whenever(mockRemote.cadastrarFuncionario(funcionario))
             .thenReturn(Response.error(400, responseBodyError))
 
@@ -114,7 +114,7 @@ class FuncionarioRepositoryTest {
     @Test
     fun cadastrarFuncionario_falhaNaAPI_retornaFalse() = runTest {
         // DADO -> falha na API
-        val funcionario = FuncionarioDTO("181.342.220-68", "Gabriel Silva", "Personal", 20)
+        val funcionario = Employee("181.342.220-68", "Gabriel Silva", "Personal", 20)
         whenever(mockRemote.cadastrarFuncionario(funcionario))
             .thenReturn(Response.error(404, responseBodyError))
 
@@ -130,7 +130,7 @@ class FuncionarioRepositoryTest {
     fun buscarFuncionario_sucesso_retornaFuncionario() = runTest {
         // DADO -> sucesso
         val cpf = "181.342.220-68"
-        val funcionarioEsperado = FuncionarioDTO("181.342.220-68", "Gabriel Silva", "Personal", 20)
+        val funcionarioEsperado = Employee("181.342.220-68", "Gabriel Silva", "Personal", 20)
         whenever(mockRemote.buscarFuncionario(cpf))
             .thenReturn(Response.success(funcionarioEsperado))
 
@@ -173,8 +173,8 @@ class FuncionarioRepositoryTest {
     fun atualizarFuncionario_sucesso_retornaFuncionario() = runTest {
         // DADO -> sucesso
         val cpf = "181.342.220-68"
-        val dadosAtualizados = FuncionarioUpdate("Gabriel Silva", "Personal", 24)
-        val funcionarioEsperado = FuncionarioDTO(cpf, "Gabriel Silva", "Personal", 24)
+        val dadosAtualizados = EmployeeUpdateDTO("Gabriel Silva", "Personal", 24)
+        val funcionarioEsperado = Employee(cpf, "Gabriel Silva", "Personal", 24)
         whenever(mockRemote.atualizarFuncionario(cpf, dadosAtualizados))
             .thenReturn(Response.success(funcionarioEsperado))
 
@@ -190,7 +190,7 @@ class FuncionarioRepositoryTest {
     fun atualizarFuncionario_falha_retornaNull() = runTest {
         // DADO -> falha
         val cpf = "181.342.223-64"
-        val dadosAtualizados = FuncionarioUpdate("Gabriel Silva", "Personal", 24)
+        val dadosAtualizados = EmployeeUpdateDTO("Gabriel Silva", "Personal", 24)
         whenever(mockRemote.atualizarFuncionario(cpf, dadosAtualizados))
             .thenReturn(Response.error(400, responseBodyError))
 
@@ -205,7 +205,7 @@ class FuncionarioRepositoryTest {
     fun atualizarFuncionario_falhaNaAPI_retornaNull() = runTest {
         // DADO -> falha na API
         val cpf = "181.342.220-68"
-        val dadosAtualizados = FuncionarioUpdate("Gabriel Silva", "Personal", 24)
+        val dadosAtualizados = EmployeeUpdateDTO("Gabriel Silva", "Personal", 24)
         whenever(mockRemote.atualizarFuncionario(cpf, dadosAtualizados))
             .thenReturn(Response.error(404, responseBodyError))
 

@@ -2,13 +2,11 @@ package engsoft.matfit.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Equipamento(
+data class Equipament(
     @SerializedName("id")
     var id: Int = 0,
-
     @SerializedName("nome")
-    var nome: String = "",
-
+    val nome: String,
     @SerializedName("quantidade")
-    var quantidade: Int = 0
+    val quantidade: Int,
 )

@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityAddAlunoBinding
-import engsoft.matfit.model.AlunoRequest
+import engsoft.matfit.model.StudentRequestDTO
 import engsoft.matfit.util.BaseValidacao
 import engsoft.matfit.view.viewmodel.AlunoViewModel
 
@@ -46,7 +46,7 @@ class AddAlunoActivity : AppCompatActivity() {
         else if (!baseValidacao.validarEsporte(esporte))
             baseValidacao.toast(getString(R.string.textErrorSport))
         else
-            viewModel.cadastrarAluno(AlunoRequest(cpf, nome, esporte))
+            viewModel.cadastrarAluno(StudentRequestDTO(cpf, nome, esporte))
     }
 
     private fun observador() {

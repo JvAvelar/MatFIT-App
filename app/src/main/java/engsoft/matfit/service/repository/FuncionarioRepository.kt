@@ -1,14 +1,13 @@
 package engsoft.matfit.service.repository
 
 import android.util.Log
-import engsoft.matfit.model.FuncionarioDTO
-import engsoft.matfit.model.FuncionarioUpdate
+import engsoft.matfit.model.Employee
+import engsoft.matfit.model.EmployeeUpdateDTO
 import engsoft.matfit.service.FuncionarioService
-import engsoft.matfit.service.RetrofitService
 
 class FuncionarioRepository(private val remote: FuncionarioService) {
 
-    suspend fun listarFuncionarios(): List<FuncionarioDTO> {
+    suspend fun listarFuncionarios(): List<Employee> {
         try {
             val retorno = remote.listarFuncionarios()
             if (retorno.isSuccessful) {
@@ -24,7 +23,7 @@ class FuncionarioRepository(private val remote: FuncionarioService) {
         return emptyList()
     }
 
-    suspend fun cadastrarFuncionario(funcionario: FuncionarioDTO): Boolean {
+    suspend fun cadastrarFuncionario(funcionario: Employee): Boolean {
         try {
             val retorno = remote.cadastrarFuncionario(funcionario)
             if (retorno.isSuccessful) {
@@ -46,7 +45,7 @@ class FuncionarioRepository(private val remote: FuncionarioService) {
         return false
     }
 
-    suspend fun buscarFuncionario(cpf: String): FuncionarioDTO? {
+    suspend fun buscarFuncionario(cpf: String): Employee? {
         try {
             val retorno = remote.buscarFuncionario(cpf)
             if (retorno.isSuccessful) {
@@ -72,7 +71,7 @@ class FuncionarioRepository(private val remote: FuncionarioService) {
         return null
     }
 
-    suspend fun atualizarFuncionario(cpf: String, funcionario: FuncionarioUpdate): FuncionarioDTO? {
+    suspend fun atualizarFuncionario(cpf: String, funcionario: EmployeeUpdateDTO): Employee? {
         try {
             val retorno = remote.atualizarFuncionario(cpf, funcionario)
             if (retorno.isSuccessful) {

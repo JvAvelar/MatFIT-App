@@ -1,7 +1,7 @@
 package engsoft.matfit.service
 
-import engsoft.matfit.model.FuncionarioDTO
-import engsoft.matfit.model.FuncionarioUpdate
+import engsoft.matfit.model.Employee
+import engsoft.matfit.model.EmployeeUpdateDTO
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -17,24 +17,24 @@ interface FuncionarioService {
     @Headers("Content-Type: application/json")
     suspend fun buscarFuncionario(
         @Path(value = "cpf") cpf: String
-    ) : Response<FuncionarioDTO>
+    ) : Response<Employee>
 
     @GET("/funcionario")
     @Headers("Content-Type: application/json")
-    suspend fun listarFuncionarios() : Response<List<FuncionarioDTO>>
+    suspend fun listarFuncionarios() : Response<List<Employee>>
 
     @POST("/funcionario")
     @Headers("Content-Type: application/json")
     suspend fun cadastrarFuncionario(
-        @Body funcionario: FuncionarioDTO
-    ) : Response<FuncionarioDTO>
+        @Body funcionario: Employee
+    ) : Response<Employee>
 
     @PUT("/funcionario/{cpf}")
     @Headers("Content-Type: application/json")
     suspend fun atualizarFuncionario(
         @Path(value = "cpf") cpf: String,
-        @Body funcionario: FuncionarioUpdate
-    ) : Response<FuncionarioDTO>
+        @Body funcionario: EmployeeUpdateDTO
+    ) : Response<Employee>
 
     @HTTP(method = "DELETE", path = "/funcionario/{cpf}", hasBody = true)
     @Headers("Content-Type: application/json")

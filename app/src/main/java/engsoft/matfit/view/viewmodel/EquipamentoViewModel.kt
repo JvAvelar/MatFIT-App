@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import engsoft.matfit.model.EquipamentoDTO
+import engsoft.matfit.model.Equipament
 import engsoft.matfit.service.EquipamentoService
 import engsoft.matfit.service.RetrofitService
 import engsoft.matfit.service.repository.EquipamentoRepository
@@ -17,8 +17,8 @@ class EquipamentoViewModel : ViewModel() {
     private val repository =
         EquipamentoRepository(RetrofitService.getService(EquipamentoService::class.java))
 
-    private val _buscarEquipamento = MutableLiveData<EquipamentoDTO?>()
-    val buscarEquipamento: LiveData<EquipamentoDTO?> = _buscarEquipamento
+    private val _buscarEquipamento = MutableLiveData<Equipament?>()
+    val buscarEquipamento: LiveData<Equipament?> = _buscarEquipamento
 
     private val _cadastrar = MutableLiveData<Boolean>()
     val cadastrar: LiveData<Boolean> = _cadastrar
@@ -26,11 +26,11 @@ class EquipamentoViewModel : ViewModel() {
     private val _deletar = MutableLiveData<Boolean?>()
     val deletar: LiveData<Boolean?> = _deletar
 
-    private val _atualizar = MutableLiveData<EquipamentoDTO?>()
-    val atualizar: LiveData<EquipamentoDTO?> = _atualizar
+    private val _atualizar = MutableLiveData<Equipament?>()
+    val atualizar: LiveData<Equipament?> = _atualizar
 
-    private val _estadoRequisicao = MutableLiveData<EstadoRequisicao<List<EquipamentoDTO>>>()
-    val estadoRequisicao: LiveData<EstadoRequisicao<List<EquipamentoDTO>>> = _estadoRequisicao
+    private val _estadoRequisicao = MutableLiveData<EstadoRequisicao<List<Equipament>>>()
+    val estadoRequisicao: LiveData<EstadoRequisicao<List<Equipament>>> = _estadoRequisicao
 
     fun listarEquipamentos() {
         _estadoRequisicao.postValue(EstadoRequisicao.Carregando())
@@ -51,7 +51,7 @@ class EquipamentoViewModel : ViewModel() {
         }
     }
 
-    fun cadastrarEquipamento(equipamentoDTO: EquipamentoDTO) {
+    fun cadastrarEquipamento(equipamentoDTO: Equipament) {
         viewModelScope.launch {
             try {
                 _cadastrar.postValue(repository.cadastrarEquipamento(equipamentoDTO))
@@ -62,7 +62,7 @@ class EquipamentoViewModel : ViewModel() {
         }
     }
 
-    fun atualizarEquipamento(id: Int, equipamentoDTO: EquipamentoDTO) {
+    fun atualizarEquipamento(id: Int, equipamentoDTO: Equipament) {
         viewModelScope.launch {
             try {
                 _atualizar.postValue(repository.atualizarEquipamento(id, equipamentoDTO))

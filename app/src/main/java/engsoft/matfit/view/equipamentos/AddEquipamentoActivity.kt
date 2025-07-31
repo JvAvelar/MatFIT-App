@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityAddEquipamentoBinding
-import engsoft.matfit.model.EquipamentoDTO
+import engsoft.matfit.model.Equipament
 import engsoft.matfit.util.BaseValidacao
 import engsoft.matfit.util.Constantes
 import engsoft.matfit.view.viewmodel.EquipamentoViewModel
@@ -53,7 +53,7 @@ class AddEquipamentoActivity : AppCompatActivity() {
         else if (quantidade < 1)
             baseValidacao.toast(getString(R.string.textValidationQuantity))
         else
-            viewModel.cadastrarEquipamento(EquipamentoDTO(nome = nome, quantidade = quantidade))
+            viewModel.cadastrarEquipamento(Equipament(nome = nome, quantidade = quantidade))
     }
 
     private fun observador() {

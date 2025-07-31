@@ -10,10 +10,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import engsoft.matfit.R
-import engsoft.matfit.model.AlunoDTO
-import engsoft.matfit.model.AlunoRequest
-import engsoft.matfit.model.AlunoResponse
-import engsoft.matfit.model.AlunoUpdate
+import engsoft.matfit.model.Student
+import engsoft.matfit.model.StudentRequestDTO
+import engsoft.matfit.model.StudentResponseDTO
+import engsoft.matfit.model.StudentUpdateDTO
 import engsoft.matfit.service.AlunoService
 import engsoft.matfit.service.RetrofitService
 import engsoft.matfit.service.repository.AlunoRepository
@@ -32,20 +32,20 @@ class AlunoViewModel : ViewModel() {
     private val _deletar = MutableLiveData<Boolean?>()
     val deletar: LiveData<Boolean?> = _deletar
 
-    private val _buscarAluno = MutableLiveData<AlunoResponse?>()
-    val buscarAluno: LiveData<AlunoResponse?> = _buscarAluno
+    private val _buscarAluno = MutableLiveData<StudentResponseDTO?>()
+    val buscarAluno: LiveData<StudentResponseDTO?> = _buscarAluno
 
-    private val _atualizarAluno = MutableLiveData<AlunoResponse?>()
-    val atualizarAluno: LiveData<AlunoResponse?> = _atualizarAluno
+    private val _atualizarAluno = MutableLiveData<StudentResponseDTO?>()
+    val atualizarAluno: LiveData<StudentResponseDTO?> = _atualizarAluno
 
     private val _realizarPagamento = MutableLiveData<Boolean>()
     val realizarPagamento: LiveData<Boolean> = _realizarPagamento
 
-    private val _verificarPagamento = MutableLiveData<AlunoResponse?>()
-    val verificarPagamento: LiveData<AlunoResponse?> = _verificarPagamento
+    private val _verificarPagamento = MutableLiveData<StudentResponseDTO?>()
+    val verificarPagamento: LiveData<StudentResponseDTO?> = _verificarPagamento
 
-    private val _estadoRequisicao = MutableLiveData<EstadoRequisicao<List<AlunoDTO>>>()
-    val estadoRequisicao: LiveData<EstadoRequisicao<List<AlunoDTO>>> = _estadoRequisicao
+    private val _estadoRequisicao = MutableLiveData<EstadoRequisicao<List<Student>>>()
+    val estadoRequisicao: LiveData<EstadoRequisicao<List<Student>>> = _estadoRequisicao
 
     fun listarAlunos() {
         _estadoRequisicao.postValue(EstadoRequisicao.Carregando())
@@ -64,7 +64,7 @@ class AlunoViewModel : ViewModel() {
         }
     }
 
-    fun cadastrarAluno(aluno: AlunoRequest) {
+    fun cadastrarAluno(aluno: StudentRequestDTO) {
         viewModelScope.launch {
             try {
                 _cadastro.postValue(repository.cadastrarAluno(aluno))
@@ -98,7 +98,7 @@ class AlunoViewModel : ViewModel() {
         }
     }
 
-    fun atualizarAluno(cpf: String, aluno: AlunoUpdate) {
+    fun atualizarAluno(cpf: String, aluno: StudentUpdateDTO) {
         viewModelScope.launch {
             try {
                 _atualizarAluno.postValue(repository.atualizarAluno(cpf, aluno))
@@ -133,14 +133,14 @@ class AlunoViewModel : ViewModel() {
 
     // responsável por Exportar os dados em formato excel
     fun exportarAlunosParaExcel(
-        listAlunos: List<AlunoDTO>,
+        listAlunos: List<Student>,
         salvarAquivoLauncher: ActivityResultLauncher<String>
     ) {
         salvarAquivoLauncher.launch("Alunos_Cadastrados.xlsx")
     }
 
     // responsável por fazer a criação e inserção dos alunos na tabela a ser exportada
-    fun escreverExcel(uri: Uri, context: Context, listAlunos: List<AlunoDTO>) {
+    fun escreverExcel(uri: Uri, context: Context, listAlunos: List<Student>) {
         try {
             val workbook = XSSFWorkbook()
             val sheet = workbook.createSheet("Alunos")

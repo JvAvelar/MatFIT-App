@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 import engsoft.matfit.databinding.CardModelFuncionarioBinding
 import engsoft.matfit.listener.OnFuncionarioListener
-import engsoft.matfit.model.FuncionarioDTO
+import engsoft.matfit.model.Employee
 
 class FuncionarioViewHolder(
     private val bind: CardModelFuncionarioBinding,
@@ -14,7 +14,7 @@ class FuncionarioViewHolder(
      * Atribui valores aos elementos de interface do card model
      */
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
-    fun bindData(func: FuncionarioDTO) {
+    fun bindData(func: Employee) {
         val cpf = formatarCpf(func.cpf)
         bind.textDoCpf.text = " $cpf"
         bind.textDoName.text = " ${func.nome}"

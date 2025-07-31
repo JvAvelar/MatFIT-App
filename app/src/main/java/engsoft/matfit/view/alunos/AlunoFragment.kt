@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import engsoft.matfit.R
 import engsoft.matfit.databinding.FragmentAlunoBinding
 import engsoft.matfit.listener.OnAlunoListener
-import engsoft.matfit.model.AlunoDTO
+import engsoft.matfit.model.Student
 import engsoft.matfit.util.Constantes
 import engsoft.matfit.util.EstadoRequisicao
 import engsoft.matfit.view.alunos.adapter.AlunoAdapter
@@ -34,7 +34,7 @@ class AlunoFragment : Fragment() {
 
     private val adapter = AlunoAdapter()
 
-    private var listaAlunosExcel = emptyList<AlunoDTO>()
+    private var listaAlunosExcel = emptyList<Student>()
 
     private val salvarArquivoLauncher = registerForActivityResult(
         ActivityResultContracts.CreateDocument("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
