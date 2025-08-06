@@ -5,7 +5,7 @@ import engsoft.matfit.model.Student
 import engsoft.matfit.model.StudentRequestDTO
 import engsoft.matfit.model.StudentResponseDTO
 import engsoft.matfit.model.StudentUpdateDTO
-import engsoft.matfit.service.AlunoService
+import engsoft.matfit.service.StudentService
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
@@ -23,7 +23,7 @@ import retrofit2.Response
 class AlunoRepositoryTest {
 
     @Mock
-    private lateinit var mockRemote: AlunoService
+    private lateinit var mockRemote: StudentService
 
     private lateinit var alunoRepository: AlunoRepository
     private lateinit var responseBodyError: ResponseBody

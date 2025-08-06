@@ -3,7 +3,7 @@ package engsoft.matfit.service.repository
 import com.google.common.truth.Truth.assertThat
 import engsoft.matfit.model.Employee
 import engsoft.matfit.model.EmployeeUpdateDTO
-import engsoft.matfit.service.FuncionarioService
+import engsoft.matfit.service.EmployeeService
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
@@ -21,7 +21,7 @@ import retrofit2.Response
 class FuncionarioRepositoryTest {
 
     @Mock
-    private lateinit var mockRemote: FuncionarioService
+    private lateinit var mockRemote: EmployeeService
 
     private lateinit var funcionarioRepository: FuncionarioRepository
     private lateinit var responseBodyError: ResponseBody

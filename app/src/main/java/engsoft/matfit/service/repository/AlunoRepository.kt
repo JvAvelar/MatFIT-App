@@ -5,9 +5,9 @@ import engsoft.matfit.model.Student
 import engsoft.matfit.model.StudentRequestDTO
 import engsoft.matfit.model.StudentResponseDTO
 import engsoft.matfit.model.StudentUpdateDTO
-import engsoft.matfit.service.AlunoService
+import engsoft.matfit.service.StudentService
 
-class AlunoRepository(private val remote: AlunoService) {
+class AlunoRepository(private val remote: StudentService) {
 
     suspend fun listarAlunos(): List<Student> {
         try {

@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import engsoft.matfit.model.Equipament
 import engsoft.matfit.service.repository.EquipamentoRepository
-import engsoft.matfit.util.EstadoRequisicao
+import engsoft.matfit.util.RequestState
 import engsoft.matfit.util.RegraTestCustomizada
 import engsoft.matfit.util.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -63,8 +63,8 @@ class EquipamentoViewModelTest {
         // ENTÃO
         val estado = viewModel.estadoRequisicao.getOrAwaitValue()
         assertThat(estado).isNotNull()
-        assertThat(estado).isInstanceOf(EstadoRequisicao.Sucesso::class.java)
-        assertThat((estado as EstadoRequisicao.Sucesso).data).isEqualTo(listaEsperada)
+        assertThat(estado).isInstanceOf(RequestState.Sucesso::class.java)
+        assertThat((estado as RequestState.Sucesso).data).isEqualTo(listaEsperada)
     }
 
     @Test
@@ -80,8 +80,8 @@ class EquipamentoViewModelTest {
         // ENTÃO
         val estado = viewModel.estadoRequisicao.getOrAwaitValue()
         assertThat(estado).isNotNull()
-        assertThat(estado).isInstanceOf(EstadoRequisicao.Erro::class.java)
-        assertThat((estado as EstadoRequisicao.Erro).mensagem).isEqualTo("Lista vazia!")
+        assertThat(estado).isInstanceOf(RequestState.Erro::class.java)
+        assertThat((estado as RequestState.Erro).mensagem).isEqualTo("Lista vazia!")
     }
 
     @Test

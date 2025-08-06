@@ -2,9 +2,9 @@ package engsoft.matfit.service.repository
 
 import android.util.Log
 import engsoft.matfit.model.Equipament
-import engsoft.matfit.service.EquipamentoService
+import engsoft.matfit.service.EquipamentService
 
-class EquipamentoRepository(private val remote: EquipamentoService) {
+class EquipamentoRepository(private val remote: EquipamentService) {
 
     suspend fun cadastrarEquipamento(equipamento: Equipament): Boolean {
         try {

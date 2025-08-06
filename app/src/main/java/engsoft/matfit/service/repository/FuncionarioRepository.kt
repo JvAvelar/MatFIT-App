@@ -3,9 +3,9 @@ package engsoft.matfit.service.repository
 import android.util.Log
 import engsoft.matfit.model.Employee
 import engsoft.matfit.model.EmployeeUpdateDTO
-import engsoft.matfit.service.FuncionarioService
+import engsoft.matfit.service.EmployeeService
 
-class FuncionarioRepository(private val remote: FuncionarioService) {
+class FuncionarioRepository(private val remote: EmployeeService) {
 
     suspend fun listarFuncionarios(): List<Employee> {
         try {

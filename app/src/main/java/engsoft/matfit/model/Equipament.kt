@@ -6,7 +6,7 @@ data class Equipament(
     @SerializedName("id")
     var id: Int = 0,
     @SerializedName("nome")
-    val nome: String,
+    val nome: String = "",
     @SerializedName("quantidade")
-    val quantidade: Int,
+    val quantidade: Int = 0,
 )

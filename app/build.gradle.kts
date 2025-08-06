@@ -11,12 +11,12 @@ plugins {
 
 android {
     namespace = "engsoft.matfit"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "engsoft.matfit"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -41,6 +41,9 @@ android {
     }
     buildFeatures {
         viewBinding = true
+    }
+    composeOptions{
+        kotlinCompilerExtensionVersion = "1.5.0"
     }
     testOptions {
         unitTests.isReturnDefaultValues = true
@@ -73,6 +76,11 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.navigation.compose)
 
     // Mockito
     testImplementation ("org.mockito:mockito-core:5.16.0")
