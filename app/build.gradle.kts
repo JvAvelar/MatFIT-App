@@ -1,10 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-
     // Firebase
     id("com.google.gms.google-services")
-
+    // compose with kotlin 2.0
+    id("org.jetbrains.kotlin.plugin.compose")
 
 
 }
@@ -41,9 +41,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
-    }
-    composeOptions{
-        kotlinCompilerExtensionVersion = "1.5.0"
+        compose = true
     }
     testOptions {
         unitTests.isReturnDefaultValues = true
@@ -66,6 +64,9 @@ dependencies {
     implementation(libs.converter.gson)
     // OKHTTP3
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    // Preview e Core UI
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
