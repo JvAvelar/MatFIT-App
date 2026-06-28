@@ -2,11 +2,11 @@ package engsoft.matfit.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import engsoft.matfit.events.EquipamentEvent
-import engsoft.matfit.model.Equipament
+import engsoft.matfit.events.EquipmentEvent
+import engsoft.matfit.model.Equipment
 import engsoft.matfit.service.EquipamentService
 import engsoft.matfit.service.RetrofitService
-import engsoft.matfit.service.repository.EquipamentoRepository
+import engsoft.matfit.repository.EquipmentRepository
 import engsoft.matfit.util.RequestState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class EquipamentViewModel : ViewModel() {
 
     private val repository =
-        EquipamentoRepository(RetrofitService.getService(EquipamentService::class.java))
+        EquipmentRepository(RetrofitService.getService(EquipamentService::class.java))
 
     private val _update = MutableStateFlow<EquipamentState>(EquipamentState())
     val updateState: Flow<EquipamentState> = _update
@@ -24,46 +24,46 @@ class EquipamentViewModel : ViewModel() {
     data class EquipamentState(
         val register: Boolean = false,
         val delete: Boolean = false,
-        val update: Equipament? = Equipament(),
-        val getEquipament: Equipament? = Equipament(),
-        val requestState: RequestState<List<Equipament>> = RequestState.Carregando()
+        val update: Equipment? = Equipment(),
+        val getEquipment: Equipment? = Equipment(),
+        val requestState: RequestState<List<Equipment>> = RequestState.Carregando()
     )
 
-    fun onEvent(event: EquipamentEvent){
+    fun onEvent(event: EquipmentEvent){
         when(event){
-            EquipamentEvent.OnGetAllEquipament -> getAllEquipament()
-            EquipamentEvent.OnBackPressed -> onBackPressed()
-            is EquipamentEvent.OnAddEquipament -> registerEquipament(event.equipament)
-            is EquipamentEvent.OnGetEquipamentById -> getEquipament(event.id)
-            is EquipamentEvent.OnUpdateEquipament -> updateEquipament(event.id, event.equipament)
-            is EquipamentEvent.OnDeleteEquipament -> deleteEquipament(event.id)
+            EquipmentEvent.OnGetAllEquipment -> getAllEquipament()
+            EquipmentEvent.OnBackPressed -> onBackPressed()
+            is EquipmentEvent.OnAddEquipment -> registerEquipament(event.equipment)
+            is EquipmentEvent.OnGetEquipmentById -> getEquipament(event.id)
+            is EquipmentEvent.OnUpdateEquipment -> updateEquipament(event.id, event.equipment)
+            is EquipmentEvent.OnDeleteEquipment -> deleteEquipament(event.id)
         }
     }
 
     private fun deleteEquipament(id: Int){
         viewModelScope.launch {
-            val result = repository.deletarEquipamento(id)
+            val result = repository.removeEquipment(id)
             updateUiState { it.copy(delete = result) }
         }
     }
 
-    private fun updateEquipament(id: Int, equipament: Equipament){
+    private fun updateEquipament(id: Int, equipment: Equipment){
         viewModelScope.launch {
-            val result = repository.atualizarEquipamento(id, equipament)
+            val result = repository.updateEquipment(id, equipment)
             updateUiState { it.copy(update = result) }
         }
     }
 
     private fun getEquipament(id: Int){
         viewModelScope.launch {
-            val result = repository.buscarEquipamento(id)
-            updateUiState { it.copy(getEquipament = result) }
+            val result = repository.getEquipment(id)
+            updateUiState { it.copy(getEquipment = result) }
         }
     }
 
-    private fun registerEquipament(equipament: Equipament){
+    private fun registerEquipament(equipment: Equipment){
         viewModelScope.launch {
-            val result = repository.cadastrarEquipamento(equipament)
+            val result = repository.registerEquipment(equipment)
             updateUiState { it.copy(register = result) }
         }
     }
@@ -72,7 +72,7 @@ class EquipamentViewModel : ViewModel() {
         updateUiState { it.copy(requestState = RequestState.Carregando()) }
         viewModelScope.launch {
             try {
-                val response = repository.listarEquipamentos()
+                val response = repository.getAllEquipments()
                 if (response.isNotEmpty())
                     updateUiState { it.copy(requestState = RequestState.Sucesso(response)) }
                 else

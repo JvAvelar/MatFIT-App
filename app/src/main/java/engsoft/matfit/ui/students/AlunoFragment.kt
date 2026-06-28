@@ -187,10 +187,10 @@ class AlunoFragment : Fragment() {
                 Log.i("info_OnPaymentAluno", "Operação bem-sucedida -> $it")
                 val intent = Intent(context, PagamentoAlunoActivity::class.java).apply {
                     putExtra(Constants.Student.CPF, it.cpf)
-                    putExtra(Constants.Student.NOME, it.nome)
-                    putExtra(Constants.Student.ESPORTE, it.esporte)
-                    putExtra(Constants.Student.DATA_PAGAMENTO, it.dataPagamento)
-                    putExtra(Constants.Student.PAGAMENTO_ATRASADO, it.pagamentoAtrasado)
+                    putExtra(Constants.Student.NOME, it.name)
+                    putExtra(Constants.Student.ESPORTE, it.sport)
+                    putExtra(Constants.Student.DATA_PAGAMENTO, it.paymentDate)
+                    putExtra(Constants.Student.PAGAMENTO_ATRASADO, it.latePayment)
                 }
                 startActivity(intent)
             } ?: toast(getString(R.string.textAlunoNotFound))
@@ -204,8 +204,8 @@ class AlunoFragment : Fragment() {
             aluno?.let {
                 val intent = Intent(context, UpdateAlunoActivity::class.java).apply {
                     putExtra(Constants.Student.CPF, it.cpf)
-                    putExtra(Constants.Student.NOME, it.nome)
-                    putExtra(Constants.Student.ESPORTE, it.esporte)
+                    putExtra(Constants.Student.NOME, it.name)
+                    putExtra(Constants.Student.ESPORTE, it.sport)
                 }
                 startActivity(intent)
             } ?: toast(getString(R.string.textAlunoNotFound))

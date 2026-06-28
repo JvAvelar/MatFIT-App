@@ -5,20 +5,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import engsoft.matfit.model.Equipament
+import engsoft.matfit.model.Equipment
 import engsoft.matfit.service.EquipamentService
 import engsoft.matfit.service.RetrofitService
-import engsoft.matfit.service.repository.EquipamentoRepository
+import engsoft.matfit.repository.EquipmentRepository
 import engsoft.matfit.util.RequestState
 import kotlinx.coroutines.launch
 
 class EquipamentoViewModel : ViewModel() {
 
     private val repository =
-        EquipamentoRepository(RetrofitService.getService(EquipamentService::class.java))
+        EquipmentRepository(RetrofitService.getService(EquipamentService::class.java))
 
-    private val _buscarEquipamento = MutableLiveData<Equipament?>()
-    val buscarEquipamento: LiveData<Equipament?> = _buscarEquipamento
+    private val _buscarEquipamento = MutableLiveData<Equipment?>()
+    val buscarEquipamento: LiveData<Equipment?> = _buscarEquipamento
 
     private val _cadastrar = MutableLiveData<Boolean>()
     val cadastrar: LiveData<Boolean> = _cadastrar
@@ -26,17 +26,17 @@ class EquipamentoViewModel : ViewModel() {
     private val _deletar = MutableLiveData<Boolean?>()
     val deletar: LiveData<Boolean?> = _deletar
 
-    private val _atualizar = MutableLiveData<Equipament?>()
-    val atualizar: LiveData<Equipament?> = _atualizar
+    private val _atualizar = MutableLiveData<Equipment?>()
+    val atualizar: LiveData<Equipment?> = _atualizar
 
-    private val _estadoRequisicao = MutableLiveData<RequestState<List<Equipament>>>()
-    val estadoRequisicao: LiveData<RequestState<List<Equipament>>> = _estadoRequisicao
+    private val _estadoRequisicao = MutableLiveData<RequestState<List<Equipment>>>()
+    val estadoRequisicao: LiveData<RequestState<List<Equipment>>> = _estadoRequisicao
 
     fun listarEquipamentos() {
         _estadoRequisicao.postValue(RequestState.Carregando())
         viewModelScope.launch {
             try {
-                val response = repository.listarEquipamentos()
+                val response = repository.getAllEquipments()
 
                 if (response.isNotEmpty())
                     _estadoRequisicao.postValue(RequestState.Sucesso(response))
@@ -51,10 +51,10 @@ class EquipamentoViewModel : ViewModel() {
         }
     }
 
-    fun cadastrarEquipamento(equipamentoDTO: Equipament) {
+    fun cadastrarEquipamento(equipamentoDTO: Equipment) {
         viewModelScope.launch {
             try {
-                _cadastrar.postValue(repository.cadastrarEquipamento(equipamentoDTO))
+                _cadastrar.postValue(repository.registerEquipment(equipamentoDTO))
             } catch (e: Exception) {
                 _cadastrar.postValue(false)
                 e.printStackTrace()
@@ -62,10 +62,10 @@ class EquipamentoViewModel : ViewModel() {
         }
     }
 
-    fun atualizarEquipamento(id: Int, equipamentoDTO: Equipament) {
+    fun atualizarEquipamento(id: Int, equipamentoDTO: Equipment) {
         viewModelScope.launch {
             try {
-                _atualizar.postValue(repository.atualizarEquipamento(id, equipamentoDTO))
+                _atualizar.postValue(repository.updateEquipment(id, equipamentoDTO))
                 Log.i("info_atualizarEquipamento", "Sucesso ao atualizar equipamento! -> id = $id")
             } catch (e: Exception) {
                 Log.i("info_atualizarEquipamento", "ERRO ao atualizar equipamento! ${e.message}")
@@ -78,7 +78,7 @@ class EquipamentoViewModel : ViewModel() {
     fun deletarEquipamento(id: Int) {
         viewModelScope.launch {
             try {
-                _deletar.postValue(repository.deletarEquipamento(id))
+                _deletar.postValue(repository.removeEquipment(id))
                 listarEquipamentos()
             } catch (e: Exception) {
                 _deletar.postValue(null)
@@ -90,7 +90,7 @@ class EquipamentoViewModel : ViewModel() {
     fun buscarEquipamento(id: Int) {
         viewModelScope.launch {
             try {
-                _buscarEquipamento.postValue(repository.buscarEquipamento(id))
+                _buscarEquipamento.postValue(repository.getEquipment(id))
             } catch (e: Exception) {
                 _buscarEquipamento.postValue(null)
                 e.printStackTrace()

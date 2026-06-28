@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import engsoft.matfit.model.Employee
 import engsoft.matfit.model.EmployeeUpdateDTO
-import engsoft.matfit.service.repository.FuncionarioRepository
+import engsoft.matfit.repository.EmployeeRepository
 import engsoft.matfit.util.RequestState
 import engsoft.matfit.util.RegraTestCustomizada
 import engsoft.matfit.util.getOrAwaitValue
@@ -27,7 +27,7 @@ class FuncionarioViewModelTest {
     val regra = RegraTestCustomizada()
 
     @Mock
-    private lateinit var mockRepository: FuncionarioRepository
+    private lateinit var mockRepository: EmployeeRepository
 
     private lateinit var viewModel: FuncionarioViewModel
 
@@ -125,7 +125,7 @@ class FuncionarioViewModelTest {
             "592.829.630-47", "Zyon Avelar",
             "Eletricista", 20
         )
-        whenever(mockRepository.buscarFuncionario(cpf))
+        whenever(mockRepository.getEmployee(cpf))
             .thenReturn(funcionarioEsperado)
 
         // QUANDO
@@ -142,7 +142,7 @@ class FuncionarioViewModelTest {
     fun buscarFuncionario_falaha_retornaNull() = runTest {
         // DADO -> falha
         val cpf = "123.456.789-10"
-        whenever(mockRepository.buscarFuncionario(cpf))
+        whenever(mockRepository.getEmployee(cpf))
             .thenThrow(RuntimeException("CPF inválido!"))
 
         // QUANDO
@@ -163,7 +163,7 @@ class FuncionarioViewModelTest {
             "Segurança", 20
         )
         val dadosAtualizados = EmployeeUpdateDTO("", "Segurança", 20)
-        whenever(mockRepository.atualizarFuncionario(cpf, dadosAtualizados))
+        whenever(mockRepository.updateEmployee(cpf, dadosAtualizados))
             .thenReturn(funcionarioEsperado)
 
         // QUANDO
@@ -181,7 +181,7 @@ class FuncionarioViewModelTest {
         // DADO -> falha
         val cpf = "592.829.630-47"
         val dadosAtualizados = EmployeeUpdateDTO("", "Segurança", 0)
-        whenever(mockRepository.atualizarFuncionario(cpf, dadosAtualizados))
+        whenever(mockRepository.updateEmployee(cpf, dadosAtualizados))
             .thenThrow(RuntimeException("Carga horária invalida!"))
 
         // QUANDO
@@ -197,7 +197,7 @@ class FuncionarioViewModelTest {
     fun deletarFuncionario_sucesso_retornaTrue() = runTest {
         // DADO -> sucesso
         val cpf = "592.829.630-47"
-        whenever(mockRepository.deletarFuncionario(cpf))
+        whenever(mockRepository.removeEmployee(cpf))
             .thenReturn(true)
 
         // QUANDO
@@ -214,7 +214,7 @@ class FuncionarioViewModelTest {
     fun deletarFuncionario_falha_retornaNull() = runTest {
         // DADO -> falha
         val cpf = "123.456.789-10"
-        whenever(mockRepository.deletarFuncionario(cpf))
+        whenever(mockRepository.removeEmployee(cpf))
             .thenThrow(RuntimeException("CPF inválido!!"))
 
         // QUANDO

@@ -1,7 +1,8 @@
 package engsoft.matfit.service.repository
 
 import com.google.common.truth.Truth.assertThat
-import engsoft.matfit.model.Equipament
+import engsoft.matfit.model.Equipment
+import engsoft.matfit.repository.EquipmentRepository
 import engsoft.matfit.service.EquipamentService
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -17,19 +18,19 @@ import org.mockito.kotlin.whenever
 import retrofit2.Response
 
 @RunWith(MockitoJUnitRunner::class)
-class EquipamentoRepositoryTest {
+class EquipmentRepositoryTest {
 
     @Mock
     private lateinit var mockRemote: EquipamentService
 
-    private lateinit var equipamentoRepository: EquipamentoRepository
+    private lateinit var equipmentRepository: EquipmentRepository
     private lateinit var responseBodyError: ResponseBody
 
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         // criando instância real do EquipamentoRepository
-        equipamentoRepository = EquipamentoRepository(mockRemote)
+        equipmentRepository = EquipmentRepository(mockRemote)
         responseBodyError = "Falha na API".toResponseBody("application/json".toMediaTypeOrNull())
     }
 
@@ -37,15 +38,15 @@ class EquipamentoRepositoryTest {
     fun listarEquipamentos_sucesso_retornaListaEquipamentos() = runTest {
         // DADO -> Sucesso
         val listaEquipamentos = listOf(
-            Equipament(1, "pesos", 2),
-            Equipament(2, "barra", 3),
-            Equipament(3, "halteres", 10),
+            Equipment(1, "pesos", 2),
+            Equipment(2, "barra", 3),
+            Equipment(3, "halteres", 10),
         )
-        whenever(mockRemote.listarEquipamentos())
+        whenever(mockRemote.getAllEquipments())
             .thenReturn(Response.success(listaEquipamentos))
 
         // QUANDO
-        val resultado = equipamentoRepository.listarEquipamentos()
+        val resultado = equipmentRepository.listarEquipamentos()
 
         // ENTÃO
         assertThat(resultado).isNotNull()
@@ -56,12 +57,12 @@ class EquipamentoRepositoryTest {
     @Test
     fun listarEquipamentos_listaVazia_retornaListaVazia() = runTest {
         // DADO -> falha
-        val listaEquipamentos = emptyList<Equipament>()
-        whenever(mockRemote.listarEquipamentos())
+        val listaEquipamentos = emptyList<Equipment>()
+        whenever(mockRemote.getAllEquipments())
             .thenReturn(Response.success(listaEquipamentos))
 
         // QUANDO
-        val resultado = equipamentoRepository.listarEquipamentos()
+        val resultado = equipmentRepository.listarEquipamentos()
 
         // ENTÃO
         assertThat(resultado).isNotNull()
@@ -71,11 +72,11 @@ class EquipamentoRepositoryTest {
     @Test
     fun listarEquipamentos_falhaNaAPI_retornaListaVazia() = runTest {
         // DADO -> falha na API
-        whenever(mockRemote.listarEquipamentos())
+        whenever(mockRemote.getAllEquipments())
             .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
-        val resultado = equipamentoRepository.listarEquipamentos()
+        val resultado = equipmentRepository.listarEquipamentos()
 
         // ENTÃO
         assertThat(resultado).isNotNull()
@@ -85,12 +86,12 @@ class EquipamentoRepositoryTest {
     @Test
     fun cadastrarEquipamento_sucesso_retornaEquipamento() = runTest {
         // DADO -> sucesso
-        val equipamento = Equipament(nome = "halteres", quantidade = 1)
+        val equipamento = Equipment(name = "halteres", quantity = 1)
         whenever(mockRemote.cadastrarEquipamento(equipamento))
             .thenReturn(Response.success(equipamento))
 
         // QUANDO
-        val resultado = equipamentoRepository.cadastrarEquipamento(equipamento)
+        val resultado = equipmentRepository.registerEquipment(equipamento)
 
         // ENTÃO
         assertThat(resultado).isNotNull()
@@ -100,12 +101,12 @@ class EquipamentoRepositoryTest {
     @Test
     fun cadastrarEquipamento_falha_retornaFalse() = runTest {
         // DADO -> falha por quantidade ser menor que 1
-        val equipamento = Equipament(nome = "halteres", quantidade = 0)
+        val equipamento = Equipment(name = "halteres", quantity = 0)
         whenever(mockRemote.cadastrarEquipamento(equipamento))
             .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
-        val resultado = equipamentoRepository.cadastrarEquipamento(equipamento)
+        val resultado = equipmentRepository.registerEquipment(equipamento)
 
         // ENTÃO
         assertThat(resultado).isNotNull()
@@ -115,12 +116,12 @@ class EquipamentoRepositoryTest {
     @Test
     fun cadastrarEquipamento_falhaNaAPI_retornaFalse() = runTest {
         // DADO -> falha na API
-        val equipamento = Equipament(nome = "pesos", quantidade = 2)
+        val equipamento = Equipment(name = "pesos", quantity = 2)
         whenever(mockRemote.cadastrarEquipamento(equipamento))
             .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
-        val resultado = equipamentoRepository.cadastrarEquipamento(equipamento)
+        val resultado = equipmentRepository.registerEquipment(equipamento)
 
         // ENTÃO
         assertThat(resultado).isNotNull()
@@ -128,15 +129,15 @@ class EquipamentoRepositoryTest {
     }
 
     @Test
-    fun buscarEquipamento_sucesso_retornaEquipamento() = runTest {
+    fun getEquipment() = runTest {
         // DADO
         val id = 1
-        val equipamentoEsperado = Equipament(id, nome = "halteres", quantidade = 2)
-        whenever(mockRemote.buscarEquipamento(id))
+        val equipamentoEsperado = Equipment(id, name = "halteres", quantity = 2)
+        whenever(mockRemote.getEquipment(id))
             .thenReturn(Response.success(equipamentoEsperado))
 
         // QUANDO
-        val resultado = equipamentoRepository.buscarEquipamento(id)
+        val resultado = equipmentRepository.getEquipment(id)
 
         // ENTÃO
         assertThat(resultado).isNotNull()
@@ -144,28 +145,28 @@ class EquipamentoRepositoryTest {
     }
 
     @Test
-    fun buscarEquipamento_falha_retornaNull() = runTest {
+    fun getEquipment_falha_retornaNull() = runTest {
         // DADO
         val id = -1
-        whenever(mockRemote.buscarEquipamento(id))
+        whenever(mockRemote.getEquipment(id))
             .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
-        val resultado = equipamentoRepository.buscarEquipamento(id)
+        val resultado = equipmentRepository.getEquipment(id)
 
         // ENTÃO
         assertThat(resultado).isNull()
     }
 
     @Test
-    fun buscarEquipamento_falhaNaAPI_retornaNull() = runTest {
+    fun getEquipment_falhaNaAPI_retornaNull() = runTest {
         // DADO
         val id = 3
-        whenever(mockRemote.buscarEquipamento(id))
+        whenever(mockRemote.getEquipment(id))
             .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
-        val resultado = equipamentoRepository.buscarEquipamento(id)
+        val resultado = equipmentRepository.getEquipment(id)
 
         // ENTÃO
         assertThat(resultado).isNull()
@@ -175,14 +176,14 @@ class EquipamentoRepositoryTest {
     fun atualizarEquipamento_sucesso_retornaEquipamento() = runTest {
         // DADO -> sucesso = equipamento atualizado
         val id = 1
-        val dadosAtualizados = Equipament(id, nome = "", quantidade = 3)
-        val equipamentoEsperado = Equipament(id, "barra", 3)
+        val dadosAtualizados = Equipment(id, name = "", quantity = 3)
+        val equipamentoEsperado = Equipment(id, "barra", 3)
 
         whenever(mockRemote.atualizarEquipamento(id, dadosAtualizados))
             .thenReturn(Response.success(equipamentoEsperado))
 
         // QUANDO
-        val resultado = equipamentoRepository.atualizarEquipamento(id, dadosAtualizados)
+        val resultado = equipmentRepository.updateEquipment(id, dadosAtualizados)
 
         // ENTÃO
         assertThat(resultado).isNotNull()
@@ -193,13 +194,13 @@ class EquipamentoRepositoryTest {
     fun atualizarEquipamento_falha_retornaNull() = runTest {
         // DADO -> falha
         val id = 1
-        val dadosAtualizados = Equipament(id, nome = "", quantidade = 0)
+        val dadosAtualizados = Equipment(id, name = "", quantity = 0)
 
         whenever(mockRemote.atualizarEquipamento(id, dadosAtualizados))
             .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
-        val resultado = equipamentoRepository.atualizarEquipamento(id, dadosAtualizados)
+        val resultado = equipmentRepository.updateEquipment(id, dadosAtualizados)
 
         // ENTÃO
         assertThat(resultado).isNull()
@@ -209,27 +210,27 @@ class EquipamentoRepositoryTest {
     fun atualizarEquipamento_falhaNaAPI_retornaNull() = runTest {
         // DADO -> falha na API
         val id = 1
-        val dadosAtualizados = Equipament(id, nome = "", quantidade = 3)
+        val dadosAtualizados = Equipment(id, name = "", quantity = 3)
 
         whenever(mockRemote.atualizarEquipamento(id, dadosAtualizados))
             .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
-        val resultado = equipamentoRepository.atualizarEquipamento(id, dadosAtualizados)
+        val resultado = equipmentRepository.updateEquipment(id, dadosAtualizados)
 
         // ENTÃO
         assertThat(resultado).isNull()
     }
 
     @Test
-    fun deletarEquipamento_sucesso_retornaTrue() = runTest {
+    fun removeEquipment_sucesso_retornaTrue() = runTest {
         // DADO
         val id = 2
-        whenever(mockRemote.deletarEquipamento(id))
+        whenever(mockRemote.removeEquipment(id))
             .thenReturn(Response.success(true))
 
         // QUANDO
-        val resultado = equipamentoRepository.deletarEquipamento(id)
+        val resultado = equipmentRepository.removeEquipment(id)
 
         // ENTÃO
         assertThat(resultado).isNotNull()
@@ -237,14 +238,14 @@ class EquipamentoRepositoryTest {
     }
 
     @Test
-    fun deletarEquipamento_falha_retornaFalse() = runTest {
+    fun removeEquipment_falha_retornaFalse() = runTest {
         // DADO
         val id = 2
-        whenever(mockRemote.deletarEquipamento(id))
+        whenever(mockRemote.removeEquipment(id))
             .thenReturn(Response.error(400, responseBodyError))
 
         // QUANDO
-        val resultado = equipamentoRepository.deletarEquipamento(id)
+        val resultado = equipmentRepository.removeEquipment(id)
 
         // ENTÃO
         assertThat(resultado).isNotNull()
@@ -252,14 +253,14 @@ class EquipamentoRepositoryTest {
     }
 
     @Test
-    fun deletarEquipamento_falhaNaAPI_retornaFalse() = runTest {
+    fun removeEquipment_falhaNaAPI_retornaFalse() = runTest {
         // DADO
         val id = 2
-        whenever(mockRemote.deletarEquipamento(id))
+        whenever(mockRemote.removeEquipment(id))
             .thenReturn(Response.error(404, responseBodyError))
 
         // QUANDO
-        val resultado = equipamentoRepository.deletarEquipamento(id)
+        val resultado = equipmentRepository.removeEquipment(id)
 
         // ENTÃO
         assertThat(resultado).isNotNull()

@@ -9,14 +9,14 @@ import engsoft.matfit.model.Employee
 import engsoft.matfit.model.EmployeeUpdateDTO
 import engsoft.matfit.service.EmployeeService
 import engsoft.matfit.service.RetrofitService
-import engsoft.matfit.service.repository.FuncionarioRepository
+import engsoft.matfit.repository.EmployeeRepository
 import engsoft.matfit.util.RequestState
 import kotlinx.coroutines.launch
 
 class FuncionarioViewModel : ViewModel() {
 
     private val repository =
-        FuncionarioRepository(RetrofitService.getService(EmployeeService::class.java))
+        EmployeeRepository(RetrofitService.getService(EmployeeService::class.java))
 
     private val _cadastro = MutableLiveData<Boolean>()
     val cadastroFuncionario: LiveData<Boolean> = _cadastro
@@ -38,7 +38,7 @@ class FuncionarioViewModel : ViewModel() {
         _estadoRequisicao.postValue(RequestState.Carregando())
         viewModelScope.launch {
             try {
-                val response = repository.listarFuncionarios()
+                val response = repository.getAllEmployees()
                 if (response.isNotEmpty())
                     _estadoRequisicao.postValue(RequestState.Sucesso(response))
                 else
@@ -55,7 +55,7 @@ class FuncionarioViewModel : ViewModel() {
     fun cadastrarFuncionario(funcionario: Employee) {
         viewModelScope.launch {
             try {
-                _cadastro.postValue(repository.cadastrarFuncionario(funcionario))
+                _cadastro.postValue(repository.registerEmployee(funcionario))
             } catch (e: Exception) {
                 e.printStackTrace()
                 _cadastro.postValue(false)
@@ -67,7 +67,7 @@ class FuncionarioViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 Log.i("info_buscarFuncionarios", "Sucesso ao buscar funcionario! ")
-                _buscar.postValue(repository.buscarFuncionario(cpf))
+                _buscar.postValue(repository.getEmployee(cpf))
             } catch (e: Exception) {
                 Log.i("info_buscarFuncionarios", "Erro na busca de funcionario-> ${e.message}")
                 _buscar.postValue(null)
@@ -80,7 +80,7 @@ class FuncionarioViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 Log.i("info_atualizarFuncionarios", "Sucesso ao atualizar funcionario! ")
-                _atualizar.postValue(repository.atualizarFuncionario(cpf, funcionario))
+                _atualizar.postValue(repository.updateEmployee(cpf, funcionario))
             } catch (e: Exception) {
                 Log.i(
                     "info_atualizarFuncionarios",
@@ -95,7 +95,7 @@ class FuncionarioViewModel : ViewModel() {
     fun deletarFuncionario(cpf: String) {
         viewModelScope.launch {
             try {
-                _deletar.postValue(repository.deletarFuncionario(cpf))
+                _deletar.postValue(repository.removeEmployee(cpf))
                 listarFuncionarios()
             } catch (e: Exception) {
                 _deletar.postValue(null)

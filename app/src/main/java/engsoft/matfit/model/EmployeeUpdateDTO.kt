@@ -1,7 +1,7 @@
 package engsoft.matfit.model
 
 data class EmployeeUpdateDTO(
-    val nome: String,
-    val funcao: String,
-    val cargaHoraria: Int,
+    val name: String,
+    val function: String,
+    val workload: Int,
 )

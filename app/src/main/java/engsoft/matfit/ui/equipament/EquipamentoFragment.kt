@@ -141,8 +141,8 @@ class EquipamentoFragment : Fragment() {
                 Log.i("info_onUpdateEquipamento", "Operação bem-sucedida -> $equipamento")
                 val intent = Intent(context, UpdateEquipamentoActivity::class.java)
                 intent.putExtra(Constants.Equipament.ID, equipamento.id)
-                intent.putExtra(Constants.Equipament.NOME, equipamento.nome)
-                intent.putExtra(Constants.Equipament.QUANTIDADE, equipamento.quantidade)
+                intent.putExtra(Constants.Equipament.NOME, equipamento.name)
+                intent.putExtra(Constants.Equipament.QUANTIDADE, equipamento.quantity)
                 startActivity(intent)
             } else {
                 Log.i("info_onUpdateEquipamento", "Erro de execução -> $equipamento")

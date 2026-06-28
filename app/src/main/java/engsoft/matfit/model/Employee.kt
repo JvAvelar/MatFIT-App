@@ -7,11 +7,11 @@ data class Employee (
     var cpf: String = "",
 
     @SerializedName("nome")
-    var nome: String = "",
+    var name: String = "",
 
     @SerializedName("funcao")
-    var funcao: String = "",
+    var function: String = "",
 
     @SerializedName("cargaHoraria")
-    var cargaHoraria: Int = 0
+    var workload: Int = 0
 )

@@ -17,9 +17,9 @@ class FuncionarioViewHolder(
     fun bindData(func: Employee) {
         val cpf = formatarCpf(func.cpf)
         bind.textDoCpf.text = " $cpf"
-        bind.textDoName.text = " ${func.nome}"
-        bind.textDoSport.text = " ${func.funcao}"
-        bind.textDoDay.text = " ${func.cargaHoraria}"
+        bind.textDoName.text = " ${func.name}"
+        bind.textDoSport.text = " ${func.function}"
+        bind.textDoDay.text = " ${func.workload}"
 
         bind.iconEdit.setOnClickListener {
             listener.onUpdate(func.cpf)

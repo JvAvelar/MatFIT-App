@@ -7,7 +7,7 @@ import engsoft.matfit.model.Employee
 import engsoft.matfit.model.EmployeeUpdateDTO
 import engsoft.matfit.service.EmployeeService
 import engsoft.matfit.service.RetrofitService
-import engsoft.matfit.service.repository.FuncionarioRepository
+import engsoft.matfit.repository.EmployeeRepository
 import engsoft.matfit.util.RequestState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class EmployeeViewModel : ViewModel() {
 
     private val repository =
-        FuncionarioRepository(RetrofitService.getService(EmployeeService::class.java))
+        EmployeeRepository(RetrofitService.getService(EmployeeService::class.java))
 
     private val _update = MutableStateFlow<EmployeeState>(EmployeeState())
     val updateState: Flow<EmployeeState> = _update
@@ -43,28 +43,28 @@ class EmployeeViewModel : ViewModel() {
 
     private fun deleteEmployee(cpf: String){
         viewModelScope.launch {
-            val result = repository.deletarFuncionario(cpf)
+            val result = repository.removeEmployee(cpf)
             updateUiState { it.copy(delete = result) }
         }
     }
 
     private fun updateEmployee(cpf: String, employee: EmployeeUpdateDTO){
         viewModelScope.launch {
-            val result = repository.atualizarFuncionario(cpf, employee)
+            val result = repository.updateEmployee(cpf, employee)
             updateUiState { it.copy(update = result) }
         }
     }
 
     private fun getEmployee(cpf: String){
         viewModelScope.launch {
-            val result = repository.buscarFuncionario(cpf)
+            val result = repository.getEmployee(cpf)
             updateUiState { it.copy(getEmployee = result) }
         }
     }
 
     private fun registerEmployee(employee: Employee) {
         viewModelScope.launch {
-            val result = repository.cadastrarFuncionario(employee)
+            val result = repository.registerEmployee(employee)
             updateUiState { it.copy(register = result) }
         }
     }
@@ -74,7 +74,7 @@ class EmployeeViewModel : ViewModel() {
 
         viewModelScope.launch {
             try {
-                val response = repository.listarFuncionarios()
+                val response = repository.getAllEmployees()
                 if (response.isNotEmpty())
                     updateUiState { it.copy(requestState = RequestState.Sucesso(response)) }
                 else

@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import engsoft.matfit.databinding.CardModelEquipamentoBinding
 import engsoft.matfit.listener.OnEquipamentListener
-import engsoft.matfit.model.Equipament
+import engsoft.matfit.model.Equipment
 import engsoft.matfit.view.equipamentos.viewholder.EquipamentoViewHolder
 
 class EquipamentoAdapter : RecyclerView.Adapter<EquipamentoViewHolder>() {
 
-    private var listEquipamentos: List<Equipament> = arrayListOf()
+    private var listEquipamentos: List<Equipment> = arrayListOf()
     private lateinit var listener: OnEquipamentListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EquipamentoViewHolder {
@@ -33,7 +33,7 @@ class EquipamentoAdapter : RecyclerView.Adapter<EquipamentoViewHolder>() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateEquipamentos(list: List<Equipament>){
+    fun updateEquipamentos(list: List<Equipment>){
         listEquipamentos = list
         notifyDataSetChanged()
     }

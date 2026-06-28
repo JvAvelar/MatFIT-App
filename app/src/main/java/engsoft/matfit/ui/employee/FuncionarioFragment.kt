@@ -127,9 +127,9 @@ class FuncionarioFragment : Fragment() {
             if (funcionario != null) {
                 val intent = Intent(context, UpdateFuncionarioActivity::class.java)
                 intent.putExtra(Constants.Employee.CPF, funcionario.cpf)
-                intent.putExtra(Constants.Employee.NOME, funcionario.nome)
-                intent.putExtra(Constants.Employee.FUNCAO, funcionario.funcao)
-                intent.putExtra(Constants.Employee.CARGA_HORARIA, funcionario.cargaHoraria)
+                intent.putExtra(Constants.Employee.NOME, funcionario.name)
+                intent.putExtra(Constants.Employee.FUNCAO, funcionario.function)
+                intent.putExtra(Constants.Employee.CARGA_HORARIA, funcionario.workload)
                 startActivity(intent)
             } else {
                 Log.i("info_onUpdateFuncionario", "Erro de execução -> $funcionario")

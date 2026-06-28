@@ -51,15 +51,18 @@ class AddFuncionarioActivity : AppCompatActivity() {
         val funcao = binding.editFuncao.text.toString()
         val cargaHoraria = binding.editCargaHoraria.text.toString().toInt()
 
-        if (!baseValidacao.validarCpf(cpf))
-            baseValidacao.toast(getString(R.string.textErrorCpf))
-        else if (!baseValidacao.validarNome(nome))
-            baseValidacao.toast(getString(R.string.textErrorName))
-        else if (!baseValidacao.validarEsporte(funcao))
-            baseValidacao.toast(getString(R.string.textErrorFuncao))
-        else if (!baseValidacao.validarCargaHoraria(cargaHoraria))
-            baseValidacao.toast(getString(R.string.textValidarCargaHoraria))
-        else viewModel.cadastrarFuncionario(Employee(cpf, nome, funcao, cargaHoraria))
+        when {
+            (!baseValidacao.validarCpf(cpf)) ->
+                baseValidacao.toast(getString(R.string.textErrorCpf))
+            (!baseValidacao.validarNome(nome)) ->
+                baseValidacao.toast(getString(R.string.textErrorName))
+            (!baseValidacao.validarEsporte(funcao)) ->
+                baseValidacao.toast(getString(R.string.textErrorFuncao))
+            (!baseValidacao.validarCargaHoraria(cargaHoraria)) ->
+                baseValidacao.toast(getString(R.string.textValidarCargaHoraria))
+            else ->
+                viewModel.cadastrarFuncionario(Employee(cpf, nome, funcao, cargaHoraria))
+        }
     }
 
     private fun observadores() {

@@ -16,9 +16,9 @@ class AlunoViewHolder(private val bind: CardModelAlunoBinding, private val liste
     fun bindData(aluno: Student) {
         val cpf = formatarCpf(aluno.cpf)
         bind.textDoCpf.text = " $cpf"
-        bind.textDoName.text = " ${aluno.nome}"
-        bind.textDoSport.text = " ${aluno.esporte}"
-        bind.textDoDay.text = " ${aluno.dataPagamento}"
+        bind.textDoName.text = " ${aluno.name}"
+        bind.textDoSport.text = " ${aluno.sport}"
+        bind.textDoDay.text = " ${aluno.paymentDate}"
 
         bind.iconEdit.setOnClickListener {
             listener.onUpdate(aluno.cpf)

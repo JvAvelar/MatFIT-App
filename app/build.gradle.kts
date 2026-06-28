@@ -81,7 +81,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
-
+    implementation("androidx.compose.ui:ui-tooling-preview")
     // Mockito
     testImplementation ("org.mockito:mockito-core:5.16.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")

@@ -15,30 +15,30 @@ interface EmployeeService {
 
     @GET("/funcionario/{cpf}")
     @Headers("Content-Type: application/json")
-    suspend fun buscarFuncionario(
+    suspend fun getEmployee(
         @Path(value = "cpf") cpf: String
     ) : Response<Employee>
 
     @GET("/funcionario")
     @Headers("Content-Type: application/json")
-    suspend fun listarFuncionarios() : Response<List<Employee>>
+    suspend fun getAllEmployees() : Response<List<Employee>>
 
     @POST("/funcionario")
     @Headers("Content-Type: application/json")
-    suspend fun cadastrarFuncionario(
+    suspend fun registerEmployee(
         @Body funcionario: Employee
     ) : Response<Employee>
 
     @PUT("/funcionario/{cpf}")
     @Headers("Content-Type: application/json")
-    suspend fun atualizarFuncionario(
+    suspend fun updateEmployee(
         @Path(value = "cpf") cpf: String,
         @Body funcionario: EmployeeUpdateDTO
     ) : Response<Employee>
 
     @HTTP(method = "DELETE", path = "/funcionario/{cpf}", hasBody = true)
     @Headers("Content-Type: application/json")
-    suspend fun deletarFuncionario(
+    suspend fun removeEmployee(
         @Path("cpf") cpf: String
     ) : Response<Boolean>
 

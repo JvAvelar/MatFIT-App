@@ -16,7 +16,7 @@ import engsoft.matfit.model.StudentResponseDTO
 import engsoft.matfit.model.StudentUpdateDTO
 import engsoft.matfit.service.StudentService
 import engsoft.matfit.service.RetrofitService
-import engsoft.matfit.service.repository.AlunoRepository
+import engsoft.matfit.repository.StudentRepository
 import engsoft.matfit.util.RequestState
 import kotlinx.coroutines.launch
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -24,7 +24,7 @@ import java.io.OutputStream
 
 class AlunoViewModel : ViewModel() {
 
-    private val repository = AlunoRepository(RetrofitService.getService(StudentService::class.java))
+    private val repository = StudentRepository(RetrofitService.getService(StudentService::class.java))
 
     private val _cadastro = MutableLiveData<Boolean>()
     val cadastro: LiveData<Boolean> = _cadastro
@@ -50,7 +50,7 @@ class AlunoViewModel : ViewModel() {
     fun cadastrarAluno(aluno: StudentRequestDTO) {
         viewModelScope.launch {
             try {
-                _cadastro.postValue(repository.cadastrarAluno(aluno))
+                _cadastro.postValue(repository.registerStudent(aluno))
             } catch (e: Exception) {
                 _cadastro.postValue(false)
                 e.printStackTrace()
@@ -63,7 +63,7 @@ class AlunoViewModel : ViewModel() {
 
         viewModelScope.launch {
             try {
-                val response = repository.listarAlunos()
+                val response = repository.getAllStudents()
 
                 if (response.isNotEmpty())
                     _estadoRequisicao.postValue(RequestState.Sucesso(response))
@@ -78,7 +78,7 @@ class AlunoViewModel : ViewModel() {
     fun deletarAluno(cpf: String) {
         viewModelScope.launch {
             try {
-                _deletar.postValue(repository.deletarAluno(cpf))
+                _deletar.postValue(repository.removeStudent(cpf))
                 listarAlunos()
             } catch (e: Exception) {
                 _deletar.postValue(null)
@@ -90,7 +90,7 @@ class AlunoViewModel : ViewModel() {
     fun buscarAluno(cpf: String) {
         viewModelScope.launch {
             try {
-                _buscarAluno.postValue(repository.buscarAluno(cpf))
+                _buscarAluno.postValue(repository.getStudent(cpf))
             } catch (e: Exception) {
                 _buscarAluno.postValue(null)
                 e.printStackTrace()
@@ -101,7 +101,7 @@ class AlunoViewModel : ViewModel() {
     fun atualizarAluno(cpf: String, aluno: StudentUpdateDTO) {
         viewModelScope.launch {
             try {
-                _atualizarAluno.postValue(repository.atualizarAluno(cpf, aluno))
+                _atualizarAluno.postValue(repository.updateStudent(cpf, aluno))
             } catch (e: Exception) {
                 _atualizarAluno.postValue(null)
                 e.printStackTrace()
@@ -112,7 +112,7 @@ class AlunoViewModel : ViewModel() {
     fun realizarPagamento(cpf: String) {
         viewModelScope.launch {
             try {
-                _realizarPagamento.postValue(repository.realizarPagamento(cpf))
+                _realizarPagamento.postValue(repository.makePayment(cpf))
             } catch (e: Exception) {
                 _realizarPagamento.postValue(false)
                 e.printStackTrace()
@@ -123,7 +123,7 @@ class AlunoViewModel : ViewModel() {
     fun verificarPagamento(cpf: String) {
         viewModelScope.launch {
             try {
-                _verificarPagamento.postValue(repository.verificarPagamento(cpf))
+                _verificarPagamento.postValue(repository.verifyPayment(cpf))
             } catch (e: Exception) {
                 _verificarPagamento.postValue(null)
                 e.printStackTrace()
@@ -155,11 +155,11 @@ class AlunoViewModel : ViewModel() {
             listAlunos.forEachIndexed { index, aluno ->
                 val linha = sheet.createRow(index + 1)
                 linha.createCell(0).setCellValue(aluno.cpf)
-                linha.createCell(1).setCellValue(aluno.nome)
-                linha.createCell(2).setCellValue(aluno.esporte)
-                linha.createCell(3).setCellValue(aluno.dataPagamento)
+                linha.createCell(1).setCellValue(aluno.name)
+                linha.createCell(2).setCellValue(aluno.sport)
+                linha.createCell(3).setCellValue(aluno.paymentDate)
                 linha.createCell(4)
-                    .setCellValue(if (aluno.pagamentoAtrasado) "Pendente" else "Pago")
+                    .setCellValue(if (aluno.latePayment) "Pendente" else "Pago")
 
             }
 

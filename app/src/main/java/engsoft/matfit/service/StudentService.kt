@@ -18,43 +18,43 @@ interface StudentService {
 
     @GET("/aluno")
     @Headers("Content-Type: application/json")
-    suspend fun listarAlunos(): Response<List<Student>>
+    suspend fun getAllStudents(): Response<List<Student>>
 
     @POST("/aluno")
     @Headers("Content-Type: application/json")
-    suspend fun cadastrarAluno(
+    suspend fun registerStudent(
         @Body aluno: StudentRequestDTO
     ): Response<StudentResponseDTO>
 
     @HTTP(method = "DELETE", path = "/aluno/{cpf}", hasBody = true)
     @Headers("Content-Type: application/json")
-    suspend fun deletarAluno(
+    suspend fun removeStudent(
         @Path("cpf") cpf: String
     ): Response<Boolean>
 
     @PUT("/aluno/{cpf}")
     @Headers("Content-Type: application/json")
-    suspend fun atualizarAluno(
+    suspend fun updateStudent(
         @Path("cpf") cpf: String,
         @Body aluno: StudentUpdateDTO
     ): Response<StudentResponseDTO>
 
     @GET("/aluno/{cpf}")
     @Headers("Content-Type: application/json")
-    suspend fun buscarAluno(
+    suspend fun getStudent(
         @Path("cpf") cpf: String
     ): Response<StudentResponseDTO>
 
 
     @PATCH("/aluno/pagar/{cpf}")
     @Headers("Content-Type: application/json")
-    suspend fun realizarPagamento(
+    suspend fun makePayment(
         @Path("cpf") cpf: String
     ): Response<Boolean>
 
     @PATCH("/aluno/pagamento/{cpf}")
     @Headers("Content-Type: application/json")
-    suspend fun verificarPagamento(
+    suspend fun verifyPayment(
         @Path("cpf") cpf: String
     ): Response<StudentResponseDTO>
 

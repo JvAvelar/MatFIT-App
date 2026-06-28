@@ -2,8 +2,8 @@ package engsoft.matfit.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
-import engsoft.matfit.model.Equipament
-import engsoft.matfit.service.repository.EquipamentoRepository
+import engsoft.matfit.model.Equipment
+import engsoft.matfit.repository.EquipmentRepository
 import engsoft.matfit.util.RequestState
 import engsoft.matfit.util.RegraTestCustomizada
 import engsoft.matfit.util.getOrAwaitValue
@@ -30,7 +30,7 @@ class EquipamentoViewModelTest {
     val regra = RegraTestCustomizada()
 
     @Mock
-    private lateinit var mockRepository: EquipamentoRepository
+    private lateinit var mockRepository: EquipmentRepository
 
     private lateinit var viewModel: EquipamentoViewModel
 
@@ -50,8 +50,8 @@ class EquipamentoViewModelTest {
     fun listarEquipamentos_sucesso_retornaListaEquipamentos() = runTest {
         // DADO -> sucesso
         val listaEsperada = listOf(
-            Equipament(nome = "barra grande", quantidade = 3),
-            Equipament(nome = "pesos", quantidade = 12)
+            Equipment(name = "barra grande", quantity = 3),
+            Equipment(name = "pesos", quantity = 12)
         )
         whenever(mockRepository.listarEquipamentos())
             .thenReturn(listaEsperada)
@@ -87,8 +87,8 @@ class EquipamentoViewModelTest {
     @Test
     fun cadastrarEquipamento_sucesso_retornaTrue() = runTest {
         // DADO -> sucesso
-        val equipamento = Equipament(nome = "halteres", quantidade = 3)
-        whenever(mockRepository.cadastrarEquipamento(equipamento))
+        val equipamento = Equipment(name = "halteres", quantity = 3)
+        whenever(mockRepository.registerEquipment(equipamento))
             .thenReturn(true)
 
         // QUANDO
@@ -104,8 +104,8 @@ class EquipamentoViewModelTest {
     @Test
     fun cadastrarEquipamento_falha_retornaFalse() = runTest {
         // DADO -> falha
-        val equipamento = Equipament(nome = "halteres", quantidade = 0)
-        whenever(mockRepository.cadastrarEquipamento(equipamento))
+        val equipamento = Equipment(name = "halteres", quantity = 0)
+        whenever(mockRepository.registerEquipment(equipamento))
             .thenThrow(RuntimeException("Quantidade não pode ser menor que 1!!!"))
 
         // QUANDO
@@ -122,9 +122,9 @@ class EquipamentoViewModelTest {
     fun atualizarEquipamento_sucesso_retornaEquipamento() = runTest {
         // DADO -> sucesso
         val id = 1
-        val equipamentoQtdAtualizada = Equipament(id, "halteres", 3)
-        val equipamentoEsperado = Equipament(id, "halteres", 3)
-        whenever(mockRepository.atualizarEquipamento(id, equipamentoQtdAtualizada))
+        val equipamentoQtdAtualizada = Equipment(id, "halteres", 3)
+        val equipamentoEsperado = Equipment(id, "halteres", 3)
+        whenever(mockRepository.updateEquipment(id, equipamentoQtdAtualizada))
             .thenReturn(equipamentoEsperado)
 
         // QUANDO
@@ -141,8 +141,8 @@ class EquipamentoViewModelTest {
     fun atualizarEquipamento_falha_retornaNull() = runTest {
         // DADO -> falha
         val id = 1
-        val equipamento = Equipament(id, "halteres", 0)
-        whenever(mockRepository.atualizarEquipamento(id, equipamento))
+        val equipamento = Equipment(id, "halteres", 0)
+        whenever(mockRepository.updateEquipment(id, equipamento))
             .thenThrow(RuntimeException("Erro! Quantidade não permitida!"))
 
         // QUANDO
@@ -158,7 +158,7 @@ class EquipamentoViewModelTest {
     fun deletarEquipamento_sucesso_retornaTrue() = runTest {
         // DADO -> sucesso
         val id = 1
-        whenever(mockRepository.deletarEquipamento(id))
+        whenever(mockRepository.removeEquipment(id))
             .thenReturn(true)
 
         // QUANDO
@@ -175,7 +175,7 @@ class EquipamentoViewModelTest {
     fun deletarEquipamento_falha_retornaNull() = runTest {
         // DADO -> falha
         val id = 0
-        whenever(mockRepository.deletarEquipamento(id))
+        whenever(mockRepository.removeEquipment(id))
             .thenThrow(RuntimeException("ERRO! id inválido!"))
 
         // QUANDO
@@ -191,9 +191,9 @@ class EquipamentoViewModelTest {
     fun buscarEquipamento_sucesso_retornaEquipamento() = runTest {
         // DADO -> sucesso
         val id = 1
-        val equipamentoEsperado = Equipament(id, "halteres", 2)
+        val equipamentoEsperado = Equipment(id, "halteres", 2)
 
-        whenever(mockRepository.buscarEquipamento(id))
+        whenever(mockRepository.getEquipment(id))
             .thenReturn(equipamentoEsperado)
 
         // QUANDO
@@ -210,7 +210,7 @@ class EquipamentoViewModelTest {
     fun buscarEquipamento_falha_retornaNull() = runTest {
         // DADO -> falha
         val id = 0
-        whenever(mockRepository.buscarEquipamento(id))
+        whenever(mockRepository.getEquipment(id))
             .thenThrow(RuntimeException("ERRO! Id inválido!"))
 
         // QUANDO

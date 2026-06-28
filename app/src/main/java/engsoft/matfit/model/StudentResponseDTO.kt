@@ -2,8 +2,8 @@ package engsoft.matfit.model
 
 data class StudentResponseDTO(
     val cpf: String = "",
-    val nome: String = "",
-    val esporte: String = "",
-    val dataPagamento: String = "",
-    val pagamentoAtrasado: Boolean = false
+    val name: String = "",
+    val sport: String = "",
+    val paymentDate: String = "",
+    val latePayment: Boolean = false
 )

@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import engsoft.matfit.R
 import engsoft.matfit.databinding.ActivityUpdateEquipamentoBinding
-import engsoft.matfit.model.Equipament
+import engsoft.matfit.model.Equipment
 import engsoft.matfit.util.BaseValidation
 import engsoft.matfit.util.Constants
 import engsoft.matfit.view.viewmodel.EquipamentoViewModel
@@ -49,7 +49,7 @@ class UpdateEquipamentoActivity : AppCompatActivity() {
         else if (quantidade < 1)
             baseValidacao.toast(getString(R.string.textValidationQuantity))
         else
-            viewModel.atualizarEquipamento(id, Equipament(nome = nome, quantidade = quantidade))
+            viewModel.atualizarEquipamento(id, Equipment(name = nome, quantity = quantidade))
     }
 
 

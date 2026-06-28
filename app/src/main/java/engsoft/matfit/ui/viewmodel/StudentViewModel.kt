@@ -14,7 +14,7 @@ import engsoft.matfit.model.StudentResponseDTO
 import engsoft.matfit.model.StudentUpdateDTO
 import engsoft.matfit.service.RetrofitService
 import engsoft.matfit.service.StudentService
-import engsoft.matfit.service.repository.AlunoRepository
+import engsoft.matfit.repository.StudentRepository
 import engsoft.matfit.util.RequestState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +25,7 @@ import java.io.OutputStream
 
 class StudentViewModel : ViewModel() {
 
-    private val repository = AlunoRepository(RetrofitService.getService(StudentService::class.java))
+    private val repository = StudentRepository(RetrofitService.getService(StudentService::class.java))
 
     private val _update = MutableStateFlow<StudentState>(StudentState())
     val updateState: Flow<StudentState> = _update
@@ -59,35 +59,35 @@ class StudentViewModel : ViewModel() {
 
     private fun registerStudent(student: StudentRequestDTO){
         viewModelScope.launch {
-            val result = repository.cadastrarAluno(student)
+            val result = repository.registerStudent(student)
             updateUiState { it.copy(register = result) }
         }
     }
 
     private fun verifyPayment(cpf: String){
         viewModelScope.launch {
-            val result = repository.verificarPagamento(cpf)
+            val result = repository.verifyPayment(cpf)
             updateUiState { it.copy(verifyPayment = result) }
         }
     }
 
     private fun doPayment(cpf: String){
         viewModelScope.launch {
-            val result = repository.realizarPagamento(cpf)
+            val result = repository.makePayment(cpf)
             updateUiState { it.copy(doPayment = result) }
         }
     }
 
     private fun updateStudent(cpf: String, student: StudentUpdateDTO){
         viewModelScope.launch {
-            val result = repository.atualizarAluno(cpf, student)
+            val result = repository.updateStudent(cpf, student)
             updateUiState { it.copy(update = result) }
         }
     }
 
     private fun getStudent(cpf: String){
         viewModelScope.launch {
-            val result = repository.buscarAluno(cpf)
+            val result = repository.getStudent(cpf)
             updateUiState { it.copy(getStudent = result) }
         }
     }
@@ -95,7 +95,7 @@ class StudentViewModel : ViewModel() {
 
     private fun deleteStudent(cpf: String){
         viewModelScope.launch {
-           val result = repository.deletarAluno(cpf)
+           val result = repository.removeStudent(cpf)
             updateUiState { it.copy(delete = result) }
         }
     }
@@ -108,7 +108,7 @@ class StudentViewModel : ViewModel() {
         updateUiState { it.copy(requestState = RequestState.Carregando()) }
         viewModelScope.launch {
             try {
-                val response = repository.listarAlunos()
+                val response = repository.getAllStudents()
 
                 if (response.isNotEmpty())
                     updateUiState { it.copy(requestState = RequestState.Sucesso(response)) }
@@ -136,11 +136,11 @@ class StudentViewModel : ViewModel() {
             listAlunos.forEachIndexed { index, aluno ->
                 val linha = sheet.createRow(index + 1)
                 linha.createCell(0).setCellValue(aluno.cpf)
-                linha.createCell(1).setCellValue(aluno.nome)
-                linha.createCell(2).setCellValue(aluno.esporte)
-                linha.createCell(3).setCellValue(aluno.dataPagamento)
+                linha.createCell(1).setCellValue(aluno.name)
+                linha.createCell(2).setCellValue(aluno.sport)
+                linha.createCell(3).setCellValue(aluno.paymentDate)
                 linha.createCell(4)
-                    .setCellValue(if (aluno.pagamentoAtrasado) "Pendente" else "Pago")
+                    .setCellValue(if (aluno.latePayment) "Pendente" else "Pago")
 
             }
 
